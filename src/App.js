@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import GameBoard from './components/GameBoard';
+import Score from './components/Score';
 
 const mapStateToProps = (state) => ({
     grid: state.gameBoard,
+    score: state.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -16,6 +18,7 @@ class App extends Component {
         return (
             <div className="App">
                 <GameBoard {...this.props} />
+                <Score {...this.props} />
             </div>
         );
     }

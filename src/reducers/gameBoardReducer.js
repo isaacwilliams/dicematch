@@ -8,8 +8,7 @@ import createDieState from './createDieState';
 import findBoardMatches from '../util/findBoardMatches';
 import getDieFromBoard from '../util/getDieFromBoard';
 
-const BOARD_WIDTH = 5;
-const BOARD_HEIGHT = 5;
+import { ACTIONS, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
 const keyById = keyBy('id');
 
@@ -39,6 +38,8 @@ const deferToDie = (state, action) => ({
 
 const removeDie = (state, action) => omit(action.id, state);
 
+const addDie = (state, { die }) => ({ ...state, [die.id]: die });
+
 const getDieToShift = (state) => {
     const getDie = getDieFromBoard(state);
 
@@ -65,11 +66,13 @@ const shiftDice = (state, action) => {
 
 export default (state = getInitalState(), action) => {
     switch (action.type) {
-        case 'UPDATE_DIE':
+        case ACTIONS.UPDATE_DIE:
             return deferToDie(state, action);
-        case 'REMOVE_DIE':
+        case ACTIONS.REMOVE_DIE:
             return removeDie(state, action);
-        case 'SHIFT_DICE':
+        case ACTIONS.ADD_DIE:
+            return addDie(state, action);
+        case ACTIONS.SHIFT_DICE:
             return shiftDice(state, action);
         default:
             return state;

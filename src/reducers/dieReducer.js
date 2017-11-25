@@ -1,6 +1,8 @@
 import circularClamp from '../util/circularClamp';
 import random from '../util/random';
 
+import { ACTIONS } from '../constants';
+
 const dieClamp = circularClamp(1, 6);
 
 const updateDieUp = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value + 1) });
@@ -24,9 +26,9 @@ const moveDie = (state, { x, y }) => ({ ...state, x, y });
 
 export default (state , action) => {
     switch (action.type) {
-        case 'UPDATE_DIE':
+        case ACTIONS.UPDATE_DIE:
             return updateDie(state, action);
-        case 'MOVE_DIE':
+        case ACTIONS.MOVE_DIE:
             return moveDie(state, action);
         default:
             return state;

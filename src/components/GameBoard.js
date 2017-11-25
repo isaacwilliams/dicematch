@@ -6,6 +6,8 @@ import Die from './Die';
 
 const StyledBoard = styled.div`
     position: relative;
+    width: ${5 * 64}px;
+    height: ${5 * 64}px;
 `;
 
 

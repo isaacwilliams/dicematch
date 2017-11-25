@@ -10,6 +10,7 @@ const TYPES = [
     'down',
     'down',
     'random',
+    'blocker',
 ];
 
 const createDieState = (x, y) => ({

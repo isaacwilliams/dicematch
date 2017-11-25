@@ -1,8 +1,6 @@
 import getDieFromBoard from './getDieFromBoard';
 
-const BOARD_WIDTH = 5;
-const BOARD_HEIGHT = 5;
-const MIN_MATCH_LENGTH = 3;
+import { BOARD_WIDTH, BOARD_HEIGHT, MIN_MATCH_LENGTH } from '../constants';
 
 const checkDiceMatch = (die, nextDie) => (
     die &&

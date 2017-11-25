@@ -15,7 +15,7 @@ const StyledDie = styled.button`
     cursor: pointer;
     outline: none;
 
-    transition: top 1s ease-in;
+    transition: top 0.5s ease-in;
 
     ${props => props.dieType === 'up' && css`
         background: palevioletred;
@@ -30,6 +30,11 @@ const StyledDie = styled.button`
     ${props => props.dieType === 'random' && css`
         background: LemonChiffon;
         color: black;
+    `}
+
+    ${props => props.dieType === 'blocker' && css`
+        background: DarkGrey;
+        color: Grey;
     `}
 
     ${props => props.removed && css`
@@ -53,9 +58,9 @@ const Die = (props) => {
     return (
         <StyledDie {...props}
                 style={getInlineStyle(props)}
-                onClick={() => props.updateDie(props.id)}>
+                onClick={() => props.updateDie(props.id)}
+                title={`id: ${props.id} x: ${props.x} y: ${props.y}`}>
             <Number>{props.value}</Number>
-            id: {props.id} x: {props.x} y: {props.y}
         </StyledDie>
     );
 };

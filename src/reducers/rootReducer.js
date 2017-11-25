@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
 
-import gameBoardReducer from './gameBoardReducer';
+import gameBoard from './gameBoardReducer';
+import score from './scoreReducer';
 
 export default combineReducers({
-    gameBoard: gameBoardReducer,
+    gameBoard,
+    score,
 });
