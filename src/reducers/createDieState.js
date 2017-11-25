@@ -1,4 +1,4 @@
-import { uniqueId } from 'lodash/fp';
+import uniqueId from 'lodash/fp/uniqueId';
 
 import random from '../util/random';
 
@@ -12,10 +12,12 @@ const TYPES = [
     'random',
 ];
 
-const createDieState = () => ({
+const createDieState = (x, y) => ({
     id: uniqueId(),
-    type: random.choose(TYPES),
+    dieType: random.choose(TYPES),
     value: random.randomInt(1, 6),
+    x,
+    y,
 });
 
 export default createDieState;

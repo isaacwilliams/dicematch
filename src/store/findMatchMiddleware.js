@@ -1,3 +1,4 @@
+import flatten from 'lodash/fp/flatten';
 import findBoardMatches from '../util/findBoardMatches';
 
 export default store => next => action => {
@@ -5,11 +6,19 @@ export default store => next => action => {
 
     const nextMiddleware = next(action);
 
-    const { gameBoard } = store.getState();
+    let matches = findBoardMatches(store.getState().gameBoard);
 
-    const matches = findBoardMatches(gameBoard);
+    while (matches.length) {
+        const diceToRemove = flatten(matches);
 
-    console.log(matches);
+        diceToRemove.forEach(die => {
+            store.dispatch({ type: 'REMOVE_DIE', id: die.id });
+        });
+
+        store.dispatch({ type: 'SHIFT_DICE' });
+
+        matches = findBoardMatches(store.getState().gameBoard);
+    }
 
     return nextMiddleware;
 };

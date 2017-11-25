@@ -1,30 +1,76 @@
-import { times } from 'lodash/fp';
+import times from 'lodash/fp/times';
+import keyBy from 'lodash/fp/keyBy';
+import omit from 'lodash/fp/omit';
+import values from 'lodash/fp/values';
 
 import dieReducer from './dieReducer';
 import createDieState from './createDieState';
+import findBoardMatches from '../util/findBoardMatches';
+import getDieFromBoard from '../util/getDieFromBoard';
 
 const BOARD_WIDTH = 5;
 const BOARD_HEIGHT = 5;
 
-const initialState = times(createDieState, BOARD_WIDTH * BOARD_HEIGHT);
+const keyById = keyBy('id');
 
-const getIndex = (x, y) => y * BOARD_HEIGHT + x;
+const createGameBoard = () => (
+    keyById(times((i) => {
+        const x = Math.floor(i / BOARD_WIDTH);
+        const y = i % BOARD_HEIGHT;
 
-const updateDie = (state, action) => {
-    const { x, y } = action;
-    const dieIndex = getIndex(x, y);
+        return createDieState(x, y);
+    }, BOARD_WIDTH * BOARD_HEIGHT))
+)
 
-    return [
-        ...state.slice(0, dieIndex),
-        dieReducer(state[dieIndex], action),
-        ...state.slice(dieIndex + 1),
-    ];
+const getInitalState = () => {
+    let gameBoard;
+
+    while (!gameBoard || findBoardMatches(gameBoard).length) {
+        gameBoard = createGameBoard();
+    }
+
+    return gameBoard;
 };
 
-export default (state = initialState, action) => {
+const deferToDie = (state, action) => ({
+    ...state,
+    [action.id]: dieReducer(state[action.id], action),
+});
+
+const removeDie = (state, action) => omit(action.id, state);
+
+const getDieToShift = (state) => {
+    const getDie = getDieFromBoard(state);
+
+    return values(state).find(({ x, y, id }) => y < BOARD_HEIGHT - 1 && !getDie(x, y + 1));
+}
+
+const shiftDice = (state, action) => {
+    let updatedState = state;
+    let dieToShift = getDieToShift(updatedState);
+
+    while (dieToShift) {
+        updatedState = deferToDie(updatedState, {
+            type: 'MOVE_DIE',
+            id: dieToShift.id,
+            x: dieToShift.x,
+            y: dieToShift.y + 1,
+        });
+
+        dieToShift = getDieToShift(updatedState)
+    }
+
+    return updatedState;
+};
+
+export default (state = getInitalState(), action) => {
     switch (action.type) {
         case 'UPDATE_DIE':
-            return updateDie(state, action);
+            return deferToDie(state, action);
+        case 'REMOVE_DIE':
+            return removeDie(state, action);
+        case 'SHIFT_DICE':
+            return shiftDice(state, action);
         default:
             return state;
     }

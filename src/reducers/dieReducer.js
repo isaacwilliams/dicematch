@@ -8,7 +8,7 @@ const updateDieDown = ({ value, ...state }, action) => ({ ...state, value: dieCl
 const updateDieRandom = ({ value, ...state }, action) => ({ ...state, value: random.randomInt(1, 6) });
 
 const updateDie = (state, action) => {
-    switch (state.type) {
+    switch (state.dieType) {
         case 'up':
             return updateDieUp(state, action);
         case 'down':
@@ -20,10 +20,14 @@ const updateDie = (state, action) => {
     }
 }
 
+const moveDie = (state, { x, y }) => ({ ...state, x, y });
+
 export default (state , action) => {
     switch (action.type) {
         case 'UPDATE_DIE':
             return updateDie(state, action);
+        case 'MOVE_DIE':
+            return moveDie(state, action);
         default:
             return state;
     }

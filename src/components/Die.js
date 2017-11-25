@@ -2,11 +2,10 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const StyledDie = styled.button`
+    position: absolute;
     box-sizing: border-box;
     width: 62px;
     height: 62px;
-    padding: 16px;
-    margin: 1px;
 
     border: 0;
     border-radius: 4px;
@@ -16,30 +15,49 @@ const StyledDie = styled.button`
     cursor: pointer;
     outline: none;
 
-    ${props => props.type === 'up' && css`
+    transition: top 1s ease-in;
+
+    ${props => props.dieType === 'up' && css`
         background: palevioletred;
         color: white;
     `}
 
-    ${props => props.type === 'down' && css`
+    ${props => props.dieType === 'down' && css`
         background: LightSkyBlue;
         color: white;
     `}
 
-    ${props => props.type === 'random' && css`
+    ${props => props.dieType === 'random' && css`
         background: LemonChiffon;
         color: black;
     `}
+
+    ${props => props.removed && css`
+        background: black;
+        color: black;
+    `}
 `;
+
+const getInlineStyle = ({ x, y }) => ({
+    top: y * 64,
+    left: x * 64,
+})
 
 const Number = styled.div`
     font-size: 24px;
 `;
 
-const Die = (props) => (
-    <StyledDie {...props} onClick={() => props.updateDie(props.x, props.y)}>
-        <Number>{props.value}</Number>
-    </StyledDie>
-);
+const Die = (props) => {
+    if (props.removed) return null;
+
+    return (
+        <StyledDie {...props}
+                style={getInlineStyle(props)}
+                onClick={() => props.updateDie(props.id)}>
+            <Number>{props.value}</Number>
+            id: {props.id} x: {props.x} y: {props.y}
+        </StyledDie>
+    );
+};
 
 export default Die;

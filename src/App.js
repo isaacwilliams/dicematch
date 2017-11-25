@@ -8,7 +8,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    updateDie: (x, y) => dispatch({ type: 'UPDATE_DIE', x, y })
+    updateDie: (id) => dispatch({ type: 'UPDATE_DIE', id })
 });
 
 class App extends Component {
