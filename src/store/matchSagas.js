@@ -8,6 +8,8 @@ import { ACTIONS } from '../constants';
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 
 function *removeMatches(matches, multipler = 1) {
+    yield put({ type: ACTIONS.INPUT_DISABLE });
+
     yield delay(100);
 
     if (!matches.length) return;
@@ -34,8 +36,10 @@ function *removeMatches(matches, multipler = 1) {
     const nextMatches = findBoardMatches(updatedState.gameBoard);
 
     if (nextMatches.length) {
-        yield removeMatches(nextMatches, multipler + 1);
+        return yield removeMatches(nextMatches, multipler + 1);
     }
+
+    yield put({ type: ACTIONS.INPUT_ENABLE });
 }
 
 function *onUpdateDie() {

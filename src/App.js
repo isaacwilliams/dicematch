@@ -7,6 +7,7 @@ import Score from './components/Score';
 const mapStateToProps = (state) => ({
     grid: state.gameBoard,
     score: state.score,
+    inputEnabled: state.inputEnabled,
 });
 
 const mapDispatchToProps = (dispatch) => ({

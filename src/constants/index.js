@@ -7,6 +7,9 @@ export const ACTIONS = {
     MOVE_DIE: 'MOVE_DIE',
 
     SHIFT_DICE: 'SHIFT_DICE',
+
+    INPUT_DISABLE: 'INPUT_DISABLE',
+    INPUT_ENABLE: 'INPUT_ENABLE',
 };
 
 export const BOARD_WIDTH = 4;
