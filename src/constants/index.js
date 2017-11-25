@@ -10,6 +10,8 @@ export const ACTIONS = {
 
     INPUT_DISABLE: 'INPUT_DISABLE',
     INPUT_ENABLE: 'INPUT_ENABLE',
+
+    ADD_MOVES: 'ADD_MOVES',
 };
 
 export const BOARD_WIDTH = 4;

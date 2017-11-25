@@ -58,7 +58,7 @@ const Die = (props) => {
     return (
         <StyledDie {...props}
                 style={getInlineStyle(props)}
-                onClick={() => props.inputEnabled && props.updateDie(props.id)}
+                onClick={() => props.moves && props.inputEnabled && props.updateDie(props.id)}
                 title={`id: ${props.id} x: ${props.x} y: ${props.y}`}>
             <Number>{props.value}</Number>
         </StyledDie>

@@ -11,9 +11,9 @@ const StyledBoard = styled.div`
 `;
 
 
-const GameBoard = ({ grid, ...rest }) => (
+const GameBoard = ({ gameBoard, ...rest }) => (
     <StyledBoard className="GameBoard">
-        {values(grid).map((die, i) => (
+        {values(gameBoard).map((die, i) => (
             <Die key={die.id} {...rest} {...die} />
         ))}
     </StyledBoard>

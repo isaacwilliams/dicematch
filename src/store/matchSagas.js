@@ -30,7 +30,13 @@ function *removeMatches(matches, multipler = 1) {
 
     yield put({ type: ACTIONS.ADD_SCORE, score });
 
-    yield delay(1000);
+    if (multipler === 1) {
+        const moves = diceToRemove.length;
+        yield put({ type: ACTIONS.ADD_MOVES, moves });
+    }
+
+
+    yield delay(600);
 
     const updatedState = yield select();
     const nextMatches = findBoardMatches(updatedState.gameBoard);
