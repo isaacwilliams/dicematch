@@ -1,21 +1,9 @@
 import uniqueId from 'lodash/fp/uniqueId';
 
 import random from '../util/random';
-
-const TYPES = [
-    'up',
-    'up',
-    'up',
-    'down',
-    'down',
-    'down',
-    'random',
-    'blocker',
-];
-
-const createDieState = (x, y) => ({
+const createDieState = (x, y, dieType) => ({
     id: uniqueId(),
-    dieType: random.choose(TYPES),
+    dieType: dieType,
     value: random.randomInt(1, 6),
     x,
     y,

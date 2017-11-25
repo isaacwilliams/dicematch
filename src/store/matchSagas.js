@@ -3,9 +3,15 @@ import { put, select, takeEvery, all } from 'redux-saga/effects'
 import findBoardMatches from '../util/findBoardMatches';
 import createDieState from '../reducers/createDieState';
 
-import { ACTIONS } from '../constants';
+import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
+
+function *addDie(die) {
+    const state = yield select();
+    const dieType = state.level.upcomingDice[0];
+    yield put({ type: ACTIONS.ADD_DIE, die: createDieState(die.x, die.y - BOARD_HEIGHT, dieType) });
+};
 
 function *removeMatches(matches, multipler = 1) {
     yield put({ type: ACTIONS.INPUT_DISABLE });
@@ -20,11 +26,14 @@ function *removeMatches(matches, multipler = 1) {
 
     yield delay(100);
 
-    yield all(diceToRemove.map((die) => put({ type: ACTIONS.ADD_DIE, die: createDieState(die.x, die.y - 5) })));
+    yield all(diceToRemove.map(addDie));
 
     yield delay(100);
 
     yield put({ type: ACTIONS.SHIFT_DICE });
+
+    const updatedState = yield select();
+    const nextMatches = findBoardMatches(updatedState.gameBoard);
 
     const score = (diceToRemove.length * diceToRemove.length) * multipler;
 
@@ -35,11 +44,7 @@ function *removeMatches(matches, multipler = 1) {
         yield put({ type: ACTIONS.ADD_MOVES, moves });
     }
 
-
     yield delay(600);
-
-    const updatedState = yield select();
-    const nextMatches = findBoardMatches(updatedState.gameBoard);
 
     if (nextMatches.length) {
         return yield removeMatches(nextMatches, multipler + 1);

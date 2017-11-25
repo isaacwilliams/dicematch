@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import GameBoard from './components/GameBoard';
 import Score from './components/Score';
 import Moves from './components/Moves';
+import Level from './components/Level';
 
 const mapStateToProps = (state) => state;
 
@@ -18,6 +19,7 @@ class App extends Component {
                 <GameBoard {...this.props} />
                 <Score {...this.props} />
                 <Moves {...this.props} />
+                <Level {...this.props.level} />
             </div>
         );
     }

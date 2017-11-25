@@ -12,7 +12,16 @@ export const ACTIONS = {
     INPUT_ENABLE: 'INPUT_ENABLE',
 
     ADD_MOVES: 'ADD_MOVES',
+
+    SET_LEVEL: 'SET_LEVEL',
 };
+
+export const DIE_TYPES = {
+    UP: 'UP',
+    DOWN: 'DOWN',
+    RANDOM: 'RANDOM',
+    BLOCKER: 'BLOCKER',
+}
 
 export const BOARD_WIDTH = 4;
 export const BOARD_HEIGHT = 4;

@@ -1,5 +1,7 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+
+import getDieColor from './getDieColor';
 
 const StyledDie = styled.button`
     position: absolute;
@@ -17,30 +19,7 @@ const StyledDie = styled.button`
 
     transition: top 0.5s ease-in;
 
-    ${props => props.dieType === 'up' && css`
-        background: palevioletred;
-        color: white;
-    `}
-
-    ${props => props.dieType === 'down' && css`
-        background: LightSkyBlue;
-        color: white;
-    `}
-
-    ${props => props.dieType === 'random' && css`
-        background: LemonChiffon;
-        color: black;
-    `}
-
-    ${props => props.dieType === 'blocker' && css`
-        background: DarkGrey;
-        color: Grey;
-    `}
-
-    ${props => props.removed && css`
-        background: black;
-        color: black;
-    `}
+    ${getDieColor}
 `;
 
 const getInlineStyle = ({ x, y }) => ({

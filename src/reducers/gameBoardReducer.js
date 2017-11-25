@@ -8,7 +8,7 @@ import createDieState from './createDieState';
 import findBoardMatches from '../util/findBoardMatches';
 import getDieFromBoard from '../util/getDieFromBoard';
 
-import { ACTIONS, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
 const keyById = keyBy('id');
 
@@ -17,7 +17,7 @@ const createGameBoard = () => (
         const x = Math.floor(i / BOARD_WIDTH);
         const y = i % BOARD_HEIGHT;
 
-        return createDieState(x, y);
+        return createDieState(x, y, DIE_TYPES.UP);
     }, BOARD_WIDTH * BOARD_HEIGHT))
 )
 
