@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 import getDieColor from './getDieColor';
 
-import { DIE_TYPES } from '../constants';
+import { DIE_TYPES, DIE_SIZE } from '../constants';
 
 const StyledDie = styled.button`
     position: absolute;
     box-sizing: border-box;
-    width: 62px;
-    height: 62px;
+    width: ${DIE_SIZE - 2}px;
+    height: ${DIE_SIZE - 2}px;
 
     border: 0;
     border-radius: 4px;
@@ -25,8 +25,8 @@ const StyledDie = styled.button`
 `;
 
 const getInlineStyle = ({ x, y }) => ({
-    top: y * 64,
-    left: x * 64,
+    top: y * DIE_SIZE,
+    left: x * DIE_SIZE,
 })
 
 const Number = styled.div`

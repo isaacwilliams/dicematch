@@ -4,12 +4,13 @@ import values from 'lodash/fp/values';
 
 import Die from './Die';
 
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT, DIE_SIZE } from '../constants';
 
 const StyledBoard = styled.div`
     position: relative;
-    width: ${BOARD_WIDTH * 64}px;
-    height: ${BOARD_HEIGHT * 64}px;
+    width: ${BOARD_WIDTH * DIE_SIZE}px;
+    height: ${BOARD_HEIGHT * DIE_SIZE}px;
+    overflow: hidden;
 `;
 
 
