@@ -1,4 +1,5 @@
 import { put, select, takeEvery, all } from 'redux-saga/effects'
+import reverse from 'lodash/fp/reverse';
 
 import findBoardMatches from '../util/findBoardMatches';
 import createDieState from '../reducers/createDieState';
@@ -20,7 +21,9 @@ function *removeMatches(matches, multipler = 1) {
 
     if (!matches.length) return;
 
-    const diceToRemove = matches[0];
+    const state = yield select();
+
+    const diceToRemove = reverse(matches[0]);
 
     yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
 
@@ -39,9 +42,8 @@ function *removeMatches(matches, multipler = 1) {
 
     yield put({ type: ACTIONS.ADD_SCORE, score });
 
-    if (multipler === 1) {
-        const moves = diceToRemove.length;
-        yield put({ type: ACTIONS.ADD_MOVES, moves });
+    if (state.level.level !== updatedState.level.level) {
+        yield put({ type: ACTIONS.ADD_MOVES, moves: 10 });
     }
 
     yield delay(600);

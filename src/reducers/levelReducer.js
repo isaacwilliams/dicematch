@@ -1,12 +1,15 @@
 import times from 'lodash/fp/times';
 import shuffle from 'lodash/fp/shuffle';
+import clamp from 'lodash/fp/clamp';
 import { ACTIONS, DIE_TYPES } from '../constants';
 
+const clampVal = clamp(0, 7);
+
 const getLevelDice = (level) => shuffle([
-    ...times(() => DIE_TYPES.UP, level + 5),
-    ...times(() => DIE_TYPES.DOWN, level + 3),
-    ...times(() => DIE_TYPES.RANDOM, level - 3),
-    ...times(() => DIE_TYPES.BLOCKER, level - 4),
+    ...times(() => DIE_TYPES.UP, clampVal(level + 6)),
+    ...times(() => DIE_TYPES.DOWN, clampVal(level + 2)),
+    ...times(() => DIE_TYPES.RANDOM, clampVal(level - 3)),
+    ...times(() => DIE_TYPES.BLOCKER, clampVal(level - 4)),
 ]);
 
 const initialState = {

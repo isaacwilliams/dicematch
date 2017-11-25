@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import getDieColor from './getDieColor';
 
+import { DIE_TYPES } from '../constants';
+
 const StyledDie = styled.button`
     position: absolute;
     box-sizing: border-box;
@@ -32,12 +34,17 @@ const Number = styled.div`
 `;
 
 const Die = (props) => {
-    if (props.removed) return null;
+    const onClick = () => {
+        props.moves &&
+        props.inputEnabled &&
+        props.dieType !== DIE_TYPES.BLOCKER &&
+        props.updateDie(props.id)
+    };
 
     return (
         <StyledDie {...props}
                 style={getInlineStyle(props)}
-                onClick={() => props.moves && props.inputEnabled && props.updateDie(props.id)}
+                onClick={onClick}
                 title={`id: ${props.id} x: ${props.x} y: ${props.y}`}>
             <Number>{props.value}</Number>
         </StyledDie>
