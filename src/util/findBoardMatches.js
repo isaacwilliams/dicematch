@@ -61,8 +61,8 @@ const findMatchesVertical = (board) => {
 };
 
 const findMatches = (state) => ([
-    ...findMatchesVertical(state),
     ...findMatchesHorizontal(state),
+    ...findMatchesVertical(state),
 ])
 
 export default findMatches;
