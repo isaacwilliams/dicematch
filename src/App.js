@@ -7,16 +7,35 @@ import Score from './components/Score';
 import Moves from './components/Moves';
 import Level from './components/Level';
 
+const AppContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+    height: 100%;
+`;
+
 const GameStatus = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 10px 25px;
+    height: 80px;
+    background: white;
 `;
 
 const GameContainer = styled.div`
     display: flex;
-    justify-content: center;
-    padding: 10px;
+    flex: 1;
+    flex-direction: column;
+
+    justify-content: flex-start;
+    align-items: center;
+    align-content: stretch;
+
+    padding: 10px 0;
+
+    height: 100%;
 `;
 
 
@@ -29,7 +48,7 @@ const mapDispatchToProps = (dispatch) => ({
 class App extends Component {
     render() {
         return (
-            <div className="App">
+            <AppContainer>
                 <GameStatus>
                     <div>
                         <Level {...this.props.level} />
@@ -41,7 +60,7 @@ class App extends Component {
                 <GameContainer>
                     <GameBoard {...this.props} />
                 </GameContainer>
-            </div>
+            </AppContainer>
         );
     }
 }
