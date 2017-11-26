@@ -17,9 +17,7 @@ const Announcements = styled.div`
     touch-action: none;
     color: white;
 
-    text-shadow: 0 0 3px rgba(0,0,0,1);
-
-    background: rgba(0,0,0,0.1);
+    text-shadow: 0 0 5px rgba(0,0,0,1);
 `;
 
 const duration = 200;
