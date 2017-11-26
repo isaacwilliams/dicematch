@@ -23,7 +23,7 @@ const AppContainer = styled.div`
 const GameStatus = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 10px 10px;
     background: white;
     height: 100%;
     width: 100%;

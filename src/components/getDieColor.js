@@ -2,28 +2,40 @@ import { css } from 'styled-components';
 
 import { DIE_TYPES } from '../constants';
 
-const getDieColor = (props) => {
-    switch (props.dieType) {
+const getDieColor = ({ dieType, value = 3 }) => {
+    switch (dieType) {
         case DIE_TYPES.DOWN:
             return css`
-                background: LightSkyBlue;
-                color: white;
+                background: #56B9D0;
+
+                circle {
+                    fill: #222;
+                }
             `;
         case DIE_TYPES.BLOCKER:
             return css`
-                background: DarkGrey;
-                color: Grey;
+                background: #3B3F42;
+
+                circle {
+                    fill: #999;
+                }
             `;
         case DIE_TYPES.RANDOM:
             return css`
-                background: LemonChiffon;
-                color: black;
+                background: #FBBA42;
+
+                circle {
+                    fill: #222;
+                }
             `;
         case DIE_TYPES.UP:
         default:
             return css`
-                background: palevioletred;
-                color: white;
+                background: #F24C27;
+
+                circle {
+                    fill: #222;
+                }
             `;
 
     }

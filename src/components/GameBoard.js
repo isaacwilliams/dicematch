@@ -7,7 +7,7 @@ import Die from './Die';
 import { BOARD_WIDTH, BOARD_HEIGHT, DIE_SIZE } from '../constants';
 
 const BoardWrapper = styled.div`
-    padding: 20px;
+    padding: 10px;
     background: white;
     overflow: hidden;
 `;

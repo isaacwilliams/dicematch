@@ -31,8 +31,8 @@ export const GAME_STATES = {
     FINISHED: 'FINISHED',
 };
 
-export const DIE_SIZE = 82;
-export const BOARD_WIDTH = 4;
-export const BOARD_HEIGHT = 4;
+export const DIE_SIZE = 70;
+export const BOARD_WIDTH = 5;
+export const BOARD_HEIGHT = 5;
 
 export const MIN_MATCH_LENGTH = 3;
