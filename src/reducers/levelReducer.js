@@ -14,6 +14,7 @@ const getLevelDice = (level) => shuffle([
 
 const getInitalState = () => ({
     level: 1,
+    clearedDice: 0,
     upcomingDice: getLevelDice(1),
 });
 
@@ -27,6 +28,7 @@ const addDie = (state, action) => {
     }
 
     return {
+        ...state,
         level,
         upcomingDice,
     }
@@ -36,6 +38,8 @@ export default (state = getInitalState(), action) => {
     switch (action.type) {
         case ACTIONS.ADD_DIE:
             return addDie(state, action);
+        case ACTIONS.REMOVE_DIE:
+            return { ...state, clearedDice: state.clearedDice + 1 };
         case ACTIONS.GAME_RESET:
             return getInitalState();
         default:

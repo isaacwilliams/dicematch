@@ -41,13 +41,13 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
-const GameOverModal = ({ score, moves, level, restartGame }) => (
+const GameOverModal = ({ score, level, restartGame }) => (
     <ModalContainer>
         <Modal>
             <h1>Game over</h1>
             <h2>Scored {score}</h2>
             <p>Level {level.level}</p>
-            <p>Used {moves.used} moves</p>
+            <p>Cleared {level.clearedDice} dice</p>
             <p>
                 <RestartButton onClick={restartGame}>
                     Restart
