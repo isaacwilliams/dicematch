@@ -45,9 +45,13 @@ const GameOverModal = ({ score, level, restartGame }) => (
     <ModalContainer>
         <Modal>
             <h1>Game over</h1>
-            <h2>Scored {score}</h2>
-            <p>Level {level.level}</p>
-            <p>Cleared {level.clearedDice} dice</p>
+            <h2>Score: {score}</h2>
+            <p>
+                <strong>Level {level.level}</strong>
+                {' '}
+                ({level.upcomingDice.length} dice remaining)
+            </p>
+            <p>Cleared {level.clearedDice} dice total</p>
             <p>
                 <RestartButton onClick={restartGame}>
                     Restart
