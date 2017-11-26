@@ -1,6 +1,7 @@
 import { put, select, takeEvery, all } from 'redux-saga/effects'
 import reverse from 'lodash/fp/reverse';
-import first from 'lodash/fp/first';
+import flatten from 'lodash/fp/flatten';
+import uniqBy from  'lodash/fp/uniqBy';
 
 import findBoardMatches from '../util/findBoardMatches';
 import createDieState from '../reducers/createDieState';
@@ -8,6 +9,8 @@ import createDieState from '../reducers/createDieState';
 import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
+
+const uniqById = uniqBy((die) => die.id);
 
 function *addDie(die) {
     const state = yield select();
@@ -24,7 +27,7 @@ function *removeMatches(matches, multipler = 1) {
 
     const state = yield select();
 
-    const diceToRemove = reverse(first(matches));
+    const diceToRemove = uniqById(reverse(flatten(matches)));
 
     yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
 
