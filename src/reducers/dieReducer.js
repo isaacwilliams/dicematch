@@ -7,7 +7,15 @@ const dieClamp = circularClamp(1, 6);
 
 const updateDieUp = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value + 1) });
 const updateDieDown = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value - 1) });
-const updateDieRandom = ({ value, ...state }, action) => ({ ...state, value: random.randomInt(1, 6) });
+const updateDieRandom = ({ value, ...state }, action) => {
+    let roll = random.randomInt(1, 6);
+
+    while (roll === value) {
+        roll = random.randomInt(1, 6);
+    }
+
+    return ({ ...state, value: roll });
+};
 
 const updateDie = (state, action) => {
     switch (state.dieType) {
