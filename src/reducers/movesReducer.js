@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
         case ACTIONS.UPDATE_DIE:
             return { ...state, used: state.used + 1 };
         case ACTIONS.ADD_MOVES:
-            return { ...state, limit: action.moves };
+            return { ...state, limit: state.limit + action.moves };
         case ACTIONS.GAME_RESET:
             return initialState;
         default:
