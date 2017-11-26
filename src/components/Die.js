@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import DieFace from './DieFace';
+
 import getDieColor from './getDieColor';
 
 import { DIE_TYPES, DIE_SIZE } from '../constants';
 
+
 const StyledDie = styled.button`
     position: absolute;
     box-sizing: border-box;
+    padding: 0;
     width: ${DIE_SIZE - 2}px;
     height: ${DIE_SIZE - 2}px;
 
@@ -27,26 +31,32 @@ const StyledDie = styled.button`
 const getInlineStyle = ({ x, y }) => ({
     top: y * DIE_SIZE,
     left: x * DIE_SIZE,
-})
-
-const Number = styled.div`
-    font-size: 24px;
-`;
+});
 
 const Die = (props) => {
+    const {
+        moves,
+        inputEnabled,
+        x,
+        y,
+        dieType,
+        updateDie,
+        id,
+    } = props;
+
     const onClick = () => {
-        props.moves &&
-        props.inputEnabled &&
-        props.dieType !== DIE_TYPES.BLOCKER &&
-        props.updateDie(props.id)
+        moves &&
+        inputEnabled &&
+        dieType !== DIE_TYPES.BLOCKER &&
+        updateDie(props.id)
     };
 
     return (
         <StyledDie {...props}
                 style={getInlineStyle(props)}
                 onClick={onClick}
-                title={`id: ${props.id} x: ${props.x} y: ${props.y}`}>
-            <Number>{props.value}</Number>
+                title={`id: ${id} x: ${x} y: ${y}`}>
+            <DieFace {...props} />
         </StyledDie>
     );
 };
