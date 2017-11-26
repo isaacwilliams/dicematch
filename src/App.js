@@ -17,6 +17,7 @@ const AppContainer = styled.div`
     align-items: stretch;
     align-content: stretch;
     height: 100%;
+    width: 100%;
 `;
 
 const GameStatus = styled.div`
@@ -24,6 +25,8 @@ const GameStatus = styled.div`
     justify-content: space-between;
     padding: 10px 20px;
     background: white;
+    height: 100%;
+    width: 100%;
 `;
 
 const GameContainer = styled.div`
@@ -31,9 +34,7 @@ const GameContainer = styled.div`
     flex: 1;
     flex-direction: column;
 
-    justify-content: flex-start;
     align-items: center;
-    align-content: stretch;
 
     padding: 10px 0;
 
