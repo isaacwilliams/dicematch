@@ -2,6 +2,7 @@ import { put, select, takeEvery, all } from 'redux-saga/effects'
 import reverse from 'lodash/fp/reverse';
 import flatten from 'lodash/fp/flatten';
 import uniqBy from  'lodash/fp/uniqBy';
+import clamp from  'lodash/fp/clamp';
 
 import findBoardMatches from '../util/findBoardMatches';
 import createDieState from '../reducers/createDieState';
@@ -47,7 +48,8 @@ function *removeMatches(matches, multipler = 1) {
     yield put({ type: ACTIONS.ADD_SCORE, score });
 
     if (state.level.level !== updatedState.level.level) {
-        yield put({ type: ACTIONS.ADD_MOVES, moves: 5 + updatedState.level.level });
+        const addMoves = clamp(0, 15)(5 + updatedState.level.level);
+        yield put({ type: ACTIONS.ADD_MOVES, moves: addMoves });
     }
 
     yield delay(600);

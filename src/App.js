@@ -7,6 +7,7 @@ import Score from './components/Score';
 import Moves from './components/Moves';
 import Level from './components/Level';
 import GameOverModal from './components/GameOverModal';
+import ScoreAnnouncer from './components/ScoreAnnouncer';
 
 import { GAME_STATES, ACTIONS } from './constants';
 
@@ -30,6 +31,7 @@ const GameStatus = styled.div`
 `;
 
 const GameContainer = styled.div`
+    position: relative;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -63,6 +65,7 @@ class App extends Component {
                 </GameStatus>
                 <GameContainer>
                     <GameBoard {...this.props} />
+                    <ScoreAnnouncer {...this.props} />
                 </GameContainer>
                 {this.props.gameState === GAME_STATES.FINISHED &&
                     <GameOverModal {...this.props} />}

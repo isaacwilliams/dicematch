@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import values from 'lodash/fp/values';
+import { Transition, TransitionGroup } from 'react-transition-group';
 
 import Die from './Die';
 
 import { BOARD_WIDTH, BOARD_HEIGHT, DIE_SIZE } from '../constants';
-
-import { Transition, TransitionGroup } from 'react-transition-group';
 
 const duration = 300;
 
