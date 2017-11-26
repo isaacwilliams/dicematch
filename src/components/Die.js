@@ -7,7 +7,6 @@ import getDieColor from './getDieColor';
 
 import { DIE_TYPES, DIE_SIZE } from '../constants';
 
-
 const StyledDie = styled.button`
     position: absolute;
     box-sizing: border-box;

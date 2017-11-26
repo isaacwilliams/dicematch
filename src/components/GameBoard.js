@@ -6,6 +6,30 @@ import Die from './Die';
 
 import { BOARD_WIDTH, BOARD_HEIGHT, DIE_SIZE } from '../constants';
 
+import { Transition, TransitionGroup } from 'react-transition-group';
+
+const duration = 300;
+
+const defaultStyle = {
+    transition: `opacity ${duration}ms ease-in`,
+    opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered:  { opacity: 1 },
+};
+
+const Fade = ({ children, ...props }) => (
+    <Transition {...props} timeout={duration}>
+        {(state) => (
+            <span style={{ ...defaultStyle, ...transitionStyles[state] }}>
+                {children}
+            </span>
+        )}
+    </Transition>
+);
+
 const BoardWrapper = styled.div`
     padding: 10px;
     background: white;
@@ -22,9 +46,13 @@ const StyledBoard = styled.div`
 const GameBoard = ({ gameBoard, ...rest }) => (
     <BoardWrapper>
         <StyledBoard className="GameBoard">
-            {values(gameBoard).map((die, i) => (
-                <Die key={die.id} {...rest} {...die} />
-            ))}
+            <TransitionGroup>
+                {values(gameBoard).map((die, i) => (
+                    <Fade key={die.id}>
+                        <Die {...rest} {...die} />
+                    </Fade>
+                ))}
+            </TransitionGroup>
         </StyledBoard>
     </BoardWrapper>
 );
