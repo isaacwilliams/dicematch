@@ -74,6 +74,8 @@ export default (state = getInitalState(), action) => {
             return addDie(state, action);
         case ACTIONS.SHIFT_DICE:
             return shiftDice(state, action);
+        case ACTIONS.GAME_RESET:
+            return getInitalState();
         default:
             return state;
     }

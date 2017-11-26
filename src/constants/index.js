@@ -14,6 +14,9 @@ export const ACTIONS = {
     ADD_MOVES: 'ADD_MOVES',
 
     SET_LEVEL: 'SET_LEVEL',
+
+    GAME_END: 'GAME_END',
+    GAME_RESET: 'GAME_RESET',
 };
 
 export const DIE_TYPES = {
@@ -22,6 +25,11 @@ export const DIE_TYPES = {
     RANDOM: 'RANDOM',
     BLOCKER: 'BLOCKER',
 }
+
+export const GAME_STATES = {
+    ACTIVE: 'ACTIVE',
+    FINISHED: 'FINISHED',
+};
 
 export const DIE_SIZE = 86;
 export const BOARD_WIDTH = 4;

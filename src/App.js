@@ -6,6 +6,9 @@ import GameBoard from './components/GameBoard';
 import Score from './components/Score';
 import Moves from './components/Moves';
 import Level from './components/Level';
+import GameOverModal from './components/GameOverModal';
+
+import { GAME_STATES, ACTIONS } from './constants';
 
 const AppContainer = styled.div`
     display: flex;
@@ -19,8 +22,7 @@ const AppContainer = styled.div`
 const GameStatus = styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 10px 25px;
-    height: 80px;
+    padding: 10px 20px;
     background: white;
 `;
 
@@ -42,7 +44,8 @@ const GameContainer = styled.div`
 const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
-    updateDie: (id) => dispatch({ type: 'UPDATE_DIE', id })
+    updateDie: (id) => dispatch({ type: ACTIONS.UPDATE_DIE, id }),
+    restartGame: () => dispatch({ type: ACTIONS.GAME_RESET })
 });
 
 class App extends Component {
@@ -60,6 +63,8 @@ class App extends Component {
                 <GameContainer>
                     <GameBoard {...this.props} />
                 </GameContainer>
+                {this.props.gameState === GAME_STATES.FINISHED &&
+                    <GameOverModal {...this.props} />}
             </AppContainer>
         );
     }

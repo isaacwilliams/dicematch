@@ -1,11 +1,11 @@
-import { ACTIONS } from '../constants';
+import { GAME_STATES, ACTIONS } from '../constants';
 
-const initialState = 0;
+const initialState = GAME_STATES.ACTIVE;
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case ACTIONS.ADD_SCORE:
-            return state + action.score;
+        case ACTIONS.GAME_END:
+            return GAME_STATES.FINISHED;
         case ACTIONS.GAME_RESET:
             return initialState;
         default:

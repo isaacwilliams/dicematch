@@ -45,7 +45,7 @@ const Die = (props) => {
     } = props;
 
     const onClick = () => {
-        moves &&
+        (moves.limit - moves.used) &&
         inputEnabled &&
         dieType !== DIE_TYPES.BLOCKER &&
         updateDie(props.id)

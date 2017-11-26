@@ -12,10 +12,10 @@ const getLevelDice = (level) => shuffle([
     ...times(() => DIE_TYPES.BLOCKER, clampVal(level - 4)),
 ]);
 
-const initialState = {
+const getInitalState = () => ({
     level: 1,
     upcomingDice: getLevelDice(1),
-};
+});
 
 const addDie = (state, action) => {
     let level = state.level;
@@ -32,10 +32,12 @@ const addDie = (state, action) => {
     }
 }
 
-export default (state = initialState, action) => {
+export default (state = getInitalState(), action) => {
     switch (action.type) {
         case ACTIONS.ADD_DIE:
             return addDie(state, action);
+        case ACTIONS.GAME_RESET:
+            return getInitalState();
         default:
             return state;
     }

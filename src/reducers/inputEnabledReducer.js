@@ -8,6 +8,8 @@ export default (state = initialState, action) => {
             return false;
         case ACTIONS.INPUT_ENABLE:
             return true;
+        case ACTIONS.GAME_RESET:
+            return initialState;
         default:
             return state;
     }

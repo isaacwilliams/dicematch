@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import getDieColor from './getDieColor';
 
 const StyledLevel = styled.div`
+    padding: 5px;
     font-size: 18px;
 `;
 

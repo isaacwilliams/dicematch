@@ -5,6 +5,7 @@ import score from './scoreReducer';
 import inputEnabled from './inputEnabledReducer';
 import moves from './movesReducer';
 import level from './levelReducer';
+import gameState from './gameStateReducer';
 
 export default combineReducers({
     gameBoard,
@@ -12,4 +13,5 @@ export default combineReducers({
     inputEnabled,
     moves,
     level,
+    gameState,
 });
