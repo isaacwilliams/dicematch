@@ -4,6 +4,8 @@ import clamp from 'lodash/fp/clamp';
 
 import multiplyInt from '../util/mutiplyInt';
 
+import createDieState from './createDieState';
+
 import { ACTIONS, DIE_TYPES } from '../constants';
 
 const clampVal = clamp(0, 7);
@@ -11,10 +13,10 @@ const clampVal = clamp(0, 7);
 const modLevel = multiplyInt(0.75);
 
 const getLevelDice = (level) => shuffle([
-    ...times(() => DIE_TYPES.UP, clampVal(modLevel(level) + 6)),
-    ...times(() => DIE_TYPES.DOWN, clampVal(modLevel(level) + 2)),
-    ...times(() => DIE_TYPES.RANDOM, clampVal(modLevel(level) - 2)),
-    ...times(() => DIE_TYPES.BLOCKER, clampVal(modLevel(level) - 4)),
+    ...times(() => createDieState(DIE_TYPES.UP), clampVal(modLevel(level) + 6)),
+    ...times(() => createDieState(DIE_TYPES.DOWN), clampVal(modLevel(level) + 2)),
+    ...times(() => createDieState(DIE_TYPES.RANDOM), clampVal(modLevel(level) - 2)),
+    ...times(() => createDieState(DIE_TYPES.BLOCKER), clampVal(modLevel(level) - 4)),
 ]);
 
 const getInitalState = () => ({

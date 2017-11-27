@@ -5,7 +5,6 @@ import uniqBy from  'lodash/fp/uniqBy';
 import clamp from  'lodash/fp/clamp';
 
 import findBoardMatches from '../util/findBoardMatches';
-import createDieState from '../reducers/createDieState';
 
 import multiplyInt from '../util/mutiplyInt';
 
@@ -15,10 +14,14 @@ const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration)
 
 const uniqById = uniqBy((die) => die.id);
 
-function *addDie(die) {
+function *addDie(removedDie) {
     const state = yield select();
-    const dieType = state.level.upcomingDice[0];
-    yield put({ type: ACTIONS.ADD_DIE, die: createDieState(die.x, die.y - BOARD_HEIGHT, dieType) });
+
+    const nextDie = state.level.upcomingDice[0];
+    const x = removedDie.x;
+    const y = removedDie.y - BOARD_HEIGHT;
+
+    yield put({ type: ACTIONS.ADD_DIE, die: { ...nextDie, x, y } });
 };
 
 function *removeMatches(matches, multipler = 1) {

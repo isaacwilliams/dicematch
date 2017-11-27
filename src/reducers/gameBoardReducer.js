@@ -17,7 +17,7 @@ const createGameBoard = () => (
         const x = Math.floor(i / BOARD_WIDTH);
         const y = i % BOARD_HEIGHT;
 
-        return createDieState(x, y, DIE_TYPES.UP);
+        return { ...createDieState(DIE_TYPES.UP), x, y };
     }, BOARD_WIDTH * BOARD_HEIGHT))
 )
 
