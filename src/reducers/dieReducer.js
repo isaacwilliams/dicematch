@@ -1,5 +1,5 @@
 import circularClamp from '../util/circularClamp';
-import random from '../util/random';
+import rollDie from '../util/rollDie';
 
 import { ACTIONS, DIE_TYPES } from '../constants';
 
@@ -8,10 +8,10 @@ const dieClamp = circularClamp(1, 6);
 const updateDieUp = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value + 1) });
 const updateDieDown = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value - 1) });
 const updateDieRandom = ({ value, ...state }, action) => {
-    let roll = random.randomInt(1, 6);
+    let roll = rollDie();
 
     while (roll === value) {
-        roll = random.randomInt(1, 6);
+        roll = rollDie();
     }
 
     return ({ ...state, value: roll });

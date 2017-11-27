@@ -7,6 +7,8 @@ import clamp from  'lodash/fp/clamp';
 import findBoardMatches from '../util/findBoardMatches';
 import createDieState from '../reducers/createDieState';
 
+import multiplyInt from '../util/mutiplyInt';
+
 import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
@@ -48,7 +50,7 @@ function *removeMatches(matches, multipler = 1) {
     yield put({ type: ACTIONS.ADD_SCORE, score });
 
     if (state.level.level !== updatedState.level.level) {
-        const addMoves = clamp(0, 15)(5 + updatedState.level.level);
+        const addMoves = clamp(0, 15)(6 + multiplyInt(0.5)(updatedState.level.level));
         yield put({ type: ACTIONS.ADD_MOVES, moves: addMoves });
     }
 

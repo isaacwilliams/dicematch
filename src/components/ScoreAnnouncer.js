@@ -44,14 +44,11 @@ const transitionStyles = {
 
 const Fade = ({ children, ...props }) => (
     <Transition {...props} timeout={duration}>
-        {(state) => {
-            console.log(state);
-            return (
-                <div style={{ ...defaultStyle, ...transitionStyles[state] }}>
-                    {children}
-                </div>
-            );
-        }}
+        {(state) => (
+            <div style={{ ...defaultStyle, ...transitionStyles[state] }}>
+                {children}
+            </div>
+        )}
     </Transition>
 );
 

@@ -6,7 +6,6 @@
   "dependencies": {
     "gh-pages": "^1.1.0",
     "lodash": "^4.17.4",
-    "randomism": "^1.1.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",
