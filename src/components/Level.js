@@ -35,8 +35,8 @@ const Level = ({ level, upcomingDice }) => {
             <UpcomingDice>
                 <span className='title'>Upcoming:</span>
                 {nextNiceDisplay.slice(0, 4).map((die, i) => (
-                    <MiniDie>
-                        <DieFace key={i} {...die} diceSize={18} />
+                    <MiniDie key={i}>
+                        <DieFace {...die} diceSize={18} />
                     </MiniDie>
                 ))}
                 {nextMore > 0 && <More>+ {nextMore}</More>}
