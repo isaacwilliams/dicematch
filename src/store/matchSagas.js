@@ -2,11 +2,8 @@ import { put, select, takeEvery, all } from 'redux-saga/effects'
 import reverse from 'lodash/fp/reverse';
 import flatten from 'lodash/fp/flatten';
 import uniqBy from  'lodash/fp/uniqBy';
-import clamp from  'lodash/fp/clamp';
 
 import findBoardMatches from '../util/findBoardMatches';
-
-import multiplyInt from '../util/mutiplyInt';
 
 import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
