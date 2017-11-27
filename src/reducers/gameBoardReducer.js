@@ -1,4 +1,3 @@
-import times from 'lodash/fp/times';
 import keyBy from 'lodash/fp/keyBy';
 import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
@@ -12,14 +11,17 @@ import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
 const keyById = keyBy('id');
 
-const createGameBoard = () => (
-    keyById(times((i) => {
-        const x = Math.floor(i / BOARD_WIDTH);
-        const y = i % BOARD_HEIGHT;
+const createGameBoard = () => {
+    const gameBoard = [];
 
-        return { ...createDieState(DIE_TYPES.UP), x, y };
-    }, BOARD_WIDTH * BOARD_HEIGHT))
-)
+    for (var x = 0; x < BOARD_WIDTH; x++) {
+        for (var y = 0; y < BOARD_HEIGHT; y++) {
+            gameBoard.push({ ...createDieState(DIE_TYPES.UP), x, y });
+        }
+    }
+
+    return keyById(gameBoard);
+}
 
 const getInitalState = () => {
     let gameBoard;

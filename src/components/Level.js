@@ -1,19 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import getDieColor from './getDieColor';
-
 import DieFace from './DieFace';
 
 const StyledLevel = styled.div`
-    padding: 5px;
+    padding: 0 5px;
     font-size: 18px;
 `;
 
 const UpcomingDice = styled.div`
     display: flex;
-    align-items: center;
-    font-size: 12px;
+    font-size: 16px;
 
     .title {
         margin-right: 10px;
@@ -25,7 +22,7 @@ const MiniDie = styled.div`
 `;
 
 const More = styled.span`
-    font-size: 12px;
+    font-size: 16px;
 `;
 
 const Level = ({ level, upcomingDice }) => {

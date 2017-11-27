@@ -32,6 +32,6 @@ export const GAME_STATES = {
 };
 
 export const BOARD_WIDTH = 5;
-export const BOARD_HEIGHT = 5;
+export const BOARD_HEIGHT = 6;
 
 export const MIN_MATCH_LENGTH = 3;

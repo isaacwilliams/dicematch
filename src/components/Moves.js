@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 
 const StyledMoves = styled.div`
-    padding: 5px;
+    padding: 0 5px;
     font-size: 18px;
     height: ${18 + 10}px;
 `;
