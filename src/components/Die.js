@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import DieFace from './DieFace';
 
-import getDieColor from './getDieColor';
-
 import { DIE_TYPES } from '../constants';
 
 const StyledDie = styled.button`
@@ -12,23 +10,17 @@ const StyledDie = styled.button`
     box-sizing: border-box;
     padding: 0;
     border: 0;
-    border-radius: 4px;
 
     text-align: center;
 
     cursor: pointer;
     outline: none;
 
-    transition: top 0.5s ease-in;
-
-    ${getDieColor}
+    transition: transform 0.5s ease-in;
 `;
 
 const getInlineStyle = ({ x, y, diceSize }) => ({
-    top: diceSize * y,
-    left: diceSize * x,
-    width: diceSize - 2,
-    height: diceSize - 2,
+    transform: `translate(${diceSize * x}px, ${diceSize * y}px)`
 });
 
 const Die = (props) => {

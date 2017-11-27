@@ -3,15 +3,21 @@ import rollDie from '../util/rollDie';
 
 import { ACTIONS, DIE_TYPES } from '../constants';
 
-const dieClamp = circularClamp(1, 6);
+const updateDieUp = ({ value, ...state }, action) => ({
+    ...state,
+    value: circularClamp(1, state.dieSize)(value + 1),
+});
 
-const updateDieUp = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value + 1) });
-const updateDieDown = ({ value, ...state }, action) => ({ ...state, value: dieClamp(value - 1) });
+const updateDieDown = ({ value, ...state }, action) => ({
+    ...state,
+    value: circularClamp(1, state.dieSize)(value - 1),
+});
+
 const updateDieRandom = ({ value, ...state }, action) => {
-    let roll = rollDie();
+    let roll = rollDie(state.dieSize);
 
     while (roll === value) {
-        roll = rollDie();
+        roll = rollDie(state.dieSize);
     }
 
     return ({ ...state, value: roll });

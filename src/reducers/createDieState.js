@@ -1,10 +1,11 @@
 import uniqueId from 'lodash/fp/uniqueId';
 import rollDie from '../util/rollDie';
 
-const createDieState = (dieType) => ({
+const createDieState = (dieType, dieSize = 6) => ({
     id: uniqueId(),
-    dieType: dieType,
-    value: rollDie(),
+    dieType,
+    dieSize,
+    value: rollDie(dieSize),
 });
 
 export default createDieState;

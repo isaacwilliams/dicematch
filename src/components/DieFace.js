@@ -1,5 +1,15 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
+import getDieColor from './getDieColor';
+
+const DieSvg = styled.svg`
+    border-radius: 4px;
+
+    ${getDieColor}
+`;
+
 const getPos = (size, percent) => {
     const margin = size * 0.25;
     return margin + percent * (size - margin * 2);
@@ -10,55 +20,55 @@ const Pip = ({ x, y, diceSize, ...rest }) => (
 )
 
 const Face1 = ({ diceSize, ...props }) => (
-    <svg width={diceSize} height={diceSize}>
+    <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0.5} y={0.5} />
-    </svg>
+    </DieSvg>
 );
 
 const Face2 = ({ diceSize, ...props }) => (
-    <svg width={diceSize} height={diceSize}>
+    <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0} y={1} />
         <Pip {...props} diceSize={diceSize} x={1} y={0} />
-    </svg>
+    </DieSvg>
 );
 
 const Face3 = ({ diceSize, ...props }) => (
-    <svg width={diceSize} height={diceSize}>
+    <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0} y={1} />
         <Pip {...props} diceSize={diceSize} x={0.5} y={0.5} />
         <Pip {...props} diceSize={diceSize} x={1} y={0} />
-    </svg>
+    </DieSvg>
 );
 
 const Face4 = ({ diceSize, ...props }) => (
-    <svg width={diceSize} height={diceSize}>
+    <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0} y={0} />
         <Pip {...props} diceSize={diceSize} x={0} y={1} />
         <Pip {...props} diceSize={diceSize} x={1} y={0} />
         <Pip {...props} diceSize={diceSize} x={1} y={1} />
-    </svg>
+    </DieSvg>
 );
 
 
 const Face5 = ({ diceSize, ...props }) => (
-    <svg width={diceSize} height={diceSize}>
+    <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0} y={0} />
         <Pip {...props} diceSize={diceSize} x={0} y={1} />
         <Pip {...props} diceSize={diceSize} x={0.5} y={0.5} />
         <Pip {...props} diceSize={diceSize} x={1} y={0} />
         <Pip {...props} diceSize={diceSize} x={1} y={1} />
-    </svg>
+    </DieSvg>
 );
 
 const Face6 = ({ diceSize, ...props }) => (
-    <svg width={diceSize} height={diceSize}>
+    <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0} y={0} />
         <Pip {...props} diceSize={diceSize} x={0} y={0.5} />
         <Pip {...props} diceSize={diceSize} x={0} y={1} />
         <Pip {...props} diceSize={diceSize} x={1} y={0} />
         <Pip {...props} diceSize={diceSize} x={1} y={0.5} />
         <Pip {...props} diceSize={diceSize} x={1} y={1} />
-    </svg>
+    </DieSvg>
 );
 
 const DieFace = ({ value, ...rest }) => {
