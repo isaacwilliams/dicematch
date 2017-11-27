@@ -11,6 +11,8 @@ const StyledDie = styled.button`
     padding: 0;
     border: 0;
 
+    background: transparent;
+
     text-align: center;
 
     cursor: pointer;
