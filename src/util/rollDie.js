@@ -1,2 +1,2 @@
 
-export default () => Math.floor(Math.random() * 6) + 1;
+export default (dieSize) => Math.floor(Math.random() * dieSize) + 1;
