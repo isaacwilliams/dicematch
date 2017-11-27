@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import clamp from 'lodash/fp/clamp';
 
 import GameBoard from './components/GameBoard';
 import Score from './components/Score';
@@ -9,7 +10,9 @@ import Level from './components/Level';
 import GameOverModal from './components/GameOverModal';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
 
-import { GAME_STATES, ACTIONS } from './constants';
+import { GAME_STATES, ACTIONS, BOARD_WIDTH } from './constants';
+
+const clampDieSize = clamp(30, 80);
 
 const AppContainer = styled.div`
     display: flex;
@@ -52,6 +55,20 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 class App extends Component {
+    state = { diceSize: 0 };
+
+    componentWillMount() {
+        this.getDiceSize();
+
+        window.addEventListener('resize', this.getDiceSize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.getDiceSize);
+    }
+
+    getDiceSize = () => this.setState(() => ({ diceSize: clampDieSize((window.innerWidth - 20) / BOARD_WIDTH) }));
+
     render() {
         return (
             <AppContainer>
@@ -64,7 +81,7 @@ class App extends Component {
                     <Score {...this.props} />
                 </GameStatus>
                 <GameContainer>
-                    <GameBoard {...this.props} />
+                    <GameBoard {...this.props} diceSize={this.state.diceSize} />
                     <ScoreAnnouncer {...this.props} />
                 </GameContainer>
                 {this.props.gameState === GAME_STATES.FINISHED &&

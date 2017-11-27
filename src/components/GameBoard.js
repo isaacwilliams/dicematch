@@ -5,7 +5,7 @@ import { Transition, TransitionGroup } from 'react-transition-group';
 
 import Die from './Die';
 
-import { BOARD_WIDTH, BOARD_HEIGHT, DIE_SIZE } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
 const duration = 300;
 
@@ -35,24 +35,26 @@ const BoardWrapper = styled.div`
     overflow: hidden;
 `;
 
-const StyledBoard = styled.div`
+const Board = styled.div`
     position: relative;
-    width: ${BOARD_WIDTH * DIE_SIZE}px;
-    height: ${BOARD_HEIGHT * DIE_SIZE}px;
 `;
 
+const getBoardSize = ({ diceSize }) => ({
+    width: diceSize * BOARD_WIDTH,
+    height: diceSize * BOARD_HEIGHT,
+})
 
-const GameBoard = ({ gameBoard, ...rest }) => (
+const GameBoard = ({ gameBoard, ...props }) => (
     <BoardWrapper>
-        <StyledBoard className="GameBoard">
+        <Board className="GameBoard" style={getBoardSize(props)}>
             <TransitionGroup>
                 {values(gameBoard).map((die, i) => (
                     <Fade key={die.id}>
-                        <Die {...rest} {...die} />
+                        <Die {...props} {...die} />
                     </Fade>
                 ))}
             </TransitionGroup>
-        </StyledBoard>
+        </Board>
     </BoardWrapper>
 );
 
