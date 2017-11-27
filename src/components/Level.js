@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import getDieColor from './getDieColor';
 
+import DieFace from './DieFace';
+
 const StyledLevel = styled.div`
     padding: 5px;
     font-size: 18px;
@@ -19,12 +21,7 @@ const UpcomingDice = styled.div`
 `;
 
 const MiniDie = styled.div`
-    width: 10px;
-    height: 10px;
     margin-right: 1px;
-    border-radius: 2px;
-
-    ${getDieColor}
 `;
 
 const More = styled.span`
@@ -40,7 +37,11 @@ const Level = ({ level, upcomingDice }) => {
             Level: {level}
             <UpcomingDice>
                 <span className='title'>Upcoming:</span>
-                {nextNiceDisplay.slice(0, 4).map((dieType, i) => <MiniDie key={i} dieType={dieType} />)}
+                {nextNiceDisplay.slice(0, 4).map((die, i) => (
+                    <MiniDie>
+                        <DieFace key={i} {...die} diceSize={18} />
+                    </MiniDie>
+                ))}
                 {nextMore > 0 && <More>+ {nextMore}</More>}
             </UpcomingDice>
         </StyledLevel>
