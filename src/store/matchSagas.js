@@ -53,8 +53,7 @@ function *removeMatches(matches, multipler = 1) {
     yield put({ type: ACTIONS.ADD_SCORE, score });
 
     if (state.level.level !== updatedState.level.level) {
-        const addMoves = clamp(0, 15)(6 + multiplyInt(0.5)(updatedState.level.level));
-        yield put({ type: ACTIONS.ADD_MOVES, moves: addMoves });
+        yield put({ type: ACTIONS.ADD_MOVES, moves: 10 });
     }
 
     yield delay(600);
