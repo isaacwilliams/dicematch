@@ -32,7 +32,7 @@ export const GAME_STATES = {
 };
 
 export const DIE_SIZE = 70;
-export const BOARD_WIDTH = 5;
-export const BOARD_HEIGHT = 5;
+export const BOARD_WIDTH = 6;
+export const BOARD_HEIGHT = 6;
 
 export const MIN_MATCH_LENGTH = 3;

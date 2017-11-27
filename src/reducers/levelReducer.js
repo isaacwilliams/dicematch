@@ -8,14 +8,13 @@ import { ACTIONS, DIE_TYPES } from '../constants';
 
 const clampVal = clamp(0, 7);
 
-const modThreeQuart = multiplyInt(0.75);
-const modHalf = multiplyInt(0.75);
+const modLevel = multiplyInt(0.75);
 
 const getLevelDice = (level) => shuffle([
-    ...times(() => DIE_TYPES.UP, clampVal(modThreeQuart(level) + 6)),
-    ...times(() => DIE_TYPES.DOWN, clampVal(modThreeQuart(level) + 2)),
-    ...times(() => DIE_TYPES.RANDOM, clampVal(modHalf(level) - 2)),
-    ...times(() => DIE_TYPES.BLOCKER, clampVal(modHalf(level) - 5)),
+    ...times(() => DIE_TYPES.UP, clampVal(modLevel(level) + 6)),
+    ...times(() => DIE_TYPES.DOWN, clampVal(modLevel(level) + 2)),
+    ...times(() => DIE_TYPES.RANDOM, clampVal(modLevel(level) - 2)),
+    ...times(() => DIE_TYPES.BLOCKER, clampVal(modLevel(level) - 4)),
 ]);
 
 const getInitalState = () => ({
