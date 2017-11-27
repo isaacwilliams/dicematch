@@ -78,7 +78,7 @@ function *onUpdateDie() {
 }
 
 function* matchSaga() {
-    yield takeEvery('UPDATE_DIE', onUpdateDie);
+    yield takeEvery(ACTIONS.UPDATE_DIE, onUpdateDie);
 }
 
 export default matchSaga;
