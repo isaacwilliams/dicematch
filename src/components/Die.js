@@ -1,9 +1,24 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import DieFace from './DieFace';
 
 import { DIE_TYPES } from '../constants';
+
+const shake = (degree) => keyframes`
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-${degree}deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(${degree}deg);
+    }
+`;
 
 const StyledDie = styled.button`
     position: absolute;
@@ -19,6 +34,13 @@ const StyledDie = styled.button`
     outline: none;
 
     transition: transform 0.5s ease-in;
+`;
+
+
+const DieWithMoves = styled.div`
+    ${props => props.bonusMoves && css`
+        animation: ${shake(2.5)} 0.1s linear infinite;
+    `}
 `;
 
 const getInlineStyle = ({ x, y, diceSize }) => ({
@@ -49,7 +71,9 @@ const Die = (props) => {
                 style={getInlineStyle(props)}
                 onClick={onClick}
                 title={`id: ${id} x: ${x} y: ${y}`}>
-            <DieFace {...props} diceSize={diceSize - 2} />
+                <DieWithMoves {...props}>
+                    <DieFace {...props} diceSize={diceSize - 2} />
+                </DieWithMoves>
         </StyledDie>
     );
 };

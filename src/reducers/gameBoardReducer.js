@@ -1,6 +1,8 @@
 import keyBy from 'lodash/fp/keyBy';
 import omit from 'lodash/fp/omit';
 import values from 'lodash/fp/values';
+import times from 'lodash/fp/times';
+import shuffle from 'lodash/fp/shuffle';
 
 import dieReducer from './dieReducer';
 import createDieState from './createDieState';
@@ -14,9 +16,15 @@ const keyById = keyBy('id');
 const createGameBoard = () => {
     const gameBoard = [];
 
+    const initalDieState = shuffle([
+        ...times(() => createDieState(DIE_TYPES.UP), BOARD_WIDTH * BOARD_HEIGHT - 2),
+        ...times(() => createDieState(DIE_TYPES.UP, 5), 2),
+    ]);
+
     for (var x = 0; x < BOARD_WIDTH; x++) {
         for (var y = 0; y < BOARD_HEIGHT; y++) {
-            gameBoard.push({ ...createDieState(DIE_TYPES.UP), x, y });
+            const die = initalDieState.pop();
+            gameBoard.push({ ...die, x, y });
         }
     }
 

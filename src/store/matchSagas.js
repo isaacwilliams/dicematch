@@ -28,8 +28,6 @@ function *removeMatches(matches, multipler = 1) {
 
     if (!matches.length) return;
 
-    const state = yield select();
-
     const diceToRemove = uniqById(reverse(flatten(matches)));
 
     yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
@@ -42,16 +40,16 @@ function *removeMatches(matches, multipler = 1) {
 
     yield put({ type: ACTIONS.SHIFT_DICE });
 
-    const updatedState = yield select();
-    const nextMatches = findBoardMatches(updatedState.gameBoard);
+    const state = yield select();
+    const nextMatches = findBoardMatches(state.gameBoard);
 
     const score = (diceToRemove.length * diceToRemove.length) * multipler;
 
     yield put({ type: ACTIONS.ADD_SCORE, score });
 
-    if (state.level.level !== updatedState.level.level) {
-        yield put({ type: ACTIONS.ADD_MOVES, moves: 10 });
-    }
+    yield diceToRemove
+        .filter(die => !!die.bonusMoves)
+        .map(die => put({ type: ACTIONS.ADD_MOVES, moves: die.bonusMoves }));
 
     yield delay(600);
 
