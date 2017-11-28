@@ -30,9 +30,9 @@ const addDie = (state, action) => {
     let level = state.level;
     let upcomingDice = state.upcomingDice.slice(1);
 
-    if (upcomingDice.length === 0) {
+    if (upcomingDice.length <= 5) {
         level = level + 1;
-        upcomingDice = getLevelDice(level);
+        upcomingDice = [...upcomingDice, ...getLevelDice(level)];
     }
 
     return {

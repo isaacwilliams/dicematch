@@ -26,20 +26,18 @@ const More = styled.span`
 `;
 
 const Level = ({ level, upcomingDice }) => {
-    const nextNiceDisplay = upcomingDice.slice(0, 4);
-    const nextMore = upcomingDice.length - 4;
+    const nextNiceDisplay = upcomingDice.slice(0, 5);
 
     return (
         <StyledLevel>
             Level: {level}
             <UpcomingDice>
                 <span className='title'>Upcoming:</span>
-                {nextNiceDisplay.slice(0, 4).map((die, i) => (
+                {nextNiceDisplay.slice(0, 5).map((die, i) => (
                     <MiniDie key={i}>
                         <DieFace {...die} diceSize={18} />
                     </MiniDie>
                 ))}
-                {nextMore > 0 && <More>+ {nextMore}</More>}
             </UpcomingDice>
         </StyledLevel>
     );
