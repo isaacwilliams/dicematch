@@ -63,6 +63,7 @@ const Die = (props) => {
         (moves.limit - moves.used) &&
         inputEnabled &&
         dieType !== DIE_TYPES.BLOCKER &&
+        dieType !== DIE_TYPES.PRIZE &&
         updateDie(props.id)
     };
 

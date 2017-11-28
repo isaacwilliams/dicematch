@@ -10,10 +10,12 @@ import { ACTIONS, DIE_TYPES } from '../constants';
 
 const clampVal = clamp(0, 7);
 
+const modLevelQuarter = multiplyInt(0.25);
 const modLevelHalf = multiplyInt(0.5);
 const modLevel = multiplyInt(0.75);
 
 const getLevelDice = (level) => shuffle([
+    ...times(() => createDieState(DIE_TYPES.PRIZE, 5), 2 + modLevelQuarter(level)),
     ...times(() => createDieState(DIE_TYPES.UP), modLevelHalf(level) + 9),
     ...times(() => createDieState(DIE_TYPES.DOWN), clampVal(level - 1)),
     ...times(() => createDieState(DIE_TYPES.RANDOM), clampVal(modLevel(level) - 2)),

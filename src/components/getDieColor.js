@@ -28,6 +28,14 @@ const getDieColor = ({ dieType, value = 3 }) => {
                     fill: #222;
                 }
             `;
+        case DIE_TYPES.PRIZE:
+            return css`
+                background: #FBBA42;
+
+                circle {
+                    fill: #222;
+                }
+            `;
         case DIE_TYPES.UP:
         default:
             return css`

@@ -11,7 +11,7 @@ import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 const createGameBoard = () => (
     shuffle([
         ...times(() => createDieState(DIE_TYPES.UP), BOARD_WIDTH * BOARD_HEIGHT - 2),
-        ...times(() => createDieState(DIE_TYPES.UP, 5), 2),
+        ...times(() => createDieState(DIE_TYPES.PRIZE, 5), 2),
     ])
     .map((die, i) => {
         const x = i % BOARD_WIDTH;
