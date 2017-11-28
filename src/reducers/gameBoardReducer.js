@@ -8,23 +8,18 @@ import getDieFromBoard from '../util/getDieFromBoard';
 
 import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
-const createGameBoard = () => {
-    const gameBoard = [];
-
-    const initalDieState = shuffle([
+const createGameBoard = () => (
+    shuffle([
         ...times(() => createDieState(DIE_TYPES.UP), BOARD_WIDTH * BOARD_HEIGHT - 2),
         ...times(() => createDieState(DIE_TYPES.UP, 5), 2),
-    ]);
+    ])
+    .map((die, i) => {
+        const x = i % BOARD_WIDTH;
+        const y = Math.floor(i / BOARD_WIDTH);
 
-    for (var x = 0; x < BOARD_WIDTH; x++) {
-        for (var y = 0; y < BOARD_HEIGHT; y++) {
-            const die = initalDieState.pop();
-            gameBoard.push({ ...die, x, y });
-        }
-    }
-
-    return gameBoard;
-}
+        return { ...die, x, y };
+    })
+);
 
 const getInitalState = () => {
     let gameBoard;
