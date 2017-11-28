@@ -1,3 +1,5 @@
+import times from 'lodash/fp/times';
+
 import dieReducer from './dieReducer';
 import createDieState from './createDieState';
 import findBoardMatches from '../util/findBoardMatches';
@@ -5,17 +7,15 @@ import getDieFromBoard from '../util/getDieFromBoard';
 
 import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
-const createGameBoard = () => {
-    const gameBoard = [];
+const createGameBoard = () => (
+    times(() => createDieState(DIE_TYPES.UP), BOARD_WIDTH * BOARD_HEIGHT)
+    .map((die, i) => {
+        const x = i % BOARD_WIDTH;
+        const y = Math.floor(i / BOARD_WIDTH);
 
-    for (var x = 0; x < BOARD_WIDTH; x++) {
-        for (var y = 0; y < BOARD_HEIGHT; y++) {
-            gameBoard.push({ ...createDieState(DIE_TYPES.UP), x, y });
-        }
-    }
-
-    return gameBoard;
-}
+        return { ...die, x, y };
+    })
+);
 
 const getInitalState = () => {
     let gameBoard;
