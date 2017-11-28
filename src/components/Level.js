@@ -21,26 +21,17 @@ const MiniDie = styled.div`
     margin-right: 1px;
 `;
 
-const More = styled.span`
-    font-size: 16px;
-`;
-
-const Level = ({ level, upcomingDice }) => {
-    const nextNiceDisplay = upcomingDice.slice(0, 5);
-
-    return (
-        <StyledLevel>
-            Level: {level}
-            <UpcomingDice>
-                <span className='title'>Upcoming:</span>
-                {nextNiceDisplay.slice(0, 5).map((die, i) => (
-                    <MiniDie key={i}>
-                        <DieFace {...die} diceSize={18} />
-                    </MiniDie>
-                ))}
-            </UpcomingDice>
-        </StyledLevel>
-    );
-};
+const Level = ({ level, upcomingDice }) => (
+    <StyledLevel>
+        <UpcomingDice>
+            <span className='title'>Upcoming:</span>
+            {upcomingDice.slice(0, 5).map((die, i) => (
+                <MiniDie key={i}>
+                    <DieFace {...die} diceSize={18} />
+                </MiniDie>
+            ))}
+        </UpcomingDice>
+    </StyledLevel>
+);
 
 export default Level;
