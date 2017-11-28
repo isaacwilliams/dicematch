@@ -1,15 +1,9 @@
-import keyBy from 'lodash/fp/keyBy';
-import omit from 'lodash/fp/omit';
-import values from 'lodash/fp/values';
-
 import dieReducer from './dieReducer';
 import createDieState from './createDieState';
 import findBoardMatches from '../util/findBoardMatches';
 import getDieFromBoard from '../util/getDieFromBoard';
 
 import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
-
-const keyById = keyBy('id');
 
 const createGameBoard = () => {
     const gameBoard = [];
@@ -20,7 +14,7 @@ const createGameBoard = () => {
         }
     }
 
-    return keyById(gameBoard);
+    return gameBoard;
 }
 
 const getInitalState = () => {
@@ -33,19 +27,16 @@ const getInitalState = () => {
     return gameBoard;
 };
 
-const deferToDie = (state, action) => ({
-    ...state,
-    [action.id]: dieReducer(state[action.id], action),
-});
+const deferToDice = (state, action) => state.map((dieState) => dieReducer(dieState, action));
 
-const removeDie = (state, action) => omit(action.id, state);
+const removeDie = (state, action) => state.filter((dieState) => dieState.id !== action.id);
 
-const addDie = (state, { die }) => ({ ...state, [die.id]: die });
+const addDie = (state, { die }) => ([ ...state, die ]);
 
 const getDieToShift = (state) => {
     const getDie = getDieFromBoard(state);
 
-    return values(state).find(({ x, y, id }) => y < BOARD_HEIGHT - 1 && !getDie(x, y + 1));
+    return state.find(({ x, y, id }) => y < BOARD_HEIGHT - 1 && !getDie(x, y + 1));
 }
 
 const shiftDice = (state, action) => {
@@ -53,8 +44,8 @@ const shiftDice = (state, action) => {
     let dieToShift = getDieToShift(updatedState);
 
     while (dieToShift) {
-        updatedState = deferToDie(updatedState, {
-            type: 'MOVE_DIE',
+        updatedState = deferToDice(updatedState, {
+            type: ACTIONS.MOVE_DIE,
             id: dieToShift.id,
             x: dieToShift.x,
             y: dieToShift.y + 1,
@@ -69,7 +60,7 @@ const shiftDice = (state, action) => {
 export default (state = getInitalState(), action) => {
     switch (action.type) {
         case ACTIONS.UPDATE_DIE:
-            return deferToDie(state, action);
+            return deferToDice(state, action);
         case ACTIONS.REMOVE_DIE:
             return removeDie(state, action);
         case ACTIONS.ADD_DIE:

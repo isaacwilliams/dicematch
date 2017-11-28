@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import values from 'lodash/fp/values';
 import { Transition, TransitionGroup } from 'react-transition-group';
 
 import Die from './Die';
@@ -48,7 +47,7 @@ const GameBoard = ({ gameBoard, ...props }) => (
     <BoardWrapper>
         <Board className="GameBoard" style={getBoardSize(props)}>
             <TransitionGroup>
-                {values(gameBoard).map((die, i) => (
+                {gameBoard.map((die, i) => (
                     <Fade key={die.id}>
                         <Die {...props} {...die} />
                     </Fade>

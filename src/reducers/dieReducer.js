@@ -39,6 +39,8 @@ const updateDie = (state, action) => {
 const moveDie = (state, { x, y }) => ({ ...state, x, y });
 
 export default (state , action) => {
+    if (state.id !== action.id) return state;
+
     switch (action.type) {
         case ACTIONS.UPDATE_DIE:
             return updateDie(state, action);
