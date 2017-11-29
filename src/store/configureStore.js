@@ -10,7 +10,10 @@ export default (initialState) => {
     const sagaMiddleware = createSagaMiddleware();
 
     const middleware = [
-        createLogger(),
+        createLogger({
+            collapsed: true,
+            duration: true,
+        }),
         sagaMiddleware,
     ];
 

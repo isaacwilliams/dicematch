@@ -2,23 +2,40 @@ import times from 'lodash/fp/times';
 import shuffle from 'lodash/fp/shuffle';
 import clamp from 'lodash/fp/clamp';
 
-import multiplyInt from '../util/mutiplyInt';
-
 import createDieState from './createDieState';
 
 import { ACTIONS, DIE_TYPES } from '../constants';
 
-const clampVal = clamp(0, 7);
+const clampVal = clamp(0, Infinity);
+const round = value => Math.round(value);
+const log = (value) => Math.log10(value);
 
-const modLevelHalf = multiplyInt(0.5);
-const modLevel = multiplyInt(0.75);
+const getCountUp = (level) => 10;
+const getCountDown = (level) => clampVal(round(log(level) * 7));
+const getCountRandom = (level) => clampVal(round(log(level) * 6) - 2);
+const getCountBlocker = (level) => clampVal(round(log(level) * 5) - 3);
 
-const getLevelDice = (level) => shuffle([
-    ...times(() => createDieState(DIE_TYPES.UP), modLevelHalf(level) + 9),
-    ...times(() => createDieState(DIE_TYPES.DOWN), clampVal(level - 1)),
-    ...times(() => createDieState(DIE_TYPES.RANDOM), clampVal(modLevel(level) - 2)),
-    ...times(() => createDieState(DIE_TYPES.BLOCKER), clampVal(modLevel(level) - 4)),
-]);
+const getLevelDice = (level) => {
+
+    console.log(
+        'NEXT LEVEL', level,
+        'UP', getCountUp(level),
+        'DOWN', getCountDown(level),
+        'RANDOM', getCountRandom(level),
+        'BLOCKER', getCountBlocker(level),
+        'total', getCountUp(level) +
+                getCountDown(level) +
+                getCountRandom(level) +
+                getCountBlocker(level)
+    )
+
+    return shuffle([
+        ...times(() => createDieState(DIE_TYPES.UP), getCountUp(level)),
+        ...times(() => createDieState(DIE_TYPES.DOWN), getCountDown(level)),
+        ...times(() => createDieState(DIE_TYPES.RANDOM), getCountRandom(level)),
+        ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level)),
+    ]);
+};
 
 const getInitalState = () => ({
     level: 1,
