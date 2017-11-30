@@ -7,12 +7,13 @@ import createDieState from './createDieState';
 import { ACTIONS, DIE_TYPES } from '../constants';
 
 const clampVal = clamp(0, Infinity);
+const floor = value => Math.floor(value);
 const round = value => Math.round(value);
 const log = (value) => Math.log10(value);
 
-const getCountUp = (level) => 10;
+const getCountUp = (level) => 10 + floor(level * 0.2);
 const getCountDown = (level) => clampVal(round(log(level) * 7));
-const getCountRandom = (level) => clampVal(round(log(level) * 6) - 2);
+const getCountRandom = (level) => clampVal(round(log(level) * 5) - 2);
 const getCountBlocker = (level) => clampVal(round(log(level) * 5) - 3);
 
 const getLevelDice = (level) => {
