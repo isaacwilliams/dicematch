@@ -11,6 +11,21 @@ const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration)
 
 const uniqById = uniqBy((die) => die.id);
 
+const getMatchScore = (matchLength) => {
+    switch (matchLength) {
+        case 3:
+            return 10;
+        case 4:
+            return 25;
+        case 5:
+            return 50;
+        case 6:
+            return 80;
+        default:
+            return Math.max((matchLength - 5) * 50, 0);
+    }
+};
+
 function *addDie(removedDie) {
     const state = yield select();
 
@@ -45,7 +60,7 @@ function *removeMatches(matches, multiplier = 1) {
     const updatedState = yield select();
     const nextMatches = findBoardMatches(updatedState.gameBoard);
 
-    const score = Math.round(Math.pow(diceToRemove.length - 2, 1.5)) * 10;
+    const score = getMatchScore(diceToRemove.length);
 
     yield put({ type: ACTIONS.ADD_SCORE, score, multiplier });
 
