@@ -45,7 +45,6 @@ function *removeMatches(matches, multiplier = 1) {
     const updatedState = yield select();
     const nextMatches = findBoardMatches(updatedState.gameBoard);
 
-    // const score = (Math.pow(diceToRemove.length, 2) + diceToRemove.length - 2) * multiplier;
     const score = Math.round(Math.pow(diceToRemove.length - 2, 1.5)) * 10;
 
     yield put({ type: ACTIONS.ADD_SCORE, score, multiplier });
