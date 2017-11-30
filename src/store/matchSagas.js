@@ -21,7 +21,7 @@ function *addDie(removedDie) {
     yield put({ type: ACTIONS.ADD_DIE, die: { ...nextDie, x, y } });
 };
 
-function *removeMatches(matches, multipler = 1) {
+function *removeMatches(matches, multiplier = 1) {
     yield put({ type: ACTIONS.INPUT_DISABLE });
 
     yield delay(100);
@@ -45,9 +45,10 @@ function *removeMatches(matches, multipler = 1) {
     const updatedState = yield select();
     const nextMatches = findBoardMatches(updatedState.gameBoard);
 
-    const score = (diceToRemove.length * diceToRemove.length) * multipler;
+    // const score = (Math.pow(diceToRemove.length, 2) + diceToRemove.length - 2) * multiplier;
+    const score = (diceToRemove.length - 2) * 10;
 
-    yield put({ type: ACTIONS.ADD_SCORE, score });
+    yield put({ type: ACTIONS.ADD_SCORE, score, multiplier });
 
     if (state.level.level !== updatedState.level.level) {
         yield put({ type: ACTIONS.ADD_MOVES, moves: 10 });
@@ -56,7 +57,7 @@ function *removeMatches(matches, multipler = 1) {
     yield delay(600);
 
     if (nextMatches.length) {
-        return yield removeMatches(nextMatches, multipler + 1);
+        return yield removeMatches(nextMatches, multiplier + 1);
     }
 
     yield put({ type: ACTIONS.INPUT_ENABLE });
