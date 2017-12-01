@@ -2,7 +2,7 @@ import { put, select, takeEvery, all } from 'redux-saga/effects'
 
 import findBoardMatches from '../util/findBoardMatches';
 
-import { ACTIONS, BOARD_HEIGHT } from '../constants';
+import { ACTIONS, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 
@@ -24,13 +24,15 @@ const getMatchScore = (matchLength) => {
 function *addDie(removedDie) {
     const state = yield select();
 
+    if (state.gameBoard.length >= BOARD_WIDTH * BOARD_HEIGHT) return;
+
     const nextDie = state.level.upcomingDice[0];
     const x = removedDie.x;
-    const y = removedDie.y - BOARD_HEIGHT;
+    const y = -BOARD_HEIGHT;
 
     yield put({ type: ACTIONS.ADD_DIE, die: { ...nextDie, x, y } });
 
-    yield delay(50);
+    yield delay(100);
 
     yield put({ type: ACTIONS.CASCADE_DICE });
 };
