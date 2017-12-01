@@ -72,8 +72,6 @@ const getExitAnimation = ({ dieType, diceSize }) => {
 
 const FaceContainer = styled.div`
     position: relative;
-    width: ${props => props.diceSize}px;
-    height: ${props => props.diceSize}px;
 `;
 
 const animatedChild = css`

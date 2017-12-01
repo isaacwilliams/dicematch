@@ -30,7 +30,7 @@ const Fade = ({ children, ...props }) => (
 );
 
 const BoardWrapper = styled.div`
-    padding: 10px;
+    padding: 0 10px;
     background: white;
     overflow: hidden;
 `;
@@ -41,12 +41,12 @@ const Board = styled.div`
 
 const getBoardSize = ({ diceSize }) => ({
     width: diceSize * BOARD_WIDTH,
-    height: diceSize * BOARD_HEIGHT,
+    height: diceSize * BOARD_HEIGHT + 20,
 })
 
 const GameBoard = ({ gameBoard, ...props }) => (
     <BoardWrapper>
-        <Board className="GameBoard" style={getBoardSize(props)}>
+        <Board style={getBoardSize(props)}>
             <TransitionGroup>
                 {gameBoard.map((die, i) => (
                     <Fade key={die.id}>

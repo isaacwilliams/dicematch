@@ -26,7 +26,7 @@ const Positioner = styled.div`
 `;
 
 const getInlineStyle = ({ x, y, diceSize }) => ({
-    transform: `translate(${diceSize * x}px, ${diceSize * y}px)`
+    transform: `translate(${diceSize * x}px, ${diceSize * y - 5}px)`
 });
 
 const DiePositioner = ({ children, ...props }) => (
