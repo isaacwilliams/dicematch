@@ -42,6 +42,12 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
 
     yield put({ type: ACTIONS.CASCADE_DICE });
 
+    yield put({
+        type: ACTIONS.ADD_SCORE,
+        score: getMatchScore(matchGroup.length),
+        multiplier: scoreMultipler
+    });
+
     yield delay(250);
 
     for (let die of matchGroup) {
@@ -49,10 +55,6 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
     }
 
     yield delay(100);
-
-    const score = getMatchScore(matchGroup.length);
-
-    yield put({ type: ACTIONS.ADD_SCORE, score, multiplier: scoreMultipler });
 };
 
 function *removeMatches(matches, scoreMultipler = 1) {
