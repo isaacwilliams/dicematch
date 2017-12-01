@@ -1,4 +1,6 @@
 import getDieFromBoard from './getDieFromBoard';
+import intersectionBy from 'lodash/fp/intersectionBy';
+import uniqBy from  'lodash/fp/uniqBy';
 
 import { BOARD_WIDTH, BOARD_HEIGHT, MIN_MATCH_LENGTH } from '../constants';
 
@@ -60,9 +62,31 @@ const findMatchesVertical = (board) => {
     return matchGroups;
 };
 
-const findMatches = (state) => ([
-    ...findMatchesHorizontal(state),
-    ...findMatchesVertical(state),
-])
+const getId = (die) => die.id;
+const intersectionById = intersectionBy(getId);
+const uniqById = uniqBy((die) => die.id);
+
+const findMatches = (state) => {
+    let horzontalMatches = findMatchesHorizontal(state);
+    let verticalMatches = findMatchesVertical(state);
+
+    // find matches that are both in the horizontal & vertical axis & combine into single group for more points
+    horzontalMatches = horzontalMatches.map((hGroup) => {
+        const intersectingGroup = verticalMatches.find((vGroup) => intersectionById([
+            vGroup,
+            hGroup,
+        ]));
+
+        if (!intersectingGroup) return hGroup;
+
+        verticalMatches = verticalMatches.filter((vGroup) => vGroup !== intersectingGroup);
+        return uniqById([...hGroup, ...intersectingGroup]);
+    });
+
+    return [
+        ...horzontalMatches,
+        ...verticalMatches,
+    ];
+}
 
 export default findMatches;
