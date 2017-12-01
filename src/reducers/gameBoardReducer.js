@@ -39,7 +39,7 @@ const getDieToShift = (state) => {
     return state.find(({ x, y, id }) => y < BOARD_HEIGHT - 1 && !getDie(x, y + 1));
 }
 
-const shiftDice = (state, action) => {
+const cascadeDice = (state, action) => {
     let updatedState = state;
     let dieToShift = getDieToShift(updatedState);
 
@@ -65,8 +65,8 @@ export default (state = getInitalState(), action) => {
             return removeDie(state, action);
         case ACTIONS.ADD_DIE:
             return addDie(state, action);
-        case ACTIONS.SHIFT_DICE:
-            return shiftDice(state, action);
+        case ACTIONS.CASCADE_DICE:
+            return cascadeDice(state, action);
         case ACTIONS.GAME_RESET:
             return getInitalState();
         default:

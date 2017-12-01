@@ -1,15 +1,10 @@
 import { put, select, takeEvery, all } from 'redux-saga/effects'
-import reverse from 'lodash/fp/reverse';
-import flatten from 'lodash/fp/flatten';
-import uniqBy from  'lodash/fp/uniqBy';
 
 import findBoardMatches from '../util/findBoardMatches';
 
 import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
-
-const uniqById = uniqBy((die) => die.id);
 
 const getMatchScore = (matchLength) => {
     switch (matchLength) {
@@ -34,9 +29,33 @@ function *addDie(removedDie) {
     const y = removedDie.y - BOARD_HEIGHT;
 
     yield put({ type: ACTIONS.ADD_DIE, die: { ...nextDie, x, y } });
+
+    yield delay(50);
+
+    yield put({ type: ACTIONS.CASCADE_DICE });
 };
 
-function *removeMatches(matches, multiplier = 1) {
+function *handleMatchGroup(matchGroup, scoreMultipler) {
+    yield all(matchGroup.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
+
+    yield delay(250);
+
+    yield put({ type: ACTIONS.CASCADE_DICE });
+
+    yield delay(250);
+
+    for (let die of matchGroup) {
+        yield addDie(die);
+    }
+
+    yield delay(100);
+
+    const score = getMatchScore(matchGroup.length);
+
+    yield put({ type: ACTIONS.ADD_SCORE, score, multiplier: scoreMultipler });
+};
+
+function *removeMatches(matches, scoreMultipler = 1) {
     yield put({ type: ACTIONS.INPUT_DISABLE });
 
     yield delay(100);
@@ -45,24 +64,13 @@ function *removeMatches(matches, multiplier = 1) {
 
     const state = yield select();
 
-    const diceToRemove = uniqById(reverse(flatten(matches)));
-
-    yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
-
-    yield delay(100);
-
-    yield all(diceToRemove.map(addDie));
-
-    yield delay(100);
-
-    yield put({ type: ACTIONS.SHIFT_DICE });
+    for (let matchGroup of matches) {
+        yield handleMatchGroup(matchGroup, scoreMultipler);
+        yield delay(250);
+    }
 
     const updatedState = yield select();
     const nextMatches = findBoardMatches(updatedState.gameBoard);
-
-    const score = getMatchScore(diceToRemove.length);
-
-    yield put({ type: ACTIONS.ADD_SCORE, score, multiplier });
 
     if (state.level.level !== updatedState.level.level) {
         yield put({ type: ACTIONS.ADD_MOVES, moves: 10 });
@@ -71,7 +79,7 @@ function *removeMatches(matches, multiplier = 1) {
     yield delay(600);
 
     if (nextMatches.length) {
-        return yield removeMatches(nextMatches, multiplier + 1);
+        return yield removeMatches(nextMatches, scoreMultipler + 1);
     }
 
     yield put({ type: ACTIONS.INPUT_ENABLE });

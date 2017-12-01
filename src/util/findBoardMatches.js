@@ -1,6 +1,7 @@
 import getDieFromBoard from './getDieFromBoard';
 import intersectionBy from 'lodash/fp/intersectionBy';
 import uniqBy from  'lodash/fp/uniqBy';
+import reverse from  'lodash/fp/reverse';
 
 import { BOARD_WIDTH, BOARD_HEIGHT, MIN_MATCH_LENGTH } from '../constants';
 
@@ -52,7 +53,7 @@ const findMatchesVertical = (board) => {
             const hasMatch = checkDiceMatch(die, nextDie);
 
             if (!hasMatch && currGroup.length >= MIN_MATCH_LENGTH) {
-                matchGroups.push(currGroup);
+                matchGroups.push(reverse(currGroup));
             }
 
             if (!hasMatch) currGroup = [];
