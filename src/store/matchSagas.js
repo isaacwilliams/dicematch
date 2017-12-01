@@ -78,7 +78,7 @@ function *removeMatches(matches, scoreMultipler = 1) {
         yield put({ type: ACTIONS.ADD_MOVES, moves: 10 });
     }
 
-    yield delay(600);
+    yield delay(300);
 
     if (nextMatches.length) {
         return yield removeMatches(nextMatches, scoreMultipler + 1);
@@ -92,6 +92,7 @@ function *onUpdateDie() {
     const matches = findBoardMatches(state.gameBoard);
 
     if (matches.length) {
+        yield delay(250);
         yield removeMatches(matches, 1);
     }
 

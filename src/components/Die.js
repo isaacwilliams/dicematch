@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import AnimatedDieFace from './AnimatedDieFace';
 import DieFace from './DieFace';
 
 import { DIE_TYPES } from '../constants';
 
-const StyledDie = styled.button`
-    position: absolute;
-    box-sizing: border-box;
+const DieButton = styled.button`
     padding: 0;
     border: 0;
 
@@ -17,41 +16,72 @@ const StyledDie = styled.button`
 
     cursor: pointer;
     outline: none;
+`;
 
+const Positioner = styled.div`
+    position: absolute;
     transition: transform 0.5s ease-in;
+    perspective: 500px;
+    perspective-origin: 50% 50%;
 `;
 
 const getInlineStyle = ({ x, y, diceSize }) => ({
     transform: `translate(${diceSize * x}px, ${diceSize * y}px)`
 });
 
-const Die = (props) => {
-    const {
-        moves,
-        inputEnabled,
-        diceSize,
-        x,
-        y,
-        dieType,
-        updateDie,
-        id,
-    } = props;
+const DiePositioner = ({ children, ...props }) => (
+    <Positioner style={getInlineStyle(props)}>
+        {children}
+    </Positioner>
+);
 
-    const onClick = () => {
-        (moves.limit - moves.used) &&
-        inputEnabled &&
-        dieType !== DIE_TYPES.BLOCKER &&
-        updateDie(props.id)
+class Die extends React.Component {
+    shouldComponentUpdate({ value, x, y }) {
+        return !(
+            value === this.props.value &&
+            x === this.props.x &&
+            y === this.props.y
+        );
+    }
+
+    handleDieUpdate = () => {
+        const {
+            moves,
+            inputEnabled,
+            dieType,
+            updateDie,
+            id,
+        } = this.props;
+
+        if (
+            moves.limit - moves.used <= 0 ||
+            !inputEnabled ||
+            dieType === DIE_TYPES.BLOCKER
+        ) return;
+
+        updateDie(id);
+    }
+
+    render() {
+        const {
+            diceSize,
+            x,
+            y,
+            id,
+        } = this.props;
+
+        return (
+            <DiePositioner {...this.props}>
+                <DieButton {...this.props}
+                        onClick={this.handleDieUpdate}
+                        title={`id: ${id} x: ${x} y: ${y}`}>
+                    <AnimatedDieFace {...this.props}>
+                        <DieFace {...this.props} diceSize={diceSize - 2} />
+                    </AnimatedDieFace>
+                </DieButton>
+            </DiePositioner>
+        );
     };
-
-    return (
-        <StyledDie {...props}
-                style={getInlineStyle(props)}
-                onClick={onClick}
-                title={`id: ${id} x: ${x} y: ${y}`}>
-            <DieFace {...props} diceSize={diceSize - 2} />
-        </StyledDie>
-    );
-};
+}
 
 export default Die;
