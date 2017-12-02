@@ -16,6 +16,22 @@ const getCountDown = (level) => clampVal(round(log(level) * 7));
 const getCountRandom = (level) => clampVal(round(log(level) * 5) - 2);
 const getCountBlocker = (level) => clampVal(round(log(level) * 5) - 3);
 
+const checkForRuns = (levelDice = []) => {
+    for (var i = 0; i < levelDice.length; i++) {
+        const value = levelDice[i].value;
+
+        if (
+            levelDice[i + 1] && levelDice[i + 1].value === value &&
+            levelDice[i + 2] && levelDice[i + 2].value === value
+        ) {
+            console.log('found run', levelDice, i, i+1, i+2);
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const getLevelDice = (level) => {
 
     console.log(
@@ -30,12 +46,21 @@ const getLevelDice = (level) => {
                 getCountBlocker(level)
     )
 
-    return shuffle([
-        ...times(() => createDieState(DIE_TYPES.UP), getCountUp(level)),
-        ...times(() => createDieState(DIE_TYPES.DOWN), getCountDown(level)),
-        ...times(() => createDieState(DIE_TYPES.RANDOM), getCountRandom(level)),
-        ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level)),
-    ]);
+    let levelDice;
+    let attempts = 0;
+
+    do {
+        levelDice = shuffle([
+            ...times(() => createDieState(DIE_TYPES.UP), getCountUp(level)),
+            ...times(() => createDieState(DIE_TYPES.DOWN), getCountDown(level)),
+            ...times(() => createDieState(DIE_TYPES.RANDOM), getCountRandom(level)),
+            ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level)),
+        ]);
+
+        attempts++;
+    } while (attempts < 5 && checkForRuns(levelDice));
+
+    return levelDice;
 };
 
 const getInitalState = () => ({
@@ -66,6 +91,8 @@ export default (state = getInitalState(), action) => {
             return addDie(state, action);
         case ACTIONS.REMOVE_DIE:
             return { ...state, clearedDice: state.clearedDice + 1 };
+        case ACTIONS.SET_LEVEL:
+            return { ...state, level: action.level, upcomingDice: getLevelDice(action.level) };
         case ACTIONS.GAME_RESET:
             return getInitalState();
         default:
