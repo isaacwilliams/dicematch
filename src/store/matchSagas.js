@@ -8,6 +8,8 @@ import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 
+const getId = (die) => die.id;
+
 const getMatchScore = (matchLength) => {
     switch (matchLength) {
         case 3:
@@ -40,7 +42,9 @@ function *addDie(removedDie) {
 function *handleMatchGroup(matchGroup, scoreMultipler) {
     const state = yield select();
 
-    const diceToRemove = matchGroup.filter(die => includes(die, state.gameBoard));
+    const gameBoardIds = state.gameBoard.map(getId);
+    const diceToRemove = matchGroup.filter(die => includes(getId(die), gameBoardIds));
+
     yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
 
     yield delay(250);
