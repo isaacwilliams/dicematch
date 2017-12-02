@@ -1,8 +1,10 @@
 import { put, select, takeEvery, all } from 'redux-saga/effects'
 
+import includes from 'lodash/fp/includes';
+
 import findBoardMatches from '../util/findBoardMatches';
 
-import { ACTIONS, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 
@@ -24,8 +26,6 @@ const getMatchScore = (matchLength) => {
 function *addDie(removedDie) {
     const state = yield select();
 
-    if (state.gameBoard.length >= BOARD_WIDTH * BOARD_HEIGHT) return;
-
     const nextDie = state.level.upcomingDice[0];
     const x = removedDie.x;
     const y = -BOARD_HEIGHT;
@@ -38,7 +38,10 @@ function *addDie(removedDie) {
 };
 
 function *handleMatchGroup(matchGroup, scoreMultipler) {
-    yield all(matchGroup.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
+    const state = yield select();
+
+    const diceToRemove = matchGroup.filter(die => includes(die, state.gameBoard));
+    yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
 
     yield delay(250);
 
@@ -46,13 +49,13 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
 
     yield put({
         type: ACTIONS.ADD_SCORE,
-        score: getMatchScore(matchGroup.length),
+        score: getMatchScore(diceToRemove.length),
         multiplier: scoreMultipler
     });
 
     yield delay(250);
 
-    for (let die of matchGroup) {
+    for (let die of diceToRemove) {
         yield addDie(die);
     }
 
@@ -60,8 +63,6 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
 };
 
 function *removeMatches(matches, scoreMultipler = 1) {
-    yield put({ type: ACTIONS.INPUT_DISABLE });
-
     yield delay(100);
 
     if (!matches.length) return;
@@ -86,10 +87,11 @@ function *removeMatches(matches, scoreMultipler = 1) {
         return yield removeMatches(nextMatches, scoreMultipler + 1);
     }
 
-    yield put({ type: ACTIONS.INPUT_ENABLE });
 }
 
 function *onUpdateDie() {
+    yield put({ type: ACTIONS.INPUT_DISABLE });
+
     const state = yield select();
     const matches = findBoardMatches(state.gameBoard);
 
@@ -97,6 +99,8 @@ function *onUpdateDie() {
         yield delay(250);
         yield removeMatches(matches, 1);
     }
+
+    yield put({ type: ACTIONS.INPUT_ENABLE });
 
     const finalState = yield select();
     if (finalState.moves.limit - finalState.moves.used <= 0) {

@@ -65,7 +65,7 @@ const findMatchesVertical = (board) => {
 
 const getId = (die) => die.id;
 const intersectionById = intersectionBy(getId);
-const uniqById = uniqBy((die) => die.id);
+const uniqById = uniqBy(getId);
 
 const findMatches = (state) => {
     let horzontalMatches = findMatchesHorizontal(state);
