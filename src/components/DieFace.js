@@ -19,6 +19,10 @@ const Pip = ({ x, y, diceSize, ...rest }) => (
     <circle r={diceSize * 0.08} cx={getPos(diceSize, x)} cy={getPos(diceSize, y)} />
 )
 
+const Face0 = ({ diceSize, ...props }) => (
+    <DieSvg {...props} width={diceSize} height={diceSize} />
+);
+
 const Face1 = ({ diceSize, ...props }) => (
     <DieSvg {...props} width={diceSize} height={diceSize}>
         <Pip {...props} diceSize={diceSize} x={0.5} y={0.5} />
@@ -86,7 +90,7 @@ const DieFace = ({ value, ...rest }) => {
         case 6:
             return <Face6 {...rest} />;
         default:
-            return <Face1 {...rest} />;
+            return <Face0 {...rest} />;
     }
 };
 

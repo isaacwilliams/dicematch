@@ -1,31 +1,9 @@
-import times from 'lodash/fp/times';
-
 import dieReducer from './dieReducer';
-import createDieState from './createDieState';
-import findBoardMatches from '../util/findBoardMatches';
 import getDieFromBoard from '../util/getDieFromBoard';
 
-import { ACTIONS, DIE_TYPES, BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
-const createGameBoard = () => (
-    times(() => createDieState(DIE_TYPES.UP), BOARD_WIDTH * BOARD_HEIGHT)
-    .map((die, i) => {
-        const x = i % BOARD_WIDTH;
-        const y = Math.floor(i / BOARD_WIDTH);
-
-        return { ...die, x, y };
-    })
-);
-
-const getInitalState = () => {
-    let gameBoard;
-
-    while (!gameBoard || findBoardMatches(gameBoard).length) {
-        gameBoard = createGameBoard();
-    }
-
-    return gameBoard;
-};
+const initialState = [];
 
 const deferToDice = (state, action) => state.map((dieState) => dieReducer(dieState, action));
 
@@ -57,7 +35,7 @@ const cascadeDice = (state, action) => {
     return updatedState;
 };
 
-export default (state = getInitalState(), action) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case ACTIONS.UPDATE_DIE:
             return deferToDice(state, action);
@@ -68,7 +46,7 @@ export default (state = getInitalState(), action) => {
         case ACTIONS.CASCADE_DICE:
             return cascadeDice(state, action);
         case ACTIONS.GAME_RESET:
-            return getInitalState();
+            return initialState;
         default:
             return state;
     }

@@ -51,15 +51,16 @@ const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
     updateDie: (id) => dispatch({ type: ACTIONS.UPDATE_DIE, id }),
-    restartGame: () => dispatch({ type: ACTIONS.GAME_RESET })
+    restartGame: (level = 1) => dispatch({ type: ACTIONS.GAME_RESET, level })
 });
 
 class App extends Component {
     state = { diceSize: 0 };
 
     componentWillMount() {
-        this.getDiceSize();
+        this.props.restartGame(-3);
 
+        this.getDiceSize();
         window.addEventListener('resize', this.getDiceSize);
     }
 

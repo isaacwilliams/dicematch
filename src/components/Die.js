@@ -56,7 +56,8 @@ class Die extends React.Component {
         if (
             moves.limit - moves.used <= 0 ||
             !inputEnabled ||
-            dieType === DIE_TYPES.BLOCKER
+            dieType === DIE_TYPES.BLOCKER ||
+            dieType === DIE_TYPES.GHOST
         ) return;
 
         updateDie(id);

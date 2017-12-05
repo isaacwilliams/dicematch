@@ -24,6 +24,7 @@ export const DIE_TYPES = {
     DOWN: 'DOWN',
     RANDOM: 'RANDOM',
     BLOCKER: 'BLOCKER',
+    GHOST: 'GHOST',
 }
 
 export const GAME_STATES = {

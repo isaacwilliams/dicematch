@@ -1,6 +1,6 @@
 import { ACTIONS } from '../constants';
 
-const initialState = { used: 0, limit: 10 };
+const initialState = { used: 0, limit: Infinity };
 
 export default (state = initialState, action) => {
     switch (action.type) {

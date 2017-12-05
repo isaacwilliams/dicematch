@@ -53,7 +53,7 @@ const GameOverModal = ({ score, level, restartGame }) => (
             </p>
             <p>Cleared {level.clearedDice} dice total</p>
             <p>
-                <RestartButton onClick={restartGame}>
+                <RestartButton onClick={() => restartGame(1)}>
                     Restart
                 </RestartButton>
             </p>

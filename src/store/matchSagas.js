@@ -1,8 +1,11 @@
 import { put, select, takeEvery, all } from 'redux-saga/effects'
 
 import includes from 'lodash/fp/includes';
+import reverse from 'lodash/fp/reverse';
 
 import findBoardMatches from '../util/findBoardMatches';
+import createBoard from '../util/createBoard';
+// import createBoardTutorial from '../util/createBoardTutorial';
 
 import { ACTIONS, BOARD_HEIGHT } from '../constants';
 
@@ -39,6 +42,30 @@ function *addDie(removedDie) {
     yield put({ type: ACTIONS.CASCADE_DICE });
 };
 
+function *resetBoard() {
+    const state = yield select();
+    const level = state.level.level;
+
+    for (let die of state.gameBoard) {
+        yield put({ type: ACTIONS.REMOVE_DIE, id: die.id });
+        yield delay(10);
+    }
+
+    const boardDice = reverse(
+        createBoard(level)
+    );
+
+    yield put({ type: ACTIONS.SET_LEVEL, level: level + 1 });
+
+    for (let die of boardDice) {
+        yield put({ type: ACTIONS.ADD_DIE, noPull: true, die: { ...die, y: -BOARD_HEIGHT } });
+        yield delay(10);
+        yield put({ type: ACTIONS.CASCADE_DICE });
+    }
+
+    yield delay(50);
+};
+
 function *handleMatchGroup(matchGroup, scoreMultipler) {
     const state = yield select();
 
@@ -58,6 +85,10 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
     });
 
     yield delay(250);
+
+    if (state.level.level <= 0) {
+        return yield resetBoard();
+    }
 
     for (let die of diceToRemove) {
         yield addDie(die);
@@ -114,7 +145,10 @@ function *onUpdateDie() {
 }
 
 function* matchSaga() {
-    yield takeEvery(ACTIONS.UPDATE_DIE, onUpdateDie);
+    yield all([
+        takeEvery(ACTIONS.UPDATE_DIE, onUpdateDie),
+        takeEvery(ACTIONS.GAME_RESET, resetBoard),
+    ]);
 }
 
 export default matchSaga;

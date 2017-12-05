@@ -29,7 +29,6 @@ const getDieColor = ({ dieType, value = 3 }) => {
                 }
             `;
         case DIE_TYPES.UP:
-        default:
             return css`
                 background: #F24C27;
 
@@ -37,7 +36,14 @@ const getDieColor = ({ dieType, value = 3 }) => {
                     fill: #222;
                 }
             `;
+        default:
+            return css`
+                background: #dddddd;
 
+                circle {
+                    fill: #222;
+                }
+            `;
     }
 };
 
