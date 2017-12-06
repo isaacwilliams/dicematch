@@ -26,12 +26,18 @@ const addDie = (state, action) => {
     }
 }
 
+const handleMatchedDie = (state, { matched }) => (
+    matched ?
+        { ...state, clearedDice: state.clearedDice + 1 } :
+        state
+)
+
 export default (state = getInitalState(), action) => {
     switch (action.type) {
         case ACTIONS.ADD_DIE:
             return addDie(state, action);
         case ACTIONS.REMOVE_DIE:
-            return { ...state, clearedDice: state.clearedDice + 1 };
+            return handleMatchedDie(state, action);
         case ACTIONS.SET_LEVEL:
             return { ...state, level: action.level, upcomingDice: createLevel(action.level) };
         case ACTIONS.GAME_RESET:

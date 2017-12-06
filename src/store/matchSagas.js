@@ -46,7 +46,7 @@ function *resetBoard() {
     const state = yield select();
     const level = state.level.level;
 
-    for (let die of state.gameBoard) {
+    for (let die of reverse(state.gameBoard)) {
         yield put({ type: ACTIONS.REMOVE_DIE, id: die.id });
         yield delay(10);
     }
@@ -72,7 +72,7 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
     const gameBoardIds = state.gameBoard.map(getId);
     const diceToRemove = matchGroup.filter(die => includes(getId(die), gameBoardIds));
 
-    yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id })));
+    yield all(diceToRemove.map((die) => put({ type: ACTIONS.REMOVE_DIE, id: die.id, matched: true })));
 
     yield delay(250);
 
