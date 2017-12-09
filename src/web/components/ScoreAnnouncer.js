@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import drop from 'lodash/fp/drop';
 import { Transition, TransitionGroup } from 'react-transition-group';
 
-import { GAME_STATES } from '../constants';
+import { GAME_STATES } from '../../constants';
 
 const Announcements = styled.div`
     position: absolute;

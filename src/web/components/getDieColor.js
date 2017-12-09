@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-import { DIE_TYPES } from '../constants';
+import { DIE_TYPES } from '../../constants';
 
 const getDieColor = ({ dieType, value = 3 }) => {
     switch (dieType) {

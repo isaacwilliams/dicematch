@@ -4,7 +4,7 @@ import { Transition, TransitionGroup } from 'react-transition-group';
 
 import Die from './Die';
 
-import { BOARD_WIDTH, BOARD_HEIGHT } from '../constants';
+import { BOARD_WIDTH, BOARD_HEIGHT } from '../../constants';
 
 const duration = 300;
 

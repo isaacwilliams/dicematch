@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import AnimatedDieFace from './AnimatedDieFace';
 import DieFace from './DieFace';
 
-import { DIE_TYPES } from '../constants';
+import { DIE_TYPES } from '../../constants';
 
 const DieButton = styled.button`
     padding: 0;

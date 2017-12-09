@@ -10,9 +10,12 @@ import Level from './components/Level';
 import GameOverModal from './components/GameOverModal';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
 
-import { GAME_STATES, ACTIONS, BOARD_WIDTH } from './constants';
+import { GAME_STATES, ACTIONS, BOARD_WIDTH } from '../constants';
+
+import './index.css';
 
 const clampDieSize = clamp(30, 80);
+
 
 const AppContainer = styled.div`
     display: flex;
