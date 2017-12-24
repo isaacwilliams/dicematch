@@ -30,7 +30,7 @@ function *addDie(removedDie) {
 
     const nextDie = state.level.upcomingDice[0];
     const x = removedDie.x;
-    const y = -BOARD_HEIGHT;
+    const y = -2;
 
     yield put({ type: ACTIONS.ADD_DIE, die: { ...nextDie, x, y } });
 
