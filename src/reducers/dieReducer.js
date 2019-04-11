@@ -23,6 +23,29 @@ const updateDieRandom = ({ value, ...state }, action) => {
     return ({ ...state, value: roll });
 };
 
+const valueForFlip = (value) => {
+    switch (value) {
+        case 1:
+            return 6;
+        case 2:
+            return 5;
+        case 3:
+            return 4;
+        case 4:
+            return 3;
+        case 5:
+            return 2;
+        case 6:
+        default:
+            return 1;
+    }
+};
+
+const updateDieFlip = ({ value, ...state }, action) => ({
+    ...state,
+    value: valueForFlip(value),
+});
+
 const updateDie = (state, action) => {
     switch (state.dieType) {
         case DIE_TYPES.UP:
@@ -31,6 +54,8 @@ const updateDie = (state, action) => {
             return updateDieDown(state, action);
         case DIE_TYPES.RANDOM:
             return updateDieRandom(state, action);
+        case DIE_TYPES.FLIP:
+            return updateDieFlip(state, action);
         default:
             return state;
     }

@@ -15,6 +15,7 @@ const getCountUp = (level) => 10 + floor(level * 0.2);
 const getCountDown = (level) => clampVal(round(log(level) * 7));
 const getCountRandom = (level) => clampVal(round(log(level) * 5) - 2);
 const getCountBlocker = (level) => clampVal(round(log(level) * 5) - 3);
+const getCountFlip = (level) => 5;
 
 const checkForRuns = (levelDice = []) => {
     for (var i = 0; i < levelDice.length; i++) {
@@ -55,6 +56,7 @@ const getLevelDice = (level) => {
             ...times(() => createDieState(DIE_TYPES.DOWN), getCountDown(level)),
             ...times(() => createDieState(DIE_TYPES.RANDOM), getCountRandom(level)),
             ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level)),
+            ...times(() => createDieState(DIE_TYPES.FLIP), getCountFlip(level)),
         ]);
 
         attempts++;
