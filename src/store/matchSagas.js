@@ -1,5 +1,6 @@
 import { put, select, takeEvery, all } from 'redux-saga/effects'
 
+import first from 'lodash/fp/first';
 import includes from 'lodash/fp/includes';
 
 import findBoardMatches from '../util/findBoardMatches';
@@ -24,6 +25,10 @@ const getMatchScore = (matchLength) => {
             return Math.max((matchLength - 5) * 50, 0);
     }
 };
+
+const getScoreValueBonus = (matchLength, matchValue) => (
+    (matchValue - 1) * (matchLength - 2)
+);
 
 function *addDie(removedDie) {
     const state = yield select();
@@ -51,9 +56,11 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
 
     yield put({ type: ACTIONS.CASCADE_DICE });
 
+    const score = (getMatchScore(diceToRemove.length) + getScoreValueBonus(diceToRemove.length, first(diceToRemove).value)) * 10;
+
     yield put({
         type: ACTIONS.ADD_SCORE,
-        score: getMatchScore(diceToRemove.length),
+        score: score,
         multiplier: scoreMultipler
     });
 
