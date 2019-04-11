@@ -30,11 +30,15 @@ const getDieColor = ({ dieType, value = 3 }) => {
             `;
         case DIE_TYPES.FLIP:
             return css`
-                background: #F24C27;
-                border-radius: 50px;
+                background: #f3e2c7;
+                border-radius: 50%;
+
+                background: -moz-linear-gradient(-45deg, #f3e2c7 0%, #c19e67 50%, #b68d4c 51%, #e9d4b3 100%);
+                background: -webkit-linear-gradient(-45deg, #f3e2c7 0%,#c19e67 50%,#b68d4c 51%,#e9d4b3 100%);
+                background: linear-gradient(135deg, #f3e2c7 0%,#c19e67 50%,#b68d4c 51%,#e9d4b3 100%);
 
                 circle {
-                    fill: #222;
+                    fill: #4a3f2c;
                 }
             `;
         case DIE_TYPES.UP:
