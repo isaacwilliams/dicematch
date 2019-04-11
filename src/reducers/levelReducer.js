@@ -13,9 +13,9 @@ const log = (value) => Math.log10(value);
 
 const getCountUp = (level) => 10 + floor(level * 0.2);
 const getCountDown = (level) => clampVal(round(log(level) * 7));
-const getCountRandom = (level) => clampVal(round(log(level) * 5) - 2);
-const getCountBlocker = (level) => clampVal(round(log(level) * 5) - 3);
-const getCountFlip = (level) => 5;
+const getCountFlip = (level) => clampVal(round(log(level) * 5) - 2);
+const getCountRandom = (level) => clampVal(round(log(level) * 4) - 3);
+const getCountBlocker = (level) => clampVal(round(log(level) * 3) - 2);
 
 const checkForRuns = (levelDice = []) => {
     for (var i = 0; i < levelDice.length; i++) {
