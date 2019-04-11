@@ -6,7 +6,7 @@ import DieFace from './DieFace';
 
 import { DIE_TYPES } from '../constants';
 
-const DieButton = styled.button`
+const DieButton = styled.div`
     padding: 0;
     border: 0;
 
@@ -26,7 +26,7 @@ const Positioner = styled.div`
 `;
 
 const getInlineStyle = ({ x, y, diceSize }) => ({
-    transform: `translate(${diceSize * x}px, ${diceSize * y - 5}px)`
+    transform: `translate(${diceSize * x}px, ${diceSize * y + 10}px)`
 });
 
 const DiePositioner = ({ children, ...props }) => (
