@@ -3,17 +3,23 @@ import rollDie from '../util/rollDie';
 
 import { ACTIONS, DIE_TYPES } from '../constants';
 
-const updateDieUp = ({ value, ...state }, action) => ({
+const ensureIdMatch = (subReducer) => (state, action) => (
+    state.id === action.id ?
+        subReducer(state, action) :
+        state
+);
+
+const updateDieUp = ensureIdMatch(({ value, ...state }, action) => ({
     ...state,
     value: circularClamp(1, state.dieSize)(value + 1),
-});
+}));
 
-const updateDieDown = ({ value, ...state }, action) => ({
+const updateDieDown = ensureIdMatch(({ value, ...state }, action) => ({
     ...state,
     value: circularClamp(1, state.dieSize)(value - 1),
-});
+}));
 
-const updateDieRandom = ({ value, ...state }, action) => {
+const updateDieRandom = ensureIdMatch(({ value, ...state }, action) => {
     let roll = rollDie(state.dieSize);
 
     while (roll === value) {
@@ -21,7 +27,12 @@ const updateDieRandom = ({ value, ...state }, action) => {
     }
 
     return ({ ...state, value: roll });
-};
+});
+
+const updateDieBomb = ({ value, ...state }, action) => ({
+    ...state,
+    value: value - 1,
+});
 
 const valueForFlip = (value) => {
     switch (value) {
@@ -41,10 +52,10 @@ const valueForFlip = (value) => {
     }
 };
 
-const updateDieFlip = ({ value, ...state }, action) => ({
+const updateDieFlip = ensureIdMatch(({ value, ...state }, action) => ({
     ...state,
     value: valueForFlip(value),
-});
+}));
 
 const updateDie = (state, action) => {
     switch (state.dieType) {
@@ -56,16 +67,16 @@ const updateDie = (state, action) => {
             return updateDieRandom(state, action);
         case DIE_TYPES.FLIP:
             return updateDieFlip(state, action);
+        case DIE_TYPES.BOMB:
+            return updateDieBomb(state, action);
         default:
             return state;
     }
 }
 
-const moveDie = (state, { x, y }) => ({ ...state, x, y });
+const moveDie = ensureIdMatch((state, { x, y }) => ({ ...state, x, y }));
 
 export default (state , action) => {
-    if (state.id !== action.id) return state;
-
     switch (action.type) {
         case ACTIONS.UPDATE_DIE:
             return updateDie(state, action);

@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import { css, keyframes } from 'styled-components';
 
 import { DIE_TYPES } from '../constants';
 
@@ -11,7 +11,14 @@ const COLORS = {
     FLIP: '#CEC8B6',
 };
 
-const getDieColor = ({ dieType, value = 3 }) => {
+const flicker = keyframes`
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+`;
+
+
+const getDieColor = ({ dieType, value }) => {
     switch (dieType) {
         case DIE_TYPES.DOWN:
             return css`
@@ -29,6 +36,15 @@ const getDieColor = ({ dieType, value = 3 }) => {
                 circle {
                     fill: ${COLORS.PIP};
                     opacity: 0.4;
+                }
+            `;
+        case DIE_TYPES.BOMB:
+            return css`
+                background: ${COLORS.BLOCKER};
+
+                circle {
+                    fill: ${COLORS.RANDOM};
+                    animation: ${flicker} ${(value)*200}ms ease-in-out infinite;
                 }
             `;
         case DIE_TYPES.RANDOM:

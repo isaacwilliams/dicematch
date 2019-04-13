@@ -4,8 +4,9 @@ import first from 'lodash/fp/first';
 import includes from 'lodash/fp/includes';
 
 import findBoardMatches from '../util/findBoardMatches';
+import getDieFromBoard from '../util/getDieFromBoard';
 
-import { ACTIONS, BOARD_HEIGHT } from '../constants';
+import { ACTIONS, BOARD_HEIGHT, DIE_TYPES } from '../constants';
 
 const delay = (duration) => new Promise(resolve => setTimeout(resolve, duration));
 
@@ -99,7 +100,26 @@ function *removeMatches(matches, scoreMultipler = 1) {
     if (nextMatches.length) {
         return yield removeMatches(nextMatches, scoreMultipler + 1);
     }
+}
 
+const BOMB_MATRIX = [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0], [0, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1]
+];
+
+const findDiceToExplode = (gameBoard) => {
+    const getDieAt = getDieFromBoard(gameBoard);
+
+    const diceToExplode = gameBoard
+        .filter((die) => die.dieType === DIE_TYPES.BOMB && die.value <= 0)
+        .map(die => (
+            BOMB_MATRIX
+                .map(([offsetX, offsetY]) => getDieAt(die.x + offsetX, die.y + offsetY))
+                .filter(die => !!die)
+        ));
+
+    return diceToExplode;
 }
 
 function *onUpdateDie() {
@@ -111,6 +131,13 @@ function *onUpdateDie() {
     if (matches.length) {
         yield delay(250);
         yield removeMatches(matches, 1);
+    }
+
+    const postMatchState = yield select();
+    const diceToExplode = findDiceToExplode(postMatchState.gameBoard);
+    if (diceToExplode.length) {
+        yield delay(250);
+        yield removeMatches(diceToExplode, 1);
     }
 
     yield put({ type: ACTIONS.INPUT_ENABLE });
