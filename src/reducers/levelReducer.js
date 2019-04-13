@@ -13,7 +13,7 @@ const log = (value) => Math.log10(value);
 
 const getCountUp = (level) => 10 + floor(level * 0.2);
 const getCountDown = (level) => clampVal(round(log(level) * 7));
-const getCountFlip = (level) => clampVal(round(log(level) * 5) - 2);
+const getCountFlip = (level) => clampVal(round(log(level) * 4) - 2);
 const getCountRandom = (level) => floor(clampVal(round(log(level) * 4) - 2.5));
 const getCountBlocker = (level) => clampVal(round(log(level) * 2.5) - 2);
 
