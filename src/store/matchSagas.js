@@ -14,21 +14,23 @@ const getId = (die) => die.id;
 const getMatchScore = (matchLength) => {
     switch (matchLength) {
         case 3:
-            return 10;
+            return 0;
         case 4:
-            return 25;
+            return 100;
         case 5:
-            return 50;
+            return 300;
         case 6:
-            return 80;
+            return 500;
         default:
-            return Math.max((matchLength - 5) * 50, 0);
+            return Math.max((matchLength - 5) * 500, 0);
     }
 };
 
-const getScoreValueBonus = (matchLength, matchValue) => (
-    (matchValue - 1) * (matchLength - 2)
-);
+const getScoreValueBonus = (matchLength, matchValue) => {
+    const valueMulitplier = matchLength <= 3 ? 10 : 20;
+
+    return matchValue * valueMulitplier;
+};
 
 function *addDie(removedDie) {
     const state = yield select();
@@ -56,7 +58,7 @@ function *handleMatchGroup(matchGroup, scoreMultipler) {
 
     yield put({ type: ACTIONS.CASCADE_DICE });
 
-    const score = (getMatchScore(diceToRemove.length) + getScoreValueBonus(diceToRemove.length, first(diceToRemove).value)) * 10;
+    const score = (getMatchScore(diceToRemove.length) + getScoreValueBonus(diceToRemove.length, first(diceToRemove).value));
 
     yield put({
         type: ACTIONS.ADD_SCORE,
