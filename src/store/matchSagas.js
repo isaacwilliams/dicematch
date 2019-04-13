@@ -23,7 +23,7 @@ const getMatchScore = (matchLength) => {
         case 6:
             return 500;
         default:
-            return Math.max((matchLength - 5) * 500, 0);
+            return Math.max((matchLength - 6) * 300, 0) + 500;
     }
 };
 
@@ -103,8 +103,9 @@ function *removeMatches(matches, scoreMultipler = 1) {
 }
 
 const BOMB_MATRIX = [
+    [0, 0], // bomb itself is first so that the score value bonus == 0
     [-1, -1], [0, -1], [1, -1],
-    [-1, 0], [0, 0], [1, 0],
+    [-1, 0],        [1, 0],
     [-1, 1], [0, 1], [1, 1]
 ];
 
