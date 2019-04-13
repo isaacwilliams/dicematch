@@ -10,14 +10,18 @@ const clampVal = clamp(0, Infinity);
 const floor = value => Math.floor(value);
 const round = value => Math.round(value);
 const log = (value) => Math.log10(value);
-const random = (max) => Math.floor(Math.random() * max);
 
 const getCountUp = (level) => 10 + floor(level * 0.25);
 const getCountDown = (level) => clampVal(round(log(level) * 7));
 const getCountFlip = (level) => clampVal(round(log(level) * 4) - 2);
 const getCountRandom = (level) => floor(clampVal(round(log(level) * 4) - 2.5));
 const getCountBlocker = (level) => clampVal(round(log(level) * 2.5) - 2);
-const getCountBomb = (level) => random(floor(Math.max(level / 6), 2));
+const getCountBomb = (level) => {
+    if (level >= 26) return 1;
+    if (level >= 16) return level % 2 === 0 ? 1 : 0;
+    if (level >= 6) return level % 3 === 0 ? 1 : 0;
+    return 0;
+};
 
 const checkForRuns = (levelDice = []) => {
     for (var i = 0; i < levelDice.length; i++) {
@@ -36,22 +40,20 @@ const checkForRuns = (levelDice = []) => {
 }
 
 const getLevelDice = (level) => {
-    const countBomb = getCountBomb(level);
-
     console.log(
         'NEXT LEVEL', level,
         'UP', getCountUp(level),
         'DOWN', getCountDown(level),
         'FLIP', getCountFlip(level),
         'RANDOM', getCountRandom(level),
-        'BLOCKER', getCountBlocker(level) + countBomb,
-        'BOMB', countBomb,
+        'BLOCKER', getCountBlocker(level),
+        'BOMB', getCountBomb(level),
         'total', getCountUp(level) +
                 getCountDown(level) +
                 getCountRandom(level) +
                 getCountBlocker(level) +
                 getCountFlip(level) +
-                countBomb
+                getCountBomb(level)
     )
 
     let levelDice;
@@ -62,9 +64,9 @@ const getLevelDice = (level) => {
             ...times(() => createDieState(DIE_TYPES.UP), getCountUp(level)),
             ...times(() => createDieState(DIE_TYPES.DOWN), getCountDown(level)),
             ...times(() => createDieState(DIE_TYPES.RANDOM), getCountRandom(level)),
-            ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level) + countBomb),
+            ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level)),
             ...times(() => createDieState(DIE_TYPES.FLIP), getCountFlip(level)),
-            ...times(() => createDieState(DIE_TYPES.BOMB), countBomb),
+            ...times(() => createDieState(DIE_TYPES.BOMB), getCountBomb(level)),
         ]);
 
         attempts++;
