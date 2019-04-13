@@ -2,52 +2,62 @@ import { css } from 'styled-components';
 
 import { DIE_TYPES } from '../constants';
 
+const COLORS = {
+    PIP: '#282B40',
+    UP: '#FC4349',
+    DOWN: '#3C989B',
+    RANDOM: '#FFAC00',
+    BLOCKER: '#757784',
+    FLIP: '#CEC8B6',
+};
+
 const getDieColor = ({ dieType, value = 3 }) => {
     switch (dieType) {
         case DIE_TYPES.DOWN:
             return css`
-                background: #56B9D0;
+                background: ${COLORS.DOWN};
 
                 circle {
-                    fill: #222;
+                    fill: ${COLORS.PIP};
+                    opacity: 0.7;
                 }
             `;
         case DIE_TYPES.BLOCKER:
             return css`
-                background: #3B3F42;
+                background: ${COLORS.BLOCKER};
 
                 circle {
-                    fill: #999;
+                    fill: ${COLORS.PIP};
+                    opacity: 0.4;
                 }
             `;
         case DIE_TYPES.RANDOM:
             return css`
-                background: #FBBA42;
+                background: ${COLORS.RANDOM};
 
                 circle {
-                    fill: #222;
+                    fill: ${COLORS.PIP};
+                    opacity: 0.7;
                 }
             `;
         case DIE_TYPES.FLIP:
             return css`
-                background: #f3e2c7;
+                background: ${COLORS.FLIP};
                 border-radius: 50%;
 
-                background: -moz-linear-gradient(-45deg, #f3e2c7 0%, #c19e67 50%, #b68d4c 51%, #e9d4b3 100%);
-                background: -webkit-linear-gradient(-45deg, #f3e2c7 0%,#c19e67 50%,#b68d4c 51%,#e9d4b3 100%);
-                background: linear-gradient(135deg, #f3e2c7 0%,#c19e67 50%,#b68d4c 51%,#e9d4b3 100%);
-
                 circle {
-                    fill: #4a3f2c;
+                    fill: ${COLORS.PIP};
+                    opacity: 0.7;
                 }
             `;
         case DIE_TYPES.UP:
         default:
             return css`
-                background: #F24C27;
+                background: ${COLORS.UP};
 
                 circle {
-                    fill: #222;
+                    fill: ${COLORS.PIP};
+                    opacity: 0.7;
                 }
             `;
     }
