@@ -11,10 +11,15 @@ const floor = value => Math.floor(value);
 const round = value => Math.round(value);
 const log = (value) => Math.log10(value);
 
-const getCountUp = (level) => 10 + floor(level * 0.2);
+const getCountUp = (level) => 10 + floor(level * 0.25);
 const getCountDown = (level) => clampVal(round(log(level) * 7));
-const getCountRandom = (level) => clampVal(round(log(level) * 5) - 2);
-const getCountBlocker = (level) => clampVal(round(log(level) * 5) - 3);
+const getCountFlip = (level) => clampVal(round(log(level) * 4) - 2);
+const getCountRandom = (level) => floor(clampVal(round(log(level) * 4) - 2.5));
+const getCountBlocker = (level) => clampVal(round(log(level) * 2.5) - 2);
+const getCountBomb = (level) => {
+    if (level >= 15) return level % 3 === 0 ? 1 : 0;
+    return 0;
+};
 
 const checkForRuns = (levelDice = []) => {
     for (var i = 0; i < levelDice.length; i++) {
@@ -33,17 +38,20 @@ const checkForRuns = (levelDice = []) => {
 }
 
 const getLevelDice = (level) => {
-
     console.log(
         'NEXT LEVEL', level,
         'UP', getCountUp(level),
         'DOWN', getCountDown(level),
+        'FLIP', getCountFlip(level),
         'RANDOM', getCountRandom(level),
         'BLOCKER', getCountBlocker(level),
+        'BOMB', getCountBomb(level),
         'total', getCountUp(level) +
                 getCountDown(level) +
                 getCountRandom(level) +
-                getCountBlocker(level)
+                getCountBlocker(level) +
+                getCountFlip(level) +
+                getCountBomb(level)
     )
 
     let levelDice;
@@ -55,6 +63,8 @@ const getLevelDice = (level) => {
             ...times(() => createDieState(DIE_TYPES.DOWN), getCountDown(level)),
             ...times(() => createDieState(DIE_TYPES.RANDOM), getCountRandom(level)),
             ...times(() => createDieState(DIE_TYPES.BLOCKER), getCountBlocker(level)),
+            ...times(() => createDieState(DIE_TYPES.FLIP), getCountFlip(level)),
+            ...times(() => createDieState(DIE_TYPES.BOMB), getCountBomb(level)),
         ]);
 
         attempts++;

@@ -15,6 +15,16 @@ const scaleOutVertical = keyframes`
     100% { transform: scaleY(0); filter: brightness(0.5); }
 `;
 
+const scaleInHorizontal = keyframes`
+    0% { transform: scaleX(0); filter: brightness(0.5); }
+    100% { transform: scaleX(1); filter: brightness(1); }
+`;
+
+const scaleOutHorizontal = keyframes`
+    0% { transform: scaleX(1); filter: brightness(1); }
+    100% { transform: scaleX(0); filter: brightness(0.5); }
+`;
+
 const shake = (degree) => keyframes`
     0% {
         transform: rotate(0deg);
@@ -43,6 +53,10 @@ const getEnterAnimation = ({ dieType, diceSize, animate }) => {
             return css`
                 animation: ${shake(10)} 10ms linear infinite;
             `;
+        case DIE_TYPES.FLIP:
+            return css`
+                animation: ${scaleInHorizontal} 100ms ease-in-out forwards;
+            `;
         default:
             return css`
                 animation: ${scaleInVertical} ${ANIMATION_DUR}ms linear forwards;
@@ -61,6 +75,10 @@ const getExitAnimation = ({ dieType, diceSize }) => {
         case DIE_TYPES.RANDOM:
             return css`
                 animation: ${shake(10)} 10ms linear infinite;
+            `;
+        case DIE_TYPES.FLIP:
+            return css`
+                animation: ${scaleOutHorizontal} 100ms ease-in-out forwards;
             `;
         default:
             return css`
