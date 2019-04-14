@@ -12,6 +12,7 @@ export const ACTIONS = {
     INPUT_ENABLE: 'INPUT_ENABLE',
 
     ADD_MOVES: 'ADD_MOVES',
+    SET_MOVES: 'SET_MOVES',
 
     SET_LEVEL: 'SET_LEVEL',
 

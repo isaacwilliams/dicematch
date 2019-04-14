@@ -8,6 +8,8 @@ export default (state = initialState, action) => {
             return { ...state, used: state.used + 1 };
         case ACTIONS.ADD_MOVES:
             return { ...state, limit: state.limit + action.moves };
+        case ACTIONS.SET_MOVES:
+            return { ...state, limit: state.used + action.moves };
         case ACTIONS.GAME_RESET:
             return initialState;
         default:
