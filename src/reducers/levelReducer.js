@@ -17,7 +17,7 @@ const getCountFlip = (level) => clampVal(round(log(level) * 4) - 2);
 const getCountRandom = (level) => floor(clampVal(round(log(level) * 4) - 2.5));
 const getCountBlocker = (level) => clampVal(round(log(level) * 2.5) - 2);
 const getCountBomb = (level) => {
-    if (level >= 15) return level % 3 === 0 ? 1 : 0;
+    if (level >= 15) return level % 5 === 0 ? 1 : 0;
     return 0;
 };
 
