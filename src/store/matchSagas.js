@@ -92,7 +92,7 @@ function *removeMatches(matches, scoreMultipler = 1) {
     const nextMatches = findBoardMatches(updatedState.gameBoard);
 
     if (state.level.level !== updatedState.level.level) {
-        yield put({ type: ACTIONS.SET_MOVES, moves: 10 });
+        yield put({ type: ACTIONS.ADD_MOVES, moves: 10, cap: 10 });
     }
 
     yield delay(300);
