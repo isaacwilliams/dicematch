@@ -6,6 +6,7 @@ import inputEnabled from './inputEnabledReducer';
 import moves from './movesReducer';
 import level from './levelReducer';
 import gameState from './gameStateReducer';
+import tracking from './trackingReducer';
 
 export default combineReducers({
     gameBoard,
@@ -14,4 +15,5 @@ export default combineReducers({
     moves,
     level,
     gameState,
+    tracking,
 });
