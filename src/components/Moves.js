@@ -45,7 +45,7 @@ const Count = styled.span`
     `}
 `;
 
-const Moves = ({ moves: { used, limit } }) => (
+const Moves = ({ moves: { used, limit, cap } }) => (
     <StyledMoves>
         Moves left: <Count moves={limit - used}><div>{limit - used}</div></Count>
     </StyledMoves>
