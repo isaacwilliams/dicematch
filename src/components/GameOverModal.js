@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import axios from 'axios';
 
 const containerEnter = keyframes`
     0% { opacity: 0; }
@@ -41,24 +42,44 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
-const GameOverModal = ({ score, level, restartGame }) => (
-    <ModalContainer>
-        <Modal>
-            <h1>Game over</h1>
-            <h2>Score: {score}</h2>
-            <p>
-                <strong>Level {level.level}</strong>
-                {' '}
-                ({level.upcomingDice.length} dice remaining)
-            </p>
-            <p>Cleared {level.clearedDice} dice total</p>
-            <p>
-                <RestartButton onClick={restartGame}>
-                    Restart
-                </RestartButton>
-            </p>
-        </Modal>
-    </ModalContainer>
-);
+const GameOverModal = ({
+    score,
+    level: { level, clearedDice, upcomingDice },
+    moves: { used },
+    tracking: { gameStart, gameEnd },
+    restartGame,
+}) => {
+    useEffect(() => {
+        axios.post('https://dicematch-server.herokuapp.com/scores', {
+            score,
+            level,
+            diceCleared: clearedDice,
+            diceRemainingInLevel: upcomingDice.length,
+            turnsUsed: used,
+            startTime: gameStart.toString(),
+            endTime: gameEnd.toString(),
+        });
+    }, []);
+
+    return (
+        <ModalContainer>
+            <Modal>
+                <h1>Game over</h1>
+                <h2>Score: {score}</h2>
+                <p>
+                    <strong>Level {level}</strong>
+                    {' '}
+                    ({upcomingDice.length} dice remaining)
+                </p>
+                <p>Cleared {clearedDice} dice total</p>
+                <p>
+                    <RestartButton onClick={restartGame}>
+                        Restart
+                    </RestartButton>
+                </p>
+            </Modal>
+        </ModalContainer>
+    );
+}
 
 export default GameOverModal;
