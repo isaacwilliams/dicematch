@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from 'react-use-localstorage';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
+import uniqBy from 'lodash/fp/uniqBy';
+import get from 'lodash/fp/get';
+
 import axios from 'axios';
+
+const uniqById = uniqBy(get('_id'));
 
 const containerEnter = keyframes`
     0% { opacity: 0; }
@@ -43,6 +48,25 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
+const Table = styled.table`
+    width: 100%;
+`;
+
+const Th = styled.th`
+    font-weight: bold;
+    text-align: left;
+`;
+
+const Td = styled.td`
+    text-align: left;
+`;
+
+const ScoreEntry = styled.tr`
+    ${({ currentScore }) => currentScore ? css`
+        background-color: yellow;
+    ` : null}
+`;
+
 // const SCORE_SERVER_DOMAIN = 'https://dicematch-server.herokuapp.com';
 const SCORE_SERVER_DOMAIN = 'http://localhost:5000';
 
@@ -54,25 +78,98 @@ const GameOverModal = ({
     restartGame,
 }) => {
     const [name, setName] = useLocalStorage('dicematch.name', '');
+    const [inputActive, setInputActive] = useState(false);
     const [savedScore, setSavedScore] = useState(null);
+    const [scores, setScores] = useState([]);
 
     useEffect(() => {
-        axios.post(`${SCORE_SERVER_DOMAIN}/scores`, {
-            playerName: name,
-            score,
-            level,
-            diceCleared: clearedDice,
-            diceRemainingInLevel: upcomingDice.length,
-            turnsUsed: used,
-            startTime: gameStart.toString(),
-            endTime: gameEnd.toString(),
-        })
-        .then(({ data: { score } }) => setSavedScore(score));
+        const fetchScores = async () => {
+            if (name === '') {
+                setInputActive(true);
+            }
+
+            let myScore;
+            try {
+                const createdScoreResponse = await axios.post(`${SCORE_SERVER_DOMAIN}/scores`, {
+                    playerName: name,
+                    score,
+                    level,
+                    diceCleared: clearedDice,
+                    diceRemainingInLevel: upcomingDice.length,
+                    turnsUsed: used,
+                    startTime: gameStart && gameStart.toString(),
+                    endTime: gameEnd && gameEnd.toString(),
+                });
+
+                myScore = createdScoreResponse.data.score
+                setSavedScore(myScore);
+            } catch (error) {
+                console.error('error saving score', error);
+            }
+
+            try {
+                const loadedScoresResponse = await axios.get(`${SCORE_SERVER_DOMAIN}/scores`, {
+                    params: {
+                        limit: 10,
+                    },
+                });
+                const loadedScores = loadedScoresResponse.data.scores;
+
+                const allScores = uniqById([...loadedScores, myScore])
+                    .filter(score => !!score)
+                    .sort((a, b) => b.score - a.score);
+
+                console.log(allScores);
+
+                setScores(allScores);
+            } catch (error) {
+                console.error('error loading scores', error);
+            }
+        };
+
+        fetchScores();
     }, []);
 
     return (
         <ModalContainer>
             <Modal>
+                <h1>Game over</h1>
+                <Table>
+                    <thead>
+                    <tr>
+                        <Th>
+                            Player
+                        </Th>
+                        <Th>
+                            Score
+                        </Th>
+                        <Th>
+                            Level
+                        </Th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {scores.map(({ _id, playerName, score, level }) => (
+                        <ScoreEntry key={_id} currentScore={savedScore && savedScore._id === _id}>
+                            <Td>
+                                {playerName || '-'}
+                            </Td>
+                            <Td>
+                                {score}
+                            </Td>
+                            <Td>
+                                {level}
+                            </Td>
+                        </ScoreEntry>
+                    ))}
+                    </tbody>
+                </Table>
+                <p>
+                    <RestartButton onClick={restartGame}>
+                        Restart
+                    </RestartButton>
+                </p>
+                {/*
                 <h1>Game over</h1>
                 <h2>Score: {score}</h2>
                 <p>
@@ -82,13 +179,16 @@ const GameOverModal = ({
                 </p>
                 <p>Cleared {clearedDice} dice total</p>
                 <p>
-                    <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} />
+                    {inputActive ?
+                        <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} /> :
+                        [<span>{name}</span>, <button>change</button>]}
                 </p>
                 <p>
                     <RestartButton onClick={restartGame}>
                         Restart
                     </RestartButton>
                 </p>
+                */}
             </Modal>
         </ModalContainer>
     );
