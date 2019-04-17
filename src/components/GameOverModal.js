@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import useLocalStorage from 'react-use-localstorage';
 import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 
@@ -42,6 +43,9 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
+// const SCORE_SERVER_DOMAIN = 'https://dicematch-server.herokuapp.com';
+const SCORE_SERVER_DOMAIN = 'http://localhost:5000';
+
 const GameOverModal = ({
     score,
     level: { level, clearedDice, upcomingDice },
@@ -49,8 +53,12 @@ const GameOverModal = ({
     tracking: { gameStart, gameEnd },
     restartGame,
 }) => {
+    const [name, setName] = useLocalStorage('dicematch.name', '');
+    const [savedScore, setSavedScore] = useState(null);
+
     useEffect(() => {
-        axios.post('https://dicematch-server.herokuapp.com/scores', {
+        axios.post(`${SCORE_SERVER_DOMAIN}/scores`, {
+            playerName: name,
             score,
             level,
             diceCleared: clearedDice,
@@ -58,7 +66,8 @@ const GameOverModal = ({
             turnsUsed: used,
             startTime: gameStart.toString(),
             endTime: gameEnd.toString(),
-        });
+        })
+        .then(({ data: { score } }) => setSavedScore(score));
     }, []);
 
     return (
@@ -72,6 +81,9 @@ const GameOverModal = ({
                     ({upcomingDice.length} dice remaining)
                 </p>
                 <p>Cleared {clearedDice} dice total</p>
+                <p>
+                    <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} />
+                </p>
                 <p>
                     <RestartButton onClick={restartGame}>
                         Restart
