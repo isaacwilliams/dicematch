@@ -5,6 +5,8 @@ import uniqBy from 'lodash/fp/uniqBy';
 import get from 'lodash/fp/get';
 import axios from 'axios';
 
+import randomEmoji from '../util/randomEmoji';
+
 import GameOverScoreTable from './GameOverScoreTable';
 
 const uniqById = uniqBy(get('_id'));
@@ -39,30 +41,6 @@ const Modal = styled.div`
     font-size: 18px;
 
     animation: ${modalEnter} 0.25s ease-in-out forwards;
-`;
-
-const NameForm = styled.div`
-    box-sizing: border-box;
-    justify-content: center;
-    display: flex;
-    width: 100%;
-`;
-
-const NameInput = styled.input`
-    padding: 10px 20px;
-    margin-right: 10px;
-    min-width: 70%;
-    border: 1px solid grey;
-    font-size: 18px;
-    outline: none;
-`;
-
-const SaveButton = styled.button`
-    padding: 10px 20px;
-    border: 0;
-    background: lightgrey;
-    font-size: 18px;
-    outline: none;
 `;
 
 const RestartButton = styled.button`
@@ -164,31 +142,19 @@ const ScoreDisplay = ({
 };
 
 const GameOverModal = ({ restartGame, ...props }) => {
-    const [name, setName] = useLocalStorage('dicematch.name', '');
-    const [inputActive, setInputActive] = useState(false);
+    const [name, setName] = useLocalStorage('dicematch.name', randomEmoji());
     const [savedScore, setSavedScore] = useState(null);
-
-    useEffect(() => {
-        if (name === '') {
-            setInputActive(true);
-        }
-    }, []);
 
     return (
         <ModalContainer>
             <Modal>
                 <h1>Game over</h1>
 
-                {inputActive ? (
-                    <NameForm>
-                        <NameInput type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} />
-                        <SaveButton onClick={() => setInputActive(false)}>Save</SaveButton>
-                    </NameForm>
-                ) : (
-                    <>
-                        <ScoreDisplay {...props} name={name} savedScore={savedScore} setSavedScore={setSavedScore} setInputActive={setInputActive} />
-                    </>
-                )}
+                <ScoreDisplay {...props}
+                        name={name}
+                        savedScore={savedScore}
+                        setSavedScore={setSavedScore}
+                        setName={setName} />
 
                 <p>
                     <RestartButton onClick={restartGame}>

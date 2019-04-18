@@ -50,9 +50,7 @@ const ScoreTable = ({ scores, savedScore, setInputActive }) => (
             return (
                 <ScoreEntry key={_id} currentScore={isCurrentScore}>
                     <Td>
-                        {isCurrentScore ?
-                            <ChangeNameButton onClick={() => setInputActive(true)}>{name}</ChangeNameButton> :
-                            name}
+                        {name}
                     </Td>
                     <Td>
                         {score}
