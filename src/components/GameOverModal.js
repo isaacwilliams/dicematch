@@ -67,8 +67,9 @@ const ScoreEntry = styled.tr`
     ` : null}
 `;
 
-// const SCORE_SERVER_DOMAIN = 'https://dicematch-server.herokuapp.com';
-const SCORE_SERVER_DOMAIN = 'http://localhost:5000';
+const SCORE_SERVER_DOMAIN = process.env.NODE_ENV === 'production' ?
+    'https://dicematch-server.herokuapp.com' :
+    'http://localhost:5000';
 
 const GameOverModal = ({
     score,
