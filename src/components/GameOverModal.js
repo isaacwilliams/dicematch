@@ -142,7 +142,7 @@ const ScoreDisplay = ({
 };
 
 const GameOverModal = ({ restartGame, ...props }) => {
-    const [name, setName] = useLocalStorage('dicematch.name', randomEmoji());
+    const [name, setName] = useLocalStorage('dice.match.name', randomEmoji());
     const [savedScore, setSavedScore] = useState(null);
 
     return (
