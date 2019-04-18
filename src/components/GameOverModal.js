@@ -84,7 +84,7 @@ const ScoreDisplay = ({
                         startTime: gameStart && gameStart.toString(),
                         endTime: gameEnd && gameEnd.toString(),
                     }, {
-                        timeout: 10 * 1000,
+                        timeout: 30 * 1000,
                     });
 
                     myScore = createdScoreResponse.data.score
@@ -97,7 +97,7 @@ const ScoreDisplay = ({
                     const createdScoreResponse = await axios.put(`${SCORE_SERVER_DOMAIN}/scores/${savedScore._id}`, {
                         playerName: name,
                     }, {
-                        timeout: 10 * 1000,
+                        timeout: 30 * 1000,
                     });
 
                     myScore = createdScoreResponse.data.score
@@ -110,7 +110,7 @@ const ScoreDisplay = ({
 
             try {
                 const loadedScoresResponse = await axios.get(`${SCORE_SERVER_DOMAIN}/scores`, {
-                    timeout: 10 * 1000,
+                    timeout: 30 * 1000,
                     params: {
                         limit: 10,
                     },
