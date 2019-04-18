@@ -142,8 +142,14 @@ const ScoreDisplay = ({
 };
 
 const GameOverModal = ({ restartGame, ...props }) => {
-    const [name, setName] = useLocalStorage('dice.match.name', randomEmoji());
+    const [name, setName] = useLocalStorage('dicematch.name', randomEmoji());
     const [savedScore, setSavedScore] = useState(null);
+
+    useEffect(() => {
+        if (name === '🍆') {
+            setName(randomEmoji());
+        }
+    });
 
     return (
         <ModalContainer>
