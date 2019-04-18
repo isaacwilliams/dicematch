@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useLocalStorage from 'react-use-localstorage';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import uniqBy from 'lodash/fp/uniqBy';
 import get from 'lodash/fp/get';
 import axios from 'axios';
@@ -41,6 +41,30 @@ const Modal = styled.div`
     animation: ${modalEnter} 0.25s ease-in-out forwards;
 `;
 
+const NameForm = styled.div`
+    box-sizing: border-box;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+`;
+
+const NameInput = styled.input`
+    padding: 10px 20px;
+    margin-right: 10px;
+    min-width: 70%;
+    border: 1px solid grey;
+    font-size: 18px;
+    outline: none;
+`;
+
+const SaveButton = styled.button`
+    padding: 10px 20px;
+    border: 0;
+    background: lightgrey;
+    font-size: 18px;
+    outline: none;
+`;
+
 const RestartButton = styled.button`
     padding: 10px 20px;
     border: 0;
@@ -62,6 +86,7 @@ const ScoreDisplay = ({
     restartGame,
     savedScore,
     setSavedScore,
+    setInputActive,
 }) => {
     const [scores, setScores] = useState(null);
 
@@ -130,7 +155,7 @@ const ScoreDisplay = ({
     }, []);
 
     return scores ? (
-        <GameOverScoreTable scores={scores} savedScore={savedScore} />
+        <GameOverScoreTable scores={scores} savedScore={savedScore} setInputActive={setInputActive} />
     ) : (
         <div>
             Loading...
@@ -155,14 +180,13 @@ const GameOverModal = ({ restartGame, ...props }) => {
                 <h1>Game over</h1>
 
                 {inputActive ? (
-                    <>
-                        <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} />
-                        <button onClick={() => setInputActive(false)}>Save</button>
-                    </>
+                    <NameForm>
+                        <NameInput type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} />
+                        <SaveButton onClick={() => setInputActive(false)}>Save</SaveButton>
+                    </NameForm>
                 ) : (
                     <>
-                        <button onClick={() => setInputActive(true)}>Change name</button>
-                        <ScoreDisplay {...props} name={name} savedScore={savedScore} setSavedScore={setSavedScore} />
+                        <ScoreDisplay {...props} name={name} savedScore={savedScore} setSavedScore={setSavedScore} setInputActive={setInputActive} />
                     </>
                 )}
 
