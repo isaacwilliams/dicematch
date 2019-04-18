@@ -3,8 +3,9 @@ import useLocalStorage from 'react-use-localstorage';
 import styled, { keyframes, css } from 'styled-components';
 import uniqBy from 'lodash/fp/uniqBy';
 import get from 'lodash/fp/get';
-
 import axios from 'axios';
+
+import GameOverScoreTable from './GameOverScoreTable';
 
 const uniqById = uniqBy(get('_id'));
 
@@ -48,67 +49,64 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
-const Table = styled.table`
-    width: 100%;
-`;
-
-const Th = styled.th`
-    font-weight: bold;
-    text-align: left;
-`;
-
-const Td = styled.td`
-    text-align: left;
-`;
-
-const ScoreEntry = styled.tr`
-    ${({ currentScore }) => currentScore ? css`
-        background-color: yellow;
-    ` : null}
-`;
-
 // const SCORE_SERVER_DOMAIN = 'https://dicematch-server.herokuapp.com';
 const SCORE_SERVER_DOMAIN = 'http://localhost:5000';
 
-const GameOverModal = ({
+const ScoreDisplay = ({
+    name,
     score,
     level: { level, clearedDice, upcomingDice },
     moves: { used },
     tracking: { gameStart, gameEnd },
     restartGame,
+    savedScore,
+    setSavedScore,
 }) => {
-    const [name, setName] = useLocalStorage('dicematch.name', '');
-    const [inputActive, setInputActive] = useState(false);
-    const [savedScore, setSavedScore] = useState(null);
-    const [scores, setScores] = useState([]);
+    const [scores, setScores] = useState(null);
 
     useEffect(() => {
         const fetchScores = async () => {
-            if (name === '') {
-                setInputActive(true);
-            }
-
             let myScore;
-            try {
-                const createdScoreResponse = await axios.post(`${SCORE_SERVER_DOMAIN}/scores`, {
-                    playerName: name,
-                    score,
-                    level,
-                    diceCleared: clearedDice,
-                    diceRemainingInLevel: upcomingDice.length,
-                    turnsUsed: used,
-                    startTime: gameStart && gameStart.toString(),
-                    endTime: gameEnd && gameEnd.toString(),
-                });
 
-                myScore = createdScoreResponse.data.score
-                setSavedScore(myScore);
-            } catch (error) {
-                console.error('error saving score', error);
+            if (!savedScore) {
+                try {
+                    const createdScoreResponse = await axios.post(`${SCORE_SERVER_DOMAIN}/scores`, {
+                        playerName: name,
+                        score,
+                        level,
+                        diceCleared: clearedDice,
+                        diceRemainingInLevel: upcomingDice.length,
+                        turnsUsed: used,
+                        startTime: gameStart && gameStart.toString(),
+                        endTime: gameEnd && gameEnd.toString(),
+                    }, {
+                        timeout: 10 * 1000,
+                    });
+
+                    myScore = createdScoreResponse.data.score
+                    setSavedScore(myScore);
+                } catch (error) {
+                    console.error('error saving score', error);
+                }
+            } else {
+                try {
+                    const createdScoreResponse = await axios.put(`${SCORE_SERVER_DOMAIN}/scores/${savedScore._id}`, {
+                        playerName: name,
+                    }, {
+                        timeout: 10 * 1000,
+                    });
+
+                    myScore = createdScoreResponse.data.score
+                    setSavedScore(myScore);
+                } catch (error) {
+                    console.error('error saving score', error);
+                }
             }
+
 
             try {
                 const loadedScoresResponse = await axios.get(`${SCORE_SERVER_DOMAIN}/scores`, {
+                    timeout: 10 * 1000,
                     params: {
                         limit: 10,
                     },
@@ -130,40 +128,43 @@ const GameOverModal = ({
         fetchScores();
     }, []);
 
+    return scores ? (
+        <GameOverScoreTable scores={scores} savedScore={savedScore} />
+    ) : (
+        <div>
+            Loading...
+        </div>
+    );
+};
+
+const GameOverModal = ({ restartGame, ...props }) => {
+    const [name, setName] = useLocalStorage('dicematch.name', '');
+    const [inputActive, setInputActive] = useState(false);
+    const [savedScore, setSavedScore] = useState(null);
+
+    useEffect(() => {
+        if (name === '') {
+            setInputActive(true);
+        }
+    }, []);
+
     return (
         <ModalContainer>
             <Modal>
                 <h1>Game over</h1>
-                <Table>
-                    <thead>
-                    <tr>
-                        <Th>
-                            Player
-                        </Th>
-                        <Th>
-                            Score
-                        </Th>
-                        <Th>
-                            Level
-                        </Th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {scores.map(({ _id, playerName, score, level }) => (
-                        <ScoreEntry key={_id} currentScore={savedScore && savedScore._id === _id}>
-                            <Td>
-                                {playerName || '-'}
-                            </Td>
-                            <Td>
-                                {score}
-                            </Td>
-                            <Td>
-                                {level}
-                            </Td>
-                        </ScoreEntry>
-                    ))}
-                    </tbody>
-                </Table>
+
+                {inputActive ? (
+                    <>
+                        <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} />
+                        <button onClick={() => setInputActive(false)}>Save</button>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={() => setInputActive(true)}>Change name</button>
+                        <ScoreDisplay {...props} name={name} savedScore={savedScore} setSavedScore={setSavedScore} />
+                    </>
+                )}
+
                 <p>
                     <RestartButton onClick={restartGame}>
                         Restart
