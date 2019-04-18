@@ -49,8 +49,9 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
-// const SCORE_SERVER_DOMAIN = 'https://dicematch-server.herokuapp.com';
-const SCORE_SERVER_DOMAIN = 'http://localhost:5000';
+const SCORE_SERVER_DOMAIN = process.env.NODE_ENV === 'production' ?
+    'https://dicematch-server.herokuapp.com' :
+    'http://localhost:5000';
 
 const ScoreDisplay = ({
     name,
@@ -170,26 +171,6 @@ const GameOverModal = ({ restartGame, ...props }) => {
                         Restart
                     </RestartButton>
                 </p>
-                {/*
-                <h1>Game over</h1>
-                <h2>Score: {score}</h2>
-                <p>
-                    <strong>Level {level}</strong>
-                    {' '}
-                    ({upcomingDice.length} dice remaining)
-                </p>
-                <p>Cleared {clearedDice} dice total</p>
-                <p>
-                    {inputActive ?
-                        <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} /> :
-                        [<span>{name}</span>, <button>change</button>]}
-                </p>
-                <p>
-                    <RestartButton onClick={restartGame}>
-                        Restart
-                    </RestartButton>
-                </p>
-                */}
             </Modal>
         </ModalContainer>
     );
