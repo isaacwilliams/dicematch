@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import getDieColor from './getDieColor';
 
 const DieSvg = styled.svg`
-    border-radius: 4px;
+    border-radius: 15%;
 
     ${getDieColor}
 `;

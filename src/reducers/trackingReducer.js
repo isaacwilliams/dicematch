@@ -1,6 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
 import { ACTIONS } from '../constants';
 
 const initialState = {
+    gameId: uuidv4(),
     gameStart: new Date(),
     gameEnd: null,
 };
@@ -14,6 +16,7 @@ export default (state = initialState, action) => {
             };
         case ACTIONS.GAME_RESET:
             return {
+                gameId: uuidv4(),
                 gameStart: new Date(),
                 gameEnd: null,
             };

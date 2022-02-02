@@ -27,36 +27,37 @@ const ChangeNameButton = styled.button`
     font-size: 18px;
 `;
 
-const ScoreTable = ({ scores, savedScore, setInputActive }) => (
+const ScoreTable = ({ scores, currentScoreId }) => (
     <Table>
         <thead>
         <tr>
-            <Th>
-                Player
-            </Th>
             <Th>
                 Score
             </Th>
             <Th>
                 Level
             </Th>
+            <Th>
+                Date
+            </Th>
         </tr>
         </thead>
         <tbody>
-        {scores.map(({ _id, playerName, score, level }) => {
-            const isCurrentScore = savedScore && savedScore._id === _id;
-            const name = playerName || '-';
+        {scores.map(({ id, endTime, score, level }) => {
+            const isCurrentScore = currentScoreId === id;
+            const gameEndDate = endTime && new Date(endTime);
+            const gameEndDateFormat = gameEndDate.toLocaleDateString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric' })
 
             return (
-                <ScoreEntry key={_id} currentScore={isCurrentScore}>
-                    <Td>
-                        {name}
-                    </Td>
+                <ScoreEntry key={id} currentScore={isCurrentScore}>
                     <Td>
                         {score}
                     </Td>
                     <Td>
                         {level}
+                    </Td>
+                    <Td>
+                        {gameEndDateFormat}
                     </Td>
                 </ScoreEntry>
             );

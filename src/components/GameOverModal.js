@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import useLocalStorage from 'react-use-localstorage';
 import styled, { keyframes } from 'styled-components';
 import uniqBy from 'lodash/fp/uniqBy';
 import get from 'lodash/fp/get';
-import axios from 'axios';
-
-import randomEmoji from '../util/randomEmoji';
+import useLocalStorage from '../util/useLocalStorage';
 
 import GameOverScoreTable from './GameOverScoreTable';
 
-const uniqById = uniqBy(get('_id'));
+const uniqById = uniqBy(get('id'));
 
 const containerEnter = keyframes`
     0% { opacity: 0; }
@@ -51,110 +48,48 @@ const RestartButton = styled.button`
     outline: none;
 `;
 
-const SCORE_SERVER_DOMAIN = process.env.NODE_ENV === 'production' ?
-    'https://dicematch-server.herokuapp.com' :
-    'http://localhost:5000';
-
 const ScoreDisplay = ({
     name,
     score,
     level: { level, clearedDice, upcomingDice },
     moves: { used },
-    tracking: { gameStart, gameEnd },
-    restartGame,
-    savedScore,
-    setSavedScore,
+    tracking: { gameId, gameStart, gameEnd },
     setInputActive,
 }) => {
-    const [scores, setScores] = useState(null);
+    const [scores, setScores] = useLocalStorage('dicematch.scores', []);
 
     useEffect(() => {
-        const fetchScores = async () => {
-            let myScore;
+        if (scores.find(({ id }) => id === gameId)) return;
 
-            if (!savedScore) {
-                try {
-                    const createdScoreResponse = await axios.post(`${SCORE_SERVER_DOMAIN}/scores`, {
-                        playerName: name,
-                        score,
-                        level,
-                        diceCleared: clearedDice,
-                        diceRemainingInLevel: upcomingDice.length,
-                        turnsUsed: used,
-                        startTime: gameStart && gameStart.toString(),
-                        endTime: gameEnd && gameEnd.toString(),
-                    }, {
-                        timeout: 30 * 1000,
-                    });
-
-                    myScore = createdScoreResponse.data.score
-                    setSavedScore(myScore);
-                } catch (error) {
-                    console.error('error saving score', error);
-                }
-            } else {
-                try {
-                    const createdScoreResponse = await axios.put(`${SCORE_SERVER_DOMAIN}/scores/${savedScore._id}`, {
-                        playerName: name,
-                    }, {
-                        timeout: 30 * 1000,
-                    });
-
-                    myScore = createdScoreResponse.data.score
-                    setSavedScore(myScore);
-                } catch (error) {
-                    console.error('error saving score', error);
-                }
-            }
-
-
-            try {
-                const loadedScoresResponse = await axios.get(`${SCORE_SERVER_DOMAIN}/scores`, {
-                    timeout: 30 * 1000,
-                    params: {
-                        limit: 10,
-                    },
-                });
-                const loadedScores = loadedScoresResponse.data.scores;
-
-                const allScores = uniqById([...loadedScores, myScore])
-                    .filter(score => !!score)
-                    .sort((a, b) => b.score - a.score);
-
-                console.log(allScores);
-
-                setScores(allScores);
-            } catch (error) {
-                console.error('error loading scores', error);
-            }
-        };
-
-        fetchScores();
+        setScores([
+            ...scores,
+            {
+                id: gameId,
+                score,
+                level,
+                diceCleared: clearedDice,
+                diceRemainingInLevel: upcomingDice.length,
+                turnsUsed: used,
+                startTime: gameStart,
+                endTime: gameEnd,
+            },
+        ])
     }, []);
 
-    return scores ? (
-        <GameOverScoreTable scores={scores} savedScore={savedScore} setInputActive={setInputActive} />
-    ) : (
-        <div>
-            Loading...
-        </div>
-    );
+    const allScores = uniqById(scores)
+        .filter(score => !!score)
+        .sort((a, b) => b.score - a.score);
+
+    return <GameOverScoreTable scores={allScores} currentScoreId={gameId} setInputActive={setInputActive} />;
 };
 
 const GameOverModal = ({ restartGame, ...props }) => {
-    const [name, setName] = useLocalStorage('dice.match.name', randomEmoji());
-    const [savedScore, setSavedScore] = useState(null);
-
     return (
         <ModalContainer>
             <Modal>
                 <h1>Game over</h1>
 
-                <ScoreDisplay {...props}
-                        name={name}
-                        savedScore={savedScore}
-                        setSavedScore={setSavedScore}
-                        setName={setName} />
+                <ScoreDisplay {...props} />
 
                 <p>
                     <RestartButton onClick={restartGame}>

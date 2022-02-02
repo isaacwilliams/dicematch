@@ -1,23 +1,26 @@
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
-import createSagaMiddleware from 'redux-saga'
+
+import createSagaMiddleware from 'redux-saga';
+import { save, load } from 'redux-localstorage-simple';
 
 import rootReducer from '../reducers/rootReducer';
 
 import sagas from './matchSagas';
 
-export default (initialState) => {
+export default () => {
     const sagaMiddleware = createSagaMiddleware();
 
-    const middleware = [
+    const createStoreWithMiddleware = applyMiddleware(
         createLogger({
             collapsed: true,
             duration: true,
         }),
+        save(),
         sagaMiddleware,
-    ];
+    )(createStore);
 
-    const store = createStore(rootReducer, initialState, applyMiddleware.apply(null, middleware));
+    const store = createStoreWithMiddleware(rootReducer, load());
 
     sagaMiddleware.run(sagas);
 
