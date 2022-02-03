@@ -29,6 +29,8 @@ const colors = {
     teal: '#3C989B',
     green: '#14DD89',
     yellow: '#FFAC00',
+    yellow_700: '#FFD000',
+    yellow_900: '#FFEF00',
     beige: '#CEC8B6',
 };
 
@@ -58,6 +60,12 @@ const styleThemeLight = {
         danger: colors.red,
     },
 
+    scores: {
+        buttonBackground: colors.backgroundSecondary,
+        buttonColor: colors.charcoal,
+        currentScoreBackground: colors.yellow_900,
+    },
+
     dice: {
         pip: colors.charcoal,
         up: colors.red,
@@ -82,6 +90,8 @@ const AppContainer = styled.div`
     grid-template-columns: auto;
     grid-template-rows: auto auto 1fr;
 
+    justify-content: center;
+
     height: 90vh;
     width: 100vw;
 
@@ -89,7 +99,9 @@ const AppContainer = styled.div`
 `;
 
 const GameContainer = styled.div`
+    display: flex;
     align-self: end;
+    justify-content: center;
     padding: 1rem 0;
     background: ${props => props.theme.background};
 `;

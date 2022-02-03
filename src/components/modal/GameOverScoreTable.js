@@ -3,9 +3,12 @@ import styled from 'styled-components';
 
 const Table = styled.table`
     width: 100%;
+    border-spacing: 0;
 `;
 
 const Th = styled.th`
+    padding: 0.25rem 0.5rem;
+
     font-weight: bold;
     text-align: left;
 
@@ -15,15 +18,24 @@ const Th = styled.th`
 `;
 
 const Td = styled.td`
+    padding: 0.25rem 0.5rem;
     text-align: left;
 
     &.last {
         text-align: right;
     }
+
+    &.date {
+        color: ${(({ theme }) => theme.foregroundSecondary)};
+    }
 `;
 
 const ScoreEntry = styled.tr`
-    background: ${({ currentScore }) =>currentScore ? 'yellow' : 'transparent'}
+    background: ${({ currentScore, theme }) => (
+        currentScore ?
+            theme.scores.currentScoreBackground :
+            'transparent'
+    )}
 `;
 
 const ScoreTable = ({ scores, currentScoreId }) => (
@@ -55,7 +67,7 @@ const ScoreTable = ({ scores, currentScoreId }) => (
                     <Td>
                         {level}
                     </Td>
-                    <Td className='last'>
+                    <Td className='last date'>
                         {gameEndDateFormat}
                     </Td>
                 </ScoreEntry>

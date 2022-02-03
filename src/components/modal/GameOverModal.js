@@ -5,12 +5,30 @@ import useLocalStorage from '../../util/useLocalStorage';
 import GameOverScoreTable from './GameOverScoreTable';
 import Modal from './Modal';
 
+const Title = styled.h1`
+    margin-top: 0;
+    margin-left: -1rem;
+    margin-right: -1rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid ${(({ theme }) => theme.divider)};
+`;
+
 const RestartButton = styled.button`
-    padding: 10px 20px;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem 1.5rem;
     border: 0;
-    background: lightblue;
-    font-size: 18px;
+    border-radius: 0.5rem;
+
+    background: ${(({ theme }) => theme.scores.buttonBackground)};
+    color: ${(({ theme }) => theme.scores.buttonColor)};
+
+    font-size: 1rem;
     outline: none;
+
+    font-weight: bold;
 `;
 
 const ScoreDisplay = ({
@@ -56,15 +74,13 @@ const ScoreDisplay = ({
 const GameOverModal = ({ restartGame, ...props }) => {
     return (
         <Modal>
-            <h1>Game over</h1>
+            <Title>Game over</Title>
 
             <ScoreDisplay {...props} />
 
-            <p>
-                <RestartButton onClick={restartGame}>
-                    Restart
-                </RestartButton>
-            </p>
+            <RestartButton onClick={restartGame}>
+                Restart
+            </RestartButton>
         </Modal>
     );
 }

@@ -41,11 +41,13 @@ const ModalContainer = styled.div`
 `;
 
 const StyledModal = styled.div`
-    background: ${(({ theme }) => theme.background)};
     padding: 1rem;
     border-radius: 0.8rem;
     text-align: center;
     font-size: 1rem;
+
+    color: ${(({ theme }) => theme.foreground)};
+    background: ${(({ theme }) => theme.background)};
 
     animation: ${modalEnter} 0.25s ease-in-out forwards;
 
