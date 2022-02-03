@@ -1,23 +1,74 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import clamp from 'lodash/fp/clamp';
 
 import GameBoard from './components/GameBoard';
-import Score from './components/Score';
-import Moves from './components/Moves';
-import Level from './components/Level';
 import GameOverModal from './components/GameOverModal';
-import ScoreAnnouncer from './components/ScoreAnnouncer';
 import GameHeaderBar from './components/header/GameHeaderBar';
+import GameStatusBar from './components/gameStatus/GameStatusBar';
+import ScoreAnnouncer from './components/ScoreAnnouncer';
 
 import { GAME_STATES, ACTIONS, BOARD_WIDTH } from './constants';
+import { Helmet } from 'react-helmet';
 
 const clampDieSize = clamp(30, 80);
 
+const colors = {
+    white: '#ffffff',
+    charcoal: '#282B40',
+    charcoal_200: '#191D23',
+    charcoal_100: '#111717',
+    grey_500: '#757784',
+    grey_700: '#9A9DAD',
+    grey_900: '#C5C9D8',
+    grey_1000: '#E6E8EF',
+    grey_1100: '#f8f8f8',
+    red: '#FC4349',
+    teal: '#3C989B',
+    green: '#14D39B',
+    yellow: '#FFAC00',
+    beige: '#CEC8B6',
+};
+
 const styleThemeLight = {
-    background: 'white',
-    backgroundSecondary: '#eeeeee',
+    colors,
+
+    background: colors.white,
+    backgroundSecondary: colors.grey_1000,
+
+    header: {
+        background: colors.grey_1000,
+        backgroundInset: colors.white,
+        text: colors.charcoal,
+        textSecondary: colors.grey_500,
+    },
+
+    moves: {
+        border: colors.grey_700,
+        insideBorder: 'rgba(0,0,0,0.1)',
+        used: colors.grey_1000,
+        ready: colors.green,
+        warning: colors.yellow,
+        danger: colors.red,
+    },
+
+    dice: {
+        pip: colors.charcoal,
+        up: colors.red,
+        down: colors.teal,
+        random: colors.yellow,
+        blocker: colors.grey_500,
+        flip: colors.beige,
+    },
+};
+
+const styleThemeDark = {
+    ...styleThemeLight,
+
+    background: colors.charcoal_200,
+    backgroundSecondary: colors.charcoal_100,
+    backgroundTertiary: colors.charcoal_100,
 };
 
 const AppContainer = styled.div`
@@ -32,16 +83,17 @@ const AppContainer = styled.div`
     background: ${props => props.theme.background};
 `;
 
-const GameStatus = styled.div`
-    display: grid;
-`;
-
 const GameContainer = styled.div`
     align-self: end;
     padding: 1rem 0;
     background: ${props => props.theme.background};
 `;
 
+const GlobalStyle = createGlobalStyle`
+    body {
+        background: ${props => props.theme.background};
+    }
+`;
 
 const mapStateToProps = (state) => state;
 
@@ -66,18 +118,18 @@ class App extends Component {
     getDiceSize = () => this.setState(() => ({ diceSize: clampDieSize((window.innerWidth - 20) / BOARD_WIDTH) }));
 
     render() {
-        return (
-            <ThemeProvider theme={styleThemeLight}>
-                <AppContainer>
-                    <GameHeaderBar />
-                    <GameStatus>
-                        <div>
-                            <Level {...this.props.level} />
-                            <Moves {...this.props} />
-                        </div>
+        const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = styleThemeLight;
 
-                        <Score {...this.props} />
-                    </GameStatus>
+        return (
+            <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                <Helmet>
+                    <meta name="theme-color" content={theme.backgroundSecondary} />
+                </Helmet>
+                <AppContainer>
+                    <GameHeaderBar {...this.props} />
+                    <GameStatusBar {...this.props} />
                     <GameContainer>
                         <GameBoard {...this.props} diceSize={this.state.diceSize} />
                         <ScoreAnnouncer {...this.props} />

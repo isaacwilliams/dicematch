@@ -26,15 +26,6 @@ const ScoreEntry = styled.tr`
     background: ${({ currentScore }) =>currentScore ? 'yellow' : 'transparent'}
 `;
 
-const ChangeNameButton = styled.button`
-    margin: 0;
-    padding: 0;
-    border: none;
-    text-decoration: underline;
-    background: transparent;
-    font-size: 18px;
-`;
-
 const ScoreTable = ({ scores, currentScoreId }) => (
     <Table>
         <thead>

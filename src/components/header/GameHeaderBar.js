@@ -19,6 +19,7 @@ const Button = styled.button`
     width: 3rem;
     height: 3rem;
 
+    background-color: transparent;
     background-size: 1.5rem;
     background-position: center;
     background-repeat: no-repeat;

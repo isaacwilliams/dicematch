@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import uniqBy from 'lodash/fp/uniqBy';
-import get from 'lodash/fp/get';
-import dropRight from 'lodash/fp/dropRight';
 import useLocalStorage from '../util/useLocalStorage';
 
 import GameOverScoreTable from './GameOverScoreTable';
-
-const uniqById = uniqBy(get('id'));
-const limit10 = dropRight(10);
 
 const containerEnter = keyframes`
     0% { opacity: 0; }
@@ -74,22 +68,20 @@ const ScoreDisplay = ({
     useEffect(() => {
         if (scores.find(({ id }) => id === gameId)) return;
 
-        setScores([
-            ...scores,
-            currentGameScore,
-        ])
+        const previousScores = scores
+            .filter(score => !!score)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 10);
+
+        const newScores = [
+            ...previousScores,
+            currentGameScore
+        ].sort((a, b) => b.score - a.score);
+
+        setScores(newScores)
     }, []);
 
-    const allScores = scores
-        .filter(score => !!score)
-        .sort((a, b) => b.score - a.score);
-
-    const limitedScores = uniqById([
-        ...limit10(allScores),
-        currentGameScore,
-    ].sort((a, b) => b.score - a.score));
-
-    return <GameOverScoreTable scores={limitedScores} currentScoreId={gameId} setInputActive={setInputActive} />;
+    return <GameOverScoreTable scores={scores} currentScoreId={gameId} setInputActive={setInputActive} />;
 };
 
 const GameOverModal = ({ restartGame, ...props }) => {
