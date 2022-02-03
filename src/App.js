@@ -36,6 +36,7 @@ const styleThemeLight = {
     colors,
 
     foreground: colors.charcoal,
+    foregroundSecondary: colors.grey_500,
 
     background: colors.white,
     backgroundSecondary: colors.grey_1000,

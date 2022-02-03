@@ -9,17 +9,17 @@ const ensureIdMatch = (subReducer) => (state, action) => (
         state
 );
 
-const updateDieUp = ensureIdMatch(({ value, ...state }, action) => ({
+export const updateDieUp = ensureIdMatch(({ value, ...state }, action) => ({
     ...state,
     value: circularClamp(1, state.dieSize)(value + 1),
 }));
 
-const updateDieDown = ensureIdMatch(({ value, ...state }, action) => ({
+export const updateDieDown = ensureIdMatch(({ value, ...state }, action) => ({
     ...state,
     value: circularClamp(1, state.dieSize)(value - 1),
 }));
 
-const updateDieRandom = ensureIdMatch(({ value, ...state }, action) => {
+export const updateDieRandom = ensureIdMatch(({ value, ...state }, action) => {
     let roll = rollDie(state.dieSize);
 
     while (roll === value) {
@@ -52,7 +52,7 @@ const valueForFlip = (value) => {
     }
 };
 
-const updateDieFlip = ensureIdMatch(({ value, ...state }, action) => ({
+export const updateDieFlip = ensureIdMatch(({ value, ...state }, action) => ({
     ...state,
     value: valueForFlip(value),
 }));

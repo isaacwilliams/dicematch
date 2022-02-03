@@ -28,6 +28,7 @@ export const DIE_TYPES = {
     RANDOM: 'RANDOM',
     BLOCKER: 'BLOCKER',
     FLIP: 'FLIP',
+    BOMB: 'BOMB',
 }
 
 export const GAME_STATES = {
