@@ -122,7 +122,7 @@ const DICE_DESCRIPTIONS = [
         dieType: DIE_TYPES.UP,
         value: 1,
         dieSize: 6,
-        description: 'Increases in value',
+        description: 'Increases in value.',
         updater: updateDieUp,
     },
     {
@@ -130,7 +130,7 @@ const DICE_DESCRIPTIONS = [
         dieType: DIE_TYPES.DOWN,
         value: 2,
         dieSize: 6,
-        description: 'Goes down smooth',
+        description: 'Goes down smooth.',
         updater: updateDieDown,
     },
     {
