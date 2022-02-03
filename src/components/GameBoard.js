@@ -31,8 +31,8 @@ const Fade = ({ children, ...props }) => (
 
 const BoardWrapper = styled.div`
     padding: 0 10px;
-    background: white;
     overflow: hidden;
+    background: ${props => props.theme.background};
 `;
 
 const Board = styled.div`

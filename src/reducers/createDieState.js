@@ -1,4 +1,4 @@
-import uniqueId from 'lodash/fp/uniqueId';
+import { nanoid } from 'nanoid';
 import rollDie from '../util/rollDie';
 
 import { DIE_TYPES } from '../constants';
@@ -13,7 +13,7 @@ const initialValueFor = (dieType, dieSize = 6) => {
 }
 
 const createDieState = (dieType, dieSize = 6) => ({
-    id: uniqueId(),
+    id: nanoid(8),
     dieType,
     dieSize,
     value: initialValueFor(dieType, dieSize),

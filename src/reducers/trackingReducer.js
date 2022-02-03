@@ -1,8 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
+import { nanoid } from 'nanoid';
 import { ACTIONS } from '../constants';
 
 const initialState = {
-    gameId: uuidv4(),
+    gameId: nanoid(),
     gameStart: new Date(),
     gameEnd: null,
 };
@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
             };
         case ACTIONS.GAME_RESET:
             return {
-                gameId: uuidv4(),
+                gameId: nanoid(),
                 gameStart: new Date(),
                 gameEnd: null,
             };

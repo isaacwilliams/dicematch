@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import clamp from 'lodash/fp/clamp';
 
 import GameBoard from './components/GameBoard';
@@ -9,41 +9,37 @@ import Moves from './components/Moves';
 import Level from './components/Level';
 import GameOverModal from './components/GameOverModal';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
+import GameHeaderBar from './components/header/GameHeaderBar';
 
 import { GAME_STATES, ACTIONS, BOARD_WIDTH } from './constants';
 
 const clampDieSize = clamp(30, 80);
 
+const styleThemeLight = {
+    background: 'white',
+    backgroundSecondary: '#eeeeee',
+};
+
 const AppContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    align-content: stretch;
-    height: 100%;
-    width: 100%;
+    display: grid;
+
+    grid-template-columns: auto;
+    grid-template-rows: auto auto 1fr;
+
+    height: 90vh;
+    width: 100vw;
+
+    background: ${props => props.theme.background};
 `;
 
 const GameStatus = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 10px;
-    background: white;
-    height: 100%;
-    width: 100%;
+    display: grid;
 `;
 
 const GameContainer = styled.div`
-    position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-
-    align-items: center;
-
-    padding: 10px 0;
-
-    height: 100%;
+    align-self: end;
+    padding: 1rem 0;
+    background: ${props => props.theme.background};
 `;
 
 
@@ -71,22 +67,25 @@ class App extends Component {
 
     render() {
         return (
-            <AppContainer>
-                <GameStatus>
-                    <div>
-                        <Level {...this.props.level} />
-                        <Moves {...this.props} />
-                    </div>
+            <ThemeProvider theme={styleThemeLight}>
+                <AppContainer>
+                    <GameHeaderBar />
+                    <GameStatus>
+                        <div>
+                            <Level {...this.props.level} />
+                            <Moves {...this.props} />
+                        </div>
 
-                    <Score {...this.props} />
-                </GameStatus>
-                <GameContainer>
-                    <GameBoard {...this.props} diceSize={this.state.diceSize} />
-                    <ScoreAnnouncer {...this.props} />
-                </GameContainer>
-                {this.props.gameState === GAME_STATES.FINISHED &&
-                    <GameOverModal {...this.props} />}
-            </AppContainer>
+                        <Score {...this.props} />
+                    </GameStatus>
+                    <GameContainer>
+                        <GameBoard {...this.props} diceSize={this.state.diceSize} />
+                        <ScoreAnnouncer {...this.props} />
+                    </GameContainer>
+                    {this.props.gameState === GAME_STATES.FINISHED &&
+                        <GameOverModal {...this.props} />}
+                </AppContainer>
+            </ThemeProvider>
         );
     }
 }

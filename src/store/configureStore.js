@@ -16,11 +16,18 @@ export default () => {
             collapsed: true,
             duration: true,
         }),
-        save(),
+        save({
+            namespace: 'dicematch.state',
+            ignoreStates: [
+                'inputEnabled',
+            ],
+        }),
         sagaMiddleware,
     )(createStore);
 
-    const store = createStoreWithMiddleware(rootReducer, load());
+    const store = createStoreWithMiddleware(rootReducer, load({
+        namespace: 'dicematch.state',
+    }));
 
     sagaMiddleware.run(sagas);
 

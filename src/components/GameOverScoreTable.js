@@ -8,10 +8,18 @@ const Table = styled.table`
 const Th = styled.th`
     font-weight: bold;
     text-align: left;
+
+    &.last {
+        text-align: right;
+    }
 `;
 
 const Td = styled.td`
     text-align: left;
+
+    &.last {
+        text-align: right;
+    }
 `;
 
 const ScoreEntry = styled.tr`
@@ -37,7 +45,7 @@ const ScoreTable = ({ scores, currentScoreId }) => (
             <Th>
                 Level
             </Th>
-            <Th>
+            <Th className='last'>
                 Date
             </Th>
         </tr>
@@ -56,7 +64,7 @@ const ScoreTable = ({ scores, currentScoreId }) => (
                     <Td>
                         {level}
                     </Td>
-                    <Td>
+                    <Td className='last'>
                         {gameEndDateFormat}
                     </Td>
                 </ScoreEntry>

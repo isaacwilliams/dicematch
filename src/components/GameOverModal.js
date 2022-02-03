@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import uniqBy from 'lodash/fp/uniqBy';
 import get from 'lodash/fp/get';
+import dropRight from 'lodash/fp/dropRight';
 import useLocalStorage from '../util/useLocalStorage';
 
 import GameOverScoreTable from './GameOverScoreTable';
 
 const uniqById = uniqBy(get('id'));
+const limit10 = dropRight(10);
 
 const containerEnter = keyframes`
     0% { opacity: 0; }
@@ -58,29 +60,36 @@ const ScoreDisplay = ({
 }) => {
     const [scores, setScores] = useLocalStorage('dicematch.scores', []);
 
+    const currentGameScore = {
+        id: gameId,
+        score,
+        level,
+        diceCleared: clearedDice,
+        diceRemainingInLevel: upcomingDice.length,
+        turnsUsed: used,
+        startTime: gameStart,
+        endTime: gameEnd,
+    };
+
     useEffect(() => {
         if (scores.find(({ id }) => id === gameId)) return;
 
         setScores([
             ...scores,
-            {
-                id: gameId,
-                score,
-                level,
-                diceCleared: clearedDice,
-                diceRemainingInLevel: upcomingDice.length,
-                turnsUsed: used,
-                startTime: gameStart,
-                endTime: gameEnd,
-            },
+            currentGameScore,
         ])
     }, []);
 
-    const allScores = uniqById(scores)
+    const allScores = scores
         .filter(score => !!score)
         .sort((a, b) => b.score - a.score);
 
-    return <GameOverScoreTable scores={allScores} currentScoreId={gameId} setInputActive={setInputActive} />;
+    const limitedScores = uniqById([
+        ...limit10(allScores),
+        currentGameScore,
+    ].sort((a, b) => b.score - a.score));
+
+    return <GameOverScoreTable scores={limitedScores} currentScoreId={gameId} setInputActive={setInputActive} />;
 };
 
 const GameOverModal = ({ restartGame, ...props }) => {
