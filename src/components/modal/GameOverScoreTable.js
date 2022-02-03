@@ -26,7 +26,7 @@ const Td = styled.td`
     }
 
     &.date {
-        color: ${(({ theme }) => theme.foregroundSecondary)};
+        color: ${(({ theme }) => theme.scores.textSecondary)};
     }
 `;
 

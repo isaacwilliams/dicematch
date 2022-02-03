@@ -2,87 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import clamp from 'lodash/fp/clamp';
+import { Helmet } from 'react-helmet';
 
 import GameBoard from './components/GameBoard';
 import GameOverModal from './components/modal/GameOverModal';
 import GameHeaderBar from './components/header/GameHeaderBar';
 import GameStatusBar from './components/gameStatus/GameStatusBar';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
-
-import { GAME_STATES, ACTIONS, BOARD_WIDTH, MODALS } from './constants';
-import { Helmet } from 'react-helmet';
 import HelpModal from './components/modal/HelpModal';
 
+import { THEME_LIGHT, THEME_DARK } from './constants/themes';
+
+import { GAME_STATES, ACTIONS, BOARD_WIDTH, MODALS } from './constants';
+
+
 const clampDieSize = clamp(30, 80);
-
-const colors = {
-    white: '#ffffff',
-    charcoal: '#282B40',
-    charcoal_200: '#191D23',
-    charcoal_100: '#111717',
-    grey_500: '#757784',
-    grey_700: '#9A9DAD',
-    grey_900: '#C5C9D8',
-    grey_1000: '#E6E8EF',
-    grey_1100: '#f8f8f8',
-    red: '#FC4349',
-    teal: '#3C989B',
-    green: '#14DD89',
-    yellow: '#FFAC00',
-    yellow_700: '#FFD000',
-    yellow_900: '#FFEF00',
-    beige: '#CEC8B6',
-};
-
-const styleThemeLight = {
-    colors,
-
-    foreground: colors.charcoal,
-    foregroundSecondary: colors.grey_500,
-
-    background: colors.white,
-    backgroundSecondary: colors.grey_1000,
-    divider: colors.grey_900,
-
-    header: {
-        background: colors.grey_1000,
-        backgroundInset: colors.white,
-        text: colors.charcoal,
-        textSecondary: colors.grey_500,
-    },
-
-    moves: {
-        border: colors.grey_700,
-        insideBorder: 'rgba(0,0,0,0.2)',
-        used: colors.grey_500,
-        ready: colors.green,
-        warning: colors.yellow,
-        danger: colors.red,
-    },
-
-    scores: {
-        buttonBackground: colors.backgroundSecondary,
-        buttonColor: colors.charcoal,
-        currentScoreBackground: colors.yellow_900,
-    },
-
-    dice: {
-        pip: colors.charcoal,
-        up: colors.red,
-        down: colors.teal,
-        random: colors.yellow,
-        blocker: colors.grey_500,
-        flip: colors.beige,
-    },
-};
-
-const styleThemeDark = {
-    ...styleThemeLight,
-
-    background: colors.charcoal_200,
-    backgroundSecondary: colors.charcoal_100,
-    backgroundTertiary: colors.charcoal_100,
-};
 
 const AppContainer = styled.div`
     display: grid;
@@ -138,7 +72,7 @@ class App extends Component {
 
     render() {
         const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = styleThemeLight;
+        const theme = THEME_DARK;
 
         const {
             gameState,

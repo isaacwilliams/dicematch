@@ -47,7 +47,7 @@ const StyledModal = styled.div`
     font-size: 1rem;
 
     color: ${(({ theme }) => theme.foreground)};
-    background: ${(({ theme }) => theme.background)};
+    background: ${(({ theme }) => theme.modal.background)};
 
     animation: ${modalEnter} 0.25s ease-in-out forwards;
 
