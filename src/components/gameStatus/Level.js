@@ -29,14 +29,14 @@ const StyledLevel = styled.div`
     }
 `;
 
-const Level = ({ level, ...rest }) => {
+const Level = ({ level, upcomingDice }) => {
     return (
         <StyledLevelContainer>
             <StyledLevel>
                 <span className="title">Level</span>
                 <span className="score">{level}</span>
             </StyledLevel>
-            <UpcomingDice {...rest} />
+            <UpcomingDice upcomingDice={upcomingDice} />
         </StyledLevelContainer>
 
     );

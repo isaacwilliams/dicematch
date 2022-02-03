@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ACTIONS } from '../../constants';
 import { connect } from 'react-redux';
@@ -9,8 +9,19 @@ const containerEnter = keyframes`
 `;
 
 const modalEnter = keyframes`
-    0% { transform: scale(0.8); }
+    0% { transform: scale(0.9); }
     100% { transform: scale(1); }
+`;
+
+const containerExit = keyframes`
+    0% { opacity: 1; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+`;
+
+const modalExit = keyframes`
+    0% { transform: scale(1); }
+    100% { transform: scale(0.9) }
 `;
 
 const ModalContainer = styled.div`
@@ -19,32 +30,71 @@ const ModalContainer = styled.div`
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.7);
 
     animation: ${containerEnter} 0.25s ease-in-out forwards;
+
+    &.closing {
+        animation: ${containerExit} 0.25s ease-in-out forwards;
+    }
 `;
 
 const StyledModal = styled.div`
-    background: white;
-    padding: 20px;
-    border-radius: 6px;
+    background: ${(({ theme }) => theme.background)};
+    padding: 1rem;
+    border-radius: 0.8rem;
     text-align: center;
-    font-size: 18px;
+    font-size: 1rem;
 
     animation: ${modalEnter} 0.25s ease-in-out forwards;
+
+    .closing & {
+        animation: ${modalExit} 0.25s ease-in-out forwards;
+    }
+`;
+
+const CloseButton = styled.button`
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 3rem;
+    height: 3rem;
+
+    border 0;
+
+    font-size: 1rem;
+    font-family: inherit;
+    color: ${(({ theme }) => theme.foreground)};
+
+    background: transparent;
 `;
 
 const mapDispatchToProps = (dispatch) => ({
     closeModal: () => dispatch({ type: ACTIONS.CLOSE_MODAL }),
 });
 
-const Modal = ({ showCloseButton, children }) => (
-    <ModalContainer>
-        <StyledModal>
-            {children}
-        </StyledModal>
-    </ModalContainer>
-);
+const Modal = ({ showCloseButton, children, closeModal }) => {
+    const [closing, setClosing] = useState();
+
+    const handleCloseClick = () => {
+        setClosing(true);
+        setTimeout(() => {
+            closeModal();
+            setClosing(false);
+        }, 250);
+    };
+
+    return (
+        <ModalContainer className={closing ? 'closing' : undefined}>
+            <StyledModal>
+                {showCloseButton && <CloseButton onClick={handleCloseClick}>X</CloseButton>}
+                {children}
+            </StyledModal>
+        </ModalContainer>
+    );
+}
 
 export default connect(null, mapDispatchToProps)(Modal);

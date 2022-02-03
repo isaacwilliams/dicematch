@@ -9,8 +9,9 @@ import GameHeaderBar from './components/header/GameHeaderBar';
 import GameStatusBar from './components/gameStatus/GameStatusBar';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
 
-import { GAME_STATES, ACTIONS, BOARD_WIDTH } from './constants';
+import { GAME_STATES, ACTIONS, BOARD_WIDTH, MODALS } from './constants';
 import { Helmet } from 'react-helmet';
+import HelpModal from './components/modal/HelpModal';
 
 const clampDieSize = clamp(30, 80);
 
@@ -34,8 +35,11 @@ const colors = {
 const styleThemeLight = {
     colors,
 
+    foreground: colors.charcoal,
+
     background: colors.white,
     backgroundSecondary: colors.grey_1000,
+    divider: colors.grey_900,
 
     header: {
         background: colors.grey_1000,
@@ -46,7 +50,7 @@ const styleThemeLight = {
 
     moves: {
         border: colors.grey_700,
-        insideBorder: 'rgba(0,0,0,0.1)',
+        insideBorder: 'rgba(0,0,0,0.2)',
         used: colors.grey_500,
         ready: colors.green,
         warning: colors.yellow,
@@ -123,6 +127,15 @@ class App extends Component {
         const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = styleThemeLight;
 
+        const {
+            gameState,
+            modal,
+        } = this.props;
+
+        const {
+            diceSize,
+        } = this.state;
+
         return (
             <ThemeProvider theme={theme}>
                 <GlobalStyle />
@@ -133,11 +146,17 @@ class App extends Component {
                     <GameHeaderBar {...this.props} />
                     <GameStatusBar {...this.props} />
                     <GameContainer>
-                        <GameBoard {...this.props} diceSize={this.state.diceSize} />
+                        <GameBoard {...this.props} diceSize={diceSize} />
                         <ScoreAnnouncer {...this.props} />
                     </GameContainer>
-                    {this.props.gameState === GAME_STATES.FINISHED &&
-                        <GameOverModal {...this.props} />}
+
+                    {gameState === GAME_STATES.FINISHED && (
+                        <GameOverModal {...this.props} />
+                    )}
+
+                    {modal === MODALS.HELP && (
+                        <HelpModal {...this.props} />
+                    )}
                 </AppContainer>
             </ThemeProvider>
         );

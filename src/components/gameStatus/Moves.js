@@ -23,6 +23,7 @@ const StyledMoves = styled.div`
     display: grid;
 
     width: auto;
+    height: 1.5rem;
 
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: auto;

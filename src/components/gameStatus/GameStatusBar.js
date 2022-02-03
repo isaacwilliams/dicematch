@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import Level from './Level';
 import Moves from './Moves';
 import Score from './Score';
-import UpcomingDice from './UpcomingDice';
 
 const GameStatus = styled.div`
     display: grid;
 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1.5rem;
+    grid-template-rows: auto auto;
 
     column-gap: 0.5rem;
     row-gap: 0.5rem;
