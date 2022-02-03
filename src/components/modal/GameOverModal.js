@@ -1,40 +1,9 @@
 import React, { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import useLocalStorage from '../util/useLocalStorage';
+import useLocalStorage from '../../util/useLocalStorage';
 
 import GameOverScoreTable from './GameOverScoreTable';
-
-const containerEnter = keyframes`
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-`;
-
-const modalEnter = keyframes`
-    0% { transform: scale(0.8); }
-    100% { transform: scale(1); }
-`;
-
-const ModalContainer = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-
-    animation: ${containerEnter} 0.25s ease-in-out forwards;
-`;
-
-const Modal = styled.div`
-    background: white;
-    padding: 20px;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 18px;
-
-    animation: ${modalEnter} 0.25s ease-in-out forwards;
-`;
+import Modal from './Modal';
 
 const RestartButton = styled.button`
     padding: 10px 20px;
@@ -86,19 +55,17 @@ const ScoreDisplay = ({
 
 const GameOverModal = ({ restartGame, ...props }) => {
     return (
-        <ModalContainer>
-            <Modal>
-                <h1>Game over</h1>
+        <Modal>
+            <h1>Game over</h1>
 
-                <ScoreDisplay {...props} />
+            <ScoreDisplay {...props} />
 
-                <p>
-                    <RestartButton onClick={restartGame}>
-                        Restart
-                    </RestartButton>
-                </p>
-            </Modal>
-        </ModalContainer>
+            <p>
+                <RestartButton onClick={restartGame}>
+                    Restart
+                </RestartButton>
+            </p>
+        </Modal>
     );
 }
 

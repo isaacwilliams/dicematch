@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { MODALS } from '../../constants';
 
 const GameHeaderBarContainer = styled.div`
     display: grid;
@@ -54,15 +55,15 @@ const GameTitle = styled.div`
     color: rgba(0,0,0,0);
 `;
 
-const GameHeaderBar = () => (
+const GameHeaderBar = ({ openModal }) => (
     <GameHeaderBarContainer>
-        <HelpButton>
+        <HelpButton onClick={() => openModal(MODALS.HELP)}>
             Help
         </HelpButton>
         <GameTitle>
             DICE MATCH
         </GameTitle>
-        <SettingsButton>
+        <SettingsButton onClick={() => openModal(MODALS.SETTINGS)}>
             Settings
         </SettingsButton>
     </GameHeaderBarContainer>

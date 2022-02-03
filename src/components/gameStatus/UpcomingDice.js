@@ -38,7 +38,7 @@ const More = styled.span`
     color: ${({ theme }) => theme.header.textSecondary};
 `;
 
-const DICE_TO_SHOW = 7;
+const DICE_TO_SHOW = 5;
 
 const UpcomingDice = ({ upcomingDice }) => {
     const nextNiceDisplay = upcomingDice.slice(0, DICE_TO_SHOW);

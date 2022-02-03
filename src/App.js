@@ -4,7 +4,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import clamp from 'lodash/fp/clamp';
 
 import GameBoard from './components/GameBoard';
-import GameOverModal from './components/GameOverModal';
+import GameOverModal from './components/modal/GameOverModal';
 import GameHeaderBar from './components/header/GameHeaderBar';
 import GameStatusBar from './components/gameStatus/GameStatusBar';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
@@ -99,7 +99,9 @@ const mapStateToProps = (state) => state;
 
 const mapDispatchToProps = (dispatch) => ({
     updateDie: (id) => dispatch({ type: ACTIONS.UPDATE_DIE, id }),
-    restartGame: () => dispatch({ type: ACTIONS.GAME_RESET })
+    restartGame: () => dispatch({ type: ACTIONS.GAME_RESET }),
+    openModal: (modal) => dispatch({ type: ACTIONS.OPEN_MODAL, modal }),
+    closeModal: () => dispatch({ type: ACTIONS.CLOSE_MODAL }),
 });
 
 class App extends Component {

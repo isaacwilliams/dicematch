@@ -63,6 +63,10 @@ const StepBox = styled.div`
 
     border-right: 1px solid ${({ theme }) => theme.moves.insideBorder};
     transition: background 0.1s linear;
+
+    &:last-of-type {
+        border-right: 0;
+    }
 `;
 
 const Moves = ({ moves: { used, limit, cap } }) => {

@@ -7,6 +7,7 @@ import moves from './movesReducer';
 import level from './levelReducer';
 import gameState from './gameStateReducer';
 import tracking from './trackingReducer';
+import modal from './modalReducer';
 
 export default combineReducers({
     gameBoard,
@@ -16,4 +17,5 @@ export default combineReducers({
     level,
     gameState,
     tracking,
+    modal,
 });

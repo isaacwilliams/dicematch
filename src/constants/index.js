@@ -17,6 +17,9 @@ export const ACTIONS = {
 
     GAME_END: 'GAME_END',
     GAME_RESET: 'GAME_RESET',
+
+    OPEN_MODAL: 'OPEN_MODAL',
+    CLOSE_MODAL: 'CLOSE_MODAL',
 };
 
 export const DIE_TYPES = {
@@ -30,6 +33,12 @@ export const DIE_TYPES = {
 export const GAME_STATES = {
     ACTIVE: 'ACTIVE',
     FINISHED: 'FINISHED',
+};
+
+export const MODALS = {
+    HELP: 'HELP',
+    SETTINGS: 'SETTINGS',
+    SCORE: 'SCORE',
 };
 
 export const BOARD_WIDTH = 5;
