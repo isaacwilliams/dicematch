@@ -11,7 +11,7 @@ const GameStatus = styled.div`
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 1.5rem;
 
-    column-gap: 1rem;
+    column-gap: 0.5rem;
     row-gap: 0.5rem;
 
     padding: 0.5rem 0.5rem;
