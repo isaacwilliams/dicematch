@@ -26,7 +26,7 @@ const colors = {
     grey_1100: '#f8f8f8',
     red: '#FC4349',
     teal: '#3C989B',
-    green: '#14D39B',
+    green: '#14DD89',
     yellow: '#FFAC00',
     beige: '#CEC8B6',
 };
@@ -47,7 +47,7 @@ const styleThemeLight = {
     moves: {
         border: colors.grey_700,
         insideBorder: 'rgba(0,0,0,0.1)',
-        used: colors.grey_1000,
+        used: colors.grey_500,
         ready: colors.green,
         warning: colors.yellow,
         danger: colors.red,

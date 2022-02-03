@@ -9,7 +9,7 @@ const GameStatus = styled.div`
     display: grid;
 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1rem;
+    grid-template-rows: auto 1.5rem;
 
     column-gap: 1rem;
     row-gap: 0.5rem;

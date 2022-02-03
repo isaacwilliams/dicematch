@@ -1,20 +1,19 @@
 import React from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import times from 'lodash/fp/times';
-import { reduce } from 'lodash';
 
 const shake = (degree) => keyframes`
     0% {
-        transform: rotate(0deg);
+        transform: translate(0px, 0px);
     }
     25% {
-        transform: rotate(-${degree}deg);
+        transform: translate(${degree}px, ${degree}px);
     }
     50% {
-      transform: rotate(0deg);
+        transform: translate(0px, 0px);
     }
     75% {
-        transform: rotate(${degree}deg);
+        transform: translate(${-degree}px, ${-degree}px);
     }
 `;
 
@@ -31,8 +30,7 @@ const StyledMoves = styled.div`
     border: 1px solid ${({ theme }) => theme.moves.border};
     border-radius: 0.2rem;
 
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    box-shadow: 0 0 0 1px ${({ theme }) => theme.header.backgroundInset};
 
     overflow: hidden;
 
@@ -41,15 +39,15 @@ const StyledMoves = styled.div`
     `}
 
     ${({ moves }) => moves <= 3 && css`
-        animation: ${shake(1)} 0.1s linear infinite;
+        animation: ${shake(0.25)} 0.1s linear infinite;
     `}
 
     ${({ moves }) => moves <= 2 && css`
-        animation: ${shake(1.5)} 0.1s linear infinite;
+        animation: ${shake(0.5)} 0.1s linear infinite;
     `}
 
     ${({ moves }) => moves <= 1 && css`
-        animation: ${shake(2.5)} 0.1s linear infinite;
+        animation: ${shake(1)} 0.1s linear infinite;
     `}
 `;
 
@@ -64,7 +62,7 @@ const StepBox = styled.div`
     }};
 
     border-right: 1px solid ${({ theme }) => theme.moves.insideBorder};
-    transition: background 0.2s linear;
+    transition: background 0.1s linear;
 `;
 
 const Moves = ({ moves: { used, limit, cap } }) => {
@@ -75,7 +73,6 @@ const Moves = ({ moves: { used, limit, cap } }) => {
             {times((index) => (
                 <StepBox key={index} moves={movesLeft} ready={index < movesLeft} />
             ), cap)}
-            {/* Moves left: <Count moves={limit - used}><div>{limit - used}</div></Count> */}
         </StyledMoves>
     );
 }
