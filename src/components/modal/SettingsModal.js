@@ -36,13 +36,28 @@ const SettingsRow = styled.div`
     }
 `;
 
+const RestartButton = styled.button`
+    padding: 0.4rem 1rem;
+    border: 0;
+    border-radius: 0.5rem;
+
+    background: ${(({ theme }) => theme.scores.buttonBackground)};
+    color: ${(({ theme }) => theme.scores.buttonColor)};
+
+    font-size: 1rem;
+    outline: none;
+
+    font-weight: bold;
+`;
+
 const mapDispatchToProps = (dispatch) => ({
     toggleInterfaceTheme: (currentInterface) => (
         dispatch({ type: ACTIONS.SET_THEME, interface: currentInterface === 'dark' ? 'light' : 'dark' })
     ),
+    closeModal: () => dispatch({ type: ACTIONS.CLOSE_MODAL }),
 })
 
-const SettingsModal = ({ restartGame, toggleInterfaceTheme, ...props }) => {
+const SettingsModal = ({ restartGame, closeModal, toggleInterfaceTheme, ...props }) => {
     return (
         <Modal showCloseButton>
             <Header>Settings</Header>
@@ -51,6 +66,15 @@ const SettingsModal = ({ restartGame, toggleInterfaceTheme, ...props }) => {
                 <input type="checkbox"
                     onChange={() => toggleInterfaceTheme(props.theming.interface)}
                     checked={props.theming.interface === 'dark'} />
+            </SettingsRow>
+            <SettingsRow>
+                Abandon current game
+                <RestartButton onClick={() => {
+                    restartGame();
+                    closeModal();
+                }}>
+                    Restart
+                </RestartButton>
             </SettingsRow>
             <SettingsRow>
                 Feedback

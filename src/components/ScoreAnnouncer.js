@@ -60,7 +60,10 @@ class ScoreAnnouncer extends React.Component {
     aId = 0;
 
     componentWillReceiveProps({ score, gameState }) {
-        if (this.props.score !== score && this.props.gameState !== GAME_STATES.FINISHED) {
+        if (this.props.score !== score &&
+            this.props.score < score &&
+            this.props.gameState !== GAME_STATES.FINISHED
+        ) {
             const value = score - this.props.score;
             this.setState((state) => ({ announcements: [...state.announcements, { id: this.aId, value }] }));
             this.aId = this.aId + 1;

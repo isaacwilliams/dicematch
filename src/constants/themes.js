@@ -108,7 +108,7 @@ export const THEME_DARK = {
 
     scores: {
         ...THEME_LIGHT.scores,
-        buttonBackground: colors.grey_300,
+        buttonBackground: colors.grey_200,
         buttonColor: colors.white,
         currentScoreBackground: colors.teal,
         textSecondary: 'rgba(255,255,255,0.5)',
