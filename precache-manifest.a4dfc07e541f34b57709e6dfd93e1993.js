@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "9940d6915a1702f26b86",
+    "revision": "0243f4c61ea85a181fd3",
     "url": "/dicematch/static/css/main.f2eea392.chunk.css"
   },
   {
-    "revision": "9940d6915a1702f26b86",
-    "url": "/dicematch/static/js/main.775006ae.chunk.js"
+    "revision": "0243f4c61ea85a181fd3",
+    "url": "/dicematch/static/js/main.63be93ec.chunk.js"
   },
   {
     "revision": "ab9b5f51ac2d4afdfe24",
     "url": "/dicematch/static/js/runtime~main.979d6832.js"
   },
   {
-    "revision": "f176e23e267d73530939",
-    "url": "/dicematch/static/js/2.85edef44.chunk.js"
+    "revision": "682fabb2af67a01b48af",
+    "url": "/dicematch/static/js/2.68d6b1d6.chunk.js"
   },
   {
     "revision": "c70881f6290e7023f6a35a29a3af9d0c",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/dicematch/static/media/dicematch-logo-wide.715a1ddf.svg"
   },
   {
-    "revision": "584e4bdce328d506cd207c8cc6045340",
+    "revision": "16c320ea50252b588ae12824ee40112f",
     "url": "/dicematch/index.html"
   }
 ];
