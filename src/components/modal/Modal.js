@@ -26,6 +26,11 @@ const modalExit = keyframes`
 
 const ModalContainer = styled.div`
     position: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
     top: 0;
     left: 0;
     right: 0;
@@ -45,6 +50,10 @@ const StyledModal = styled.div`
     border-radius: 0.8rem;
     text-align: center;
     font-size: 1rem;
+
+    width: 100%;
+    height: auto;
+    max-width: 600px;
 
     color: ${(({ theme }) => theme.foreground)};
     background: ${(({ theme }) => theme.modal.background)};

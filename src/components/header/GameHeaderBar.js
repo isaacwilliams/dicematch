@@ -28,6 +28,12 @@ const Button = styled.button`
 
     font-size: 0;
     color: rgba(0,0,0,0);
+
+    opacity: 0.6;
+
+    &.dark {
+        filter: invert(100%);
+    }
 `;
 
 const HelpButton = styled(Button)`
@@ -55,15 +61,15 @@ const GameTitle = styled.div`
     color: rgba(0,0,0,0);
 `;
 
-const GameHeaderBar = ({ openModal }) => (
+const GameHeaderBar = ({ openModal, theming }) => (
     <GameHeaderBarContainer>
-        <HelpButton onClick={() => openModal(MODALS.HELP)}>
+        <HelpButton className={theming.interface} onClick={() => openModal(MODALS.HELP)}>
             Help
         </HelpButton>
         <GameTitle>
             DICE MATCH
         </GameTitle>
-        <SettingsButton onClick={() => openModal(MODALS.SETTINGS)}>
+        <SettingsButton className={theming.interface} onClick={() => openModal(MODALS.SETTINGS)}>
             Settings
         </SettingsButton>
     </GameHeaderBarContainer>

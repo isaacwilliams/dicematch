@@ -33,6 +33,8 @@ export const THEME_LIGHT = {
     backgroundSecondary: colors.grey_1000,
     divider: colors.grey_900,
 
+    highlight: colors.teal,
+
     modal: {
         background: colors.white,
     },
@@ -76,12 +78,14 @@ export const THEME_DARK = {
     foreground: colors.white,
     foregroundSecondary: colors.grey_700,
 
-    background: colors.black,
+    background: colors.grey_100,
     backgroundSecondary: colors.grey_200,
-    divider: colors.grey_300,
+    divider: colors.grey_400,
+
+    highlight: colors.teal,
 
     modal: {
-        background: colors.grey_200,
+        background: colors.grey_300,
     },
 
     header: {

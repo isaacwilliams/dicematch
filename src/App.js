@@ -10,6 +10,7 @@ import GameHeaderBar from './components/header/GameHeaderBar';
 import GameStatusBar from './components/gameStatus/GameStatusBar';
 import ScoreAnnouncer from './components/ScoreAnnouncer';
 import HelpModal from './components/modal/HelpModal';
+import SettingsModal from './components/modal/SettingsModal';
 
 import { THEME_LIGHT, THEME_DARK } from './constants/themes';
 
@@ -71,17 +72,17 @@ class App extends Component {
     getDiceSize = () => this.setState(() => ({ diceSize: clampDieSize((window.innerWidth - 20) / BOARD_WIDTH) }));
 
     render() {
-        const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = THEME_DARK;
-
         const {
             gameState,
             modal,
+            theming = {},
         } = this.props;
 
         const {
             diceSize,
         } = this.state;
+
+        const theme = theming.interface === 'dark' ? THEME_DARK : THEME_LIGHT;
 
         return (
             <ThemeProvider theme={theme}>
@@ -103,6 +104,10 @@ class App extends Component {
 
                     {modal === MODALS.HELP && (
                         <HelpModal {...this.props} />
+                    )}
+
+                    {modal === MODALS.SETTINGS && (
+                        <SettingsModal {...this.props} />
                     )}
                 </AppContainer>
             </ThemeProvider>

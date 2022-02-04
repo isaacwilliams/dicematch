@@ -20,6 +20,8 @@ export const ACTIONS = {
 
     OPEN_MODAL: 'OPEN_MODAL',
     CLOSE_MODAL: 'CLOSE_MODAL',
+
+    SET_THEME: 'SET_THEME',
 };
 
 export const DIE_TYPES = {

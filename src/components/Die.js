@@ -65,16 +65,12 @@ class Die extends React.Component {
     render() {
         const {
             diceSize,
-            x,
-            y,
-            id,
         } = this.props;
 
         return (
             <DiePositioner {...this.props}>
                 <DieButton {...this.props}
-                        onClick={this.handleDieUpdate}
-                        title={`id: ${id} x: ${x} y: ${y}`}>
+                        onClick={this.handleDieUpdate}>
                     <AnimatedDieFace {...this.props}>
                         <DieFace {...this.props} diceSize={diceSize - 2} />
                     </AnimatedDieFace>
