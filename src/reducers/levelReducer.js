@@ -29,7 +29,6 @@ const checkForRuns = (levelDice = []) => {
             levelDice[i + 1] && levelDice[i + 1].value === value &&
             levelDice[i + 2] && levelDice[i + 2].value === value
         ) {
-            console.log('found run', levelDice, i, i+1, i+2);
             return true;
         }
     }
@@ -38,22 +37,6 @@ const checkForRuns = (levelDice = []) => {
 }
 
 const getLevelDice = (level) => {
-    console.log(
-        'NEXT LEVEL', level,
-        'UP', getCountUp(level),
-        'DOWN', getCountDown(level),
-        'FLIP', getCountFlip(level),
-        'RANDOM', getCountRandom(level),
-        'BLOCKER', getCountBlocker(level),
-        'BOMB', getCountBomb(level),
-        'total', getCountUp(level) +
-                getCountDown(level) +
-                getCountRandom(level) +
-                getCountBlocker(level) +
-                getCountFlip(level) +
-                getCountBomb(level)
-    )
-
     let levelDice;
     let attempts = 0;
 

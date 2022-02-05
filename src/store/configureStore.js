@@ -15,6 +15,7 @@ export default () => {
         createLogger({
             collapsed: true,
             duration: true,
+            predicate: () => process.env.NODE_ENV === 'development',
         }),
         save({
             namespace: 'dicematch.state',
