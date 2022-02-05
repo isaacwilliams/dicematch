@@ -31,7 +31,7 @@ const Line = styled.p`
 `;
 
 const DieDisplay = styled.div`
-    margin-right: 1px;
+    margin-right: 2px;
 
     svg {
         display: block;
@@ -81,7 +81,7 @@ const HelpModal = ({ restartGame, ...props }) => {
             <Moves moves={{ used: 3, limit: 10, cap: 10 }} />
 
             <Line>
-                ...before you run out of turns.
+                ...before you run out of turns.<br />Turns refill at the end of each level.
             </Line>
 
             <Header>
