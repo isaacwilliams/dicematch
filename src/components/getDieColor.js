@@ -24,16 +24,16 @@ const getDieColor = ({ dieType, value }) => {
                 background: ${({ theme }) => theme.dice.blocker};
 
                 circle {
-                    fill: ${({ theme }) => theme.dice.pip};
+                    fill: ${({ theme }) => theme.dice.blockerPip};
                     opacity: 0.4;
                 }
             `;
         case DIE_TYPES.BOMB:
             return css`
-                background: ${({ theme }) => theme.dice.blocker};
+                background: ${({ theme }) => theme.dice.bomb};
 
                 circle {
-                    fill: ${({ theme }) => theme.dice.random};
+                    fill: ${({ theme }) => theme.dice.bombPip};
                     animation: ${flicker} ${(value)*200}ms ease-in-out infinite;
                 }
             `;

@@ -31,6 +31,8 @@ const ModalContainer = styled.div`
     justify-content: center;
     align-items: flex-start;
 
+    overflow-y: auto;
+
     top: 0;
     left: 0;
     right: 0;

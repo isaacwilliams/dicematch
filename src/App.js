@@ -12,7 +12,7 @@ import ScoreAnnouncer from './components/ScoreAnnouncer';
 import HelpModal from './components/modal/HelpModal';
 import SettingsModal from './components/modal/SettingsModal';
 
-import { THEME_LIGHT, THEME_DARK } from './constants/themes';
+import { THEME_LIGHT, THEME_DARK, getDiceTheme } from './constants/themes';
 
 import { GAME_STATES, ACTIONS, BOARD_WIDTH, MODALS } from './constants';
 
@@ -83,9 +83,10 @@ class App extends Component {
         } = this.state;
 
         const theme = theming.interface === 'dark' ? THEME_DARK : THEME_LIGHT;
+        const diceTheme = getDiceTheme(theming.dice);
 
         return (
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={{ ...theme, dice: diceTheme }}>
                 <GlobalStyle />
                 <Helmet>
                     <meta name="theme-color" content={theme.backgroundSecondary} />

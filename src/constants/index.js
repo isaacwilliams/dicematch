@@ -21,7 +21,8 @@ export const ACTIONS = {
     OPEN_MODAL: 'OPEN_MODAL',
     CLOSE_MODAL: 'CLOSE_MODAL',
 
-    SET_THEME: 'SET_THEME',
+    SET_INTERFACE_THEME: 'SET_INTERFACE_THEME',
+    SET_DICE_THEME: 'SET_DICE_THEME',
 };
 
 export const DIE_TYPES = {
@@ -42,6 +43,19 @@ export const MODALS = {
     HELP: 'HELP',
     SETTINGS: 'SETTINGS',
     SCORE: 'SCORE',
+};
+
+export const INTERFACE_THEME = {
+    dark: 'dark',
+    light: 'light',
+};
+
+export const DICE_THEME = {
+    standard: 'standard',
+    highContrast: 'highContrast',
+    tropical: 'tropical',
+    subdued: 'subdued',
+    glow: 'glow',
 };
 
 export const BOARD_WIDTH = 5;

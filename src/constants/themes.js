@@ -1,3 +1,4 @@
+import { DICE_THEME } from '.';
 
 export const colors = {
     white: '#ffffff',
@@ -22,6 +23,83 @@ export const colors = {
     yellow_900: '#FFEF00',
     beige: '#CEC8B6',
 };
+
+export const DICE_THEME_STANDARD = {
+    pip: colors.charcoal,
+    up: colors.red,
+    down: colors.teal,
+    flip: colors.beige,
+    random: colors.yellow,
+    blocker: colors.grey_500,
+    blockerPip: colors.pip,
+    bomb: colors.grey_500,
+    bombPip: colors.yellow,
+};
+
+export const DICE_THEME_HIGH_CONTRAST = {
+    pip: colors.black,
+    up: colors.red,
+    down: '#1E88E5',
+    flip: colors.beige,
+    random: colors.yellow_700,
+    blocker: colors.grey_500,
+    blockerPip: colors.black,
+    bomb: colors.grey_300,
+    bombPip: colors.yellow_700,
+};
+
+
+export const DICE_THEME_SUBDUED = {
+    pip: colors.charcoal,
+    up: '#FFAAAA',
+    down: '#6acdc7',
+    flip: '#CEC8B6',
+    random: '#FFEB7F',
+    blocker: '#8F8F8F',
+    blockerPip: colors.charcoal,
+    bomb: '#8F8F8F',
+    bombPip: colors.yellow_700,
+};
+
+export const DICE_THEME_TROPICAL = {
+    pip: colors.charcoal,
+    up: '#ff8150',
+    down: '#4ec9ff',
+    flip: '#fff09f',
+    random: '#ffdc1e',
+    blocker: '#85b7bb',
+    blockerPip: colors.charcoal,
+    bomb: '#85b7bb',
+    bombPip: '#ffdc1e',
+};
+
+export const DICE_THEME_GLOW = {
+    pip: colors.charcoal,
+    up: 'radial-gradient(#ffcad9 20%, #ff4f69)',
+    down: 'radial-gradient(#cdfcff 20%, #6ab79d)',
+    flip: 'linear-gradient(-45deg, #8f8f8f, #ffffff, #8f8f8f)',
+    random: 'radial-gradient(#fff 20%, #ffdc1e)',
+    blocker: 'radial-gradient(#9e9e9e 20%, #757784)',
+    blockerPip: colors.charcoal,
+    bomb: 'radial-gradient(#c16d84, #757784 90%)',
+    bombPip: colors.yellow_700,
+};
+
+export const getDiceTheme = (themeId) => {
+    switch (themeId) {
+        case DICE_THEME.highContrast:
+            return DICE_THEME_HIGH_CONTRAST;
+        case DICE_THEME.subdued:
+            return DICE_THEME_SUBDUED;
+        case DICE_THEME.tropical:
+            return DICE_THEME_TROPICAL;
+        case DICE_THEME.glow:
+            return DICE_THEME_GLOW;
+        case DICE_THEME.standard:
+        default:
+            return DICE_THEME_STANDARD;
+    }
+}
 
 export const THEME_LIGHT = {
     colors,
@@ -62,14 +140,7 @@ export const THEME_LIGHT = {
         textSecondary: 'rgba(0,0,0,0.5)',
     },
 
-    dice: {
-        pip: colors.charcoal,
-        up: colors.red,
-        down: colors.teal,
-        random: colors.yellow,
-        blocker: colors.grey_500,
-        flip: colors.beige,
-    },
+    dice: DICE_THEME_STANDARD,
 };
 
 export const THEME_DARK = {
