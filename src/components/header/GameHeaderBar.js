@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MODALS } from '../../constants';
 
 const GameHeaderBarContainer = styled.div`
@@ -31,9 +31,9 @@ const Button = styled.button`
 
     opacity: 0.6;
 
-    &.dark {
-        filter: invert(100%);
-    }
+    ${({ theme }) => (
+        theme.isDark ? css`filter: invert(100%);` : css``
+    )}
 `;
 
 const HelpButton = styled(Button)`
@@ -63,13 +63,13 @@ const GameTitle = styled.div`
 
 const GameHeaderBar = ({ openModal, theming }) => (
     <GameHeaderBarContainer>
-        <HelpButton className={theming.interface} onClick={() => openModal(MODALS.HELP)}>
+        <HelpButton onClick={() => openModal(MODALS.HELP)}>
             Help
         </HelpButton>
         <GameTitle>
             DICE MATCH
         </GameTitle>
-        <SettingsButton className={theming.interface} onClick={() => openModal(MODALS.SETTINGS)}>
+        <SettingsButton onClick={() => openModal(MODALS.SETTINGS)}>
             Settings
         </SettingsButton>
     </GameHeaderBarContainer>

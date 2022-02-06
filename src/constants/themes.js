@@ -104,6 +104,8 @@ export const getDiceTheme = (themeId) => {
 export const THEME_LIGHT = {
     colors,
 
+    isDark: false,
+
     foreground: colors.charcoal,
     foregroundSecondary: colors.grey_500,
 
@@ -145,6 +147,8 @@ export const THEME_LIGHT = {
 
 export const THEME_DARK = {
     ...THEME_LIGHT,
+
+    isDark: true,
 
     foreground: colors.white,
     foregroundSecondary: colors.grey_700,

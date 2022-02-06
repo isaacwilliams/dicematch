@@ -1,12 +1,15 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { css, ThemeProvider } from 'styled-components';
 import { connect } from 'react-redux';
+import { max, rest } from 'lodash';
+
+import { getDiceTheme } from '../../constants/themes';
+import useLocalStorage from '../../util/useLocalStorage';
 
 import Modal from './Modal';
+import DieFace from '../DieFace';
 
 import { ACTIONS, DICE_THEME, DIE_TYPES, INTERFACE_THEME } from '../../constants';
-import DieFace from '../DieFace';
-import { getDiceTheme } from '../../constants/themes';
 
 const Header = styled.div`
     margin-left: -1rem;
@@ -107,9 +110,71 @@ const DieSettingsSpacer = styled.div`
     border-bottom: 1px solid ${(({ theme }) => theme.divider)};
 `;
 
+const DieThemeLocked = styled.div`
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-left: -1rem;
+    margin-right: -1rem;
+
+    padding: 0.5rem 1rem;
+
+    width: calc(100% + 2rem);
+
+    .lock {
+        width: 2rem;
+        height: 2rem;
+        background-image: url(${require('./icon-lock.svg')});
+
+        background-color: transparent;
+        background-size: 1.5rem;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        opacity: 0.6;
+
+        ${({ theme }) => (
+            theme.isDark ? css`filter: invert(100%);` : css``
+        )}
+    }
+
+    .message {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        width: 240px;
+        height: 32px;
+
+        color: ${(({ theme }) => theme.foregroundSecondary)};
+    }
+`;
+
 const DIE_SIZE = 32;
 
-const DieThemeSettingsRow = ({ name, className, themeId, activeTheme, setDiceTheme }) => {
+const DieThemeSettingsRow = ({
+    name,
+    className,
+    themeId,
+    activeTheme,
+    lockUntilLevel,
+    setDiceTheme,
+}) => {
+    const [scores] = useLocalStorage('dicematch.scores', []);
+    const maxLevel = max(scores.map(({ level }) => level));
+
+    if (lockUntilLevel && lockUntilLevel > maxLevel) {
+        return (
+            <DieThemeLocked>
+                <div className="lock"/>
+                <div className="message">Reach level {lockUntilLevel} to unlock</div>
+            </DieThemeLocked>
+        )
+    }
+
     const diceTheme = getDiceTheme(themeId);
 
     return (
@@ -189,16 +254,17 @@ const SettingsModal = ({
                     activeTheme={diceTheme}
                     setDiceTheme={setDiceTheme} />
             <DieThemeSettingsRow name="Subdued"
+                    lockUntilLevel={10}
                     themeId={DICE_THEME.subdued}
                     activeTheme={diceTheme}
                     setDiceTheme={setDiceTheme} />
-            <DieThemeSettingsRow
-                    name="Tropical"
+            <DieThemeSettingsRow name="Tropical"
+                    lockUntilLevel={15}
                     themeId={DICE_THEME.tropical}
                     activeTheme={diceTheme}
                     setDiceTheme={setDiceTheme} />
-            <DieThemeSettingsRow
-                    name="Glow"
+            <DieThemeSettingsRow name="Glow"
+                    lockUntilLevel={20}
                     themeId={DICE_THEME.glow}
                     activeTheme={diceTheme}
                     setDiceTheme={setDiceTheme} />
