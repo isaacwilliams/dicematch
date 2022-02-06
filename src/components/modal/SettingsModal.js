@@ -98,6 +98,8 @@ const DieDisplay = styled.div`
         circle {
             animation: none;
         }
+
+        box-shadow: 0 0 0 1px ${({ theme }) => theme.backgroundSecondary};
     }
 `;
 
