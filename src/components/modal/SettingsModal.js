@@ -164,7 +164,7 @@ const DieThemeSettingsRow = ({
     setDiceTheme,
 }) => {
     const [scores] = useLocalStorage('dicematch.scores', []);
-    const maxLevel = max(scores.map(({ level }) => level));
+    const maxLevel = max(scores.map(({ level }) => level)) || 0;
 
     if (lockUntilLevel && lockUntilLevel > maxLevel) {
         return (
